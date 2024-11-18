@@ -17,6 +17,7 @@ public class WalkState : IState
     public void Update()
     {
         stateMachine.TryIdle();
+        stateMachine.TryJump();
         
         Debug.Log("Executando estado Andando");
     }

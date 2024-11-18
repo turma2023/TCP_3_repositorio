@@ -64,5 +64,12 @@ public class StateMachine : MonoBehaviour
             ChangeState(factory.Idle);
         }
     }
+
+    public void TryJump()
+    {
+        if(InputController.JumpAction.WasPressedThisFrame()){
+            ChangeState(factory.Jump);
+        }
+    }
     
 }

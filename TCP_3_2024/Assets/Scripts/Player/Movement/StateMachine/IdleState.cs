@@ -20,6 +20,7 @@ public class IdleState : IState
     public void Update()
     {
         stateMachine.TryWalk();
+        stateMachine.TryJump();
         Debug.Log("Executando estado Parado");
     }
 

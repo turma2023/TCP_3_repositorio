@@ -15,7 +15,7 @@ public class PlayerInputController
     {
         MoveAction = playerInput.actions["Move"];
         FireAction = playerInput.actions["Fire"];
-        // JumpAction = playerInput.actions["Jump"];
+        JumpAction = playerInput.actions["Jump"];
         
         
     }

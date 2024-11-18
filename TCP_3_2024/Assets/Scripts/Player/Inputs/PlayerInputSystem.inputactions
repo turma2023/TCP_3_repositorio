@@ -1,5 +1,5 @@
 {
-    "name": "TCP_3_2024",
+    "name": "PlayerInputSystem",
     "maps": [
         {
             "name": "Player",
@@ -18,6 +18,15 @@
                     "name": "Fire",
                     "type": "Button",
                     "id": "74b1d443-14a4-445d-acd5-87d957132f40",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "f20448a1-ebf2-4100-9441-e7984d3f44ce",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -178,6 +187,28 @@
                     "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Jump",
+                    "id": "fc379919-6d8e-43e5-9dc9-e4175b78e074",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Positive",
+                    "id": "589ec281-c35e-4e29-aa88-39765f7bd650",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
