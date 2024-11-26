@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036b5af7f60d95c4e936923c14c8c824, type: 3}
+  m_Name: fuzil_2
+  m_EditorClassIdentifier: 
+  nome_da_arma: LAPA
+  imagem_de_arma_para_a_loja: {fileID: 2800000, guid: 636acc1a6c2fc914fbeedae427fdc973,
+    type: 3}
+  modelo_da_arma: {fileID: 7632397930655863486, guid: 17546a3ddf4a02b4093a0a2796c9a226,
+    type: 3}
+  dano_da_arma: 40
+  "muni\xE7ao_do_caregador_da_arma": 30
+  "muni\xE7ao_guardada": 90
+  distancia_deo_RaycastHit: 10000
+  cadencia_de_disparos: 0.1
+  valor_de_compra: 100

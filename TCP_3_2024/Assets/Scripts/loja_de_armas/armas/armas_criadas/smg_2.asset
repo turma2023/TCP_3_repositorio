@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036b5af7f60d95c4e936923c14c8c824, type: 3}
+  m_Name: smg_2
+  m_EditorClassIdentifier: 
+  nome_da_arma: BM-F-9
+  imagem_de_arma_para_a_loja: {fileID: 2800000, guid: 750da2912b4b1c144bbea4abdadc31cd,
+    type: 3}
+  modelo_da_arma: {fileID: 2123288072306382242, guid: 6f94e38b5f01db944bd499a04e43d7e1,
+    type: 3}
+  dano_da_arma: 25
+  "muni\xE7ao_do_caregador_da_arma": 39
+  "muni\xE7ao_guardada": 120
+  distancia_deo_RaycastHit: 1e+11
+  cadencia_de_disparos: 0.05
+  valor_de_compra: 50

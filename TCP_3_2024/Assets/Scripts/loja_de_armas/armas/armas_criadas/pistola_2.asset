@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036b5af7f60d95c4e936923c14c8c824, type: 3}
+  m_Name: pistola_2
+  m_EditorClassIdentifier: 
+  nome_da_arma: ' M1911 '
+  imagem_de_arma_para_a_loja: {fileID: 2800000, guid: 253e1b2f6ac765347b0c2e33bda52fa4,
+    type: 3}
+  modelo_da_arma: {fileID: 7933950177465672697, guid: 9d2a47e4e2825e842bc9ab04088c9165,
+    type: 3}
+  dano_da_arma: 10
+  "muni\xE7ao_do_caregador_da_arma": 20
+  "muni\xE7ao_guardada": 100
+  distancia_deo_RaycastHit: 1000000
+  cadencia_de_disparos: 0.5
+  valor_de_compra: 25
