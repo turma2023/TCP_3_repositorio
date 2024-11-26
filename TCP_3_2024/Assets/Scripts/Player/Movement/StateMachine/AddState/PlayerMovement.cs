@@ -6,9 +6,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     
-    public new Rigidbody rigidbody;
+    private new Rigidbody rigidbody;
 
     [SerializeField] private float speed = 10f;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float forceJump = 5f;
 
     private void Awake()
     {
@@ -45,5 +47,29 @@ public class PlayerMovement : MonoBehaviour
     {
         pivotGun.rotation = Camera.main.transform.rotation;
     }
+    
+    
+    public void IsJumping()
+    {
+        rigidbody.AddForce(Vector3.up * forceJump, ForceMode.Impulse);
+    }
+    
+    public bool IsGrounded()
+    {
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1.01f, groundLayer))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow); 
+            Debug.Log("Está no chao"); 
+            return true;
+        }
+          
+        return false;
+        
+    }
+    
+    
 
 }

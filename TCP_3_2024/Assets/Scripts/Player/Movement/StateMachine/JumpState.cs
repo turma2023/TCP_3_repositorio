@@ -5,11 +5,11 @@ using UnityEngine;
 public class JumpState : IState
 {
     StateMachine stateMachine;
-    PlayerJump playerJump;
+    PlayerMovement playerMovement;
     public JumpState(StateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
-        playerJump = new PlayerJump(stateMachine);
+        playerMovement = stateMachine.GetComponent<PlayerMovement>();
     }
     public void Enter()
     {
@@ -28,32 +28,13 @@ public class JumpState : IState
     {
 
         Debug.Log("Executando estado Jump");
-        if (playerJump.IsGrounded())
+
+        if (playerMovement.IsGrounded())
         {
-            playerJump.IsJumping();
+            playerMovement.IsJumping();
         }
-
-        // if (IsGrounded())
-        // {
-        //     stateMachine.PlayerMovement.rigidbody.AddForce(Vector3.up * 5f, ForceMode.Impulse);            
-        // }
+        
     }
-
-    // private bool IsGrounded()
-    // {
-    //
-    //     RaycastHit hit;
-    //
-    //     if (Physics.Raycast(stateMachine.transform.position, stateMachine.transform.TransformDirection(Vector3.down), out hit, 1.1f, layerMask))
-    //     {
-    //         Debug.DrawRay(stateMachine.transform.position, stateMachine.transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow); 
-    //         Debug.Log("Está no chao"); 
-    //         return true;
-    //     }
-    //       
-    //     return false;
-    //     
-    // }
 
     public void Exit()
     {
