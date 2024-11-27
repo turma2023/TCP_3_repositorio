@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using Fusion;
 
 
 public class PlayerMovement : MonoBehaviour
@@ -11,15 +12,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speed = 10f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float forceJump = 5f;
+    NetworkTransform networkTransform;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+        networkTransform = GetComponent<NetworkTransform>();
     }
 
 
     public void Movement(Vector2 input)
     {
+        Debug.Log(networkTransform.transform.position);
         // TurnToCameraDirection();
         Vector3 moveDirection = (CameraDirection() * input.y + Camera.main.transform.right * input.x).normalized * speed;
         moveDirection.y = 0; 

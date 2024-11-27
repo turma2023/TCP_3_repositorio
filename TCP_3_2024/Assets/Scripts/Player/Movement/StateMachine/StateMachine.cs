@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour
+public class StateMachine : NetworkBehaviour
 {
     private IState currentState;
     public StateFactory factory { get; private set; }
@@ -18,7 +19,7 @@ public class StateMachine : MonoBehaviour
         ChangeState(factory.Idle);
         InputController = player.PlayerInputController;
     }
-
+    
     public void ChangeState(IState newState)
     {   
         // currentState?.Exit();
@@ -39,7 +40,7 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         if (currentState != null)
         {
