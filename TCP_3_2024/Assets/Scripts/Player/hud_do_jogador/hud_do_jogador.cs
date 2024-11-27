@@ -27,7 +27,7 @@ public class hud_do_jogador : MonoBehaviour
         vida = vida_e_escudo.vida_corente;
         escudo = vida_e_escudo.escudo_corente;
 
-        muniçao_atual = arma.muniçao_do_caregador;
+        muniçao_atual = arma.muniçao_corente;
         muniçao_guardada = arma.muniçao_guradada;
 
         // Atualiza os textos na interface
