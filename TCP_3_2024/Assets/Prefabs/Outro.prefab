@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2278801962366792330}
   - component: {fileID: 4563546831922044264}
   - component: {fileID: 3431265551840538905}
+  - component: {fileID: 4627727838853609112}
   m_Layer: 0
   m_Name: Outro
   m_TagString: Untagged
@@ -128,6 +129,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 3431265551840538905}
+  - {fileID: 4627727838853609112}
 --- !u!143 &4563546831922044264
 CharacterController:
   m_ObjectHideFlags: 0
@@ -172,3 +174,15 @@ MonoBehaviour:
   braking: 10
   maxSpeed: 2
   rotationSpeed: 15
+--- !u!114 &4627727838853609112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6462501892710320154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df13ffd6802bebb7cb1897e2fdbac1d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
