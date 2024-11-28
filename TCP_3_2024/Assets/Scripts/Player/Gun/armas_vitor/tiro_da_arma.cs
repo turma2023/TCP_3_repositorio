@@ -7,7 +7,7 @@ public class tiro_da_arma : MonoBehaviour
     public GerenciadorDeTrocaDeArmas gerenciadorDeTrocaDeArmas;
     private GameObject arma_atual;
 
-    public Camera cam;
+    public GameObject cam;
 
     private int dano;
     public int muniçao_do_caregador;
