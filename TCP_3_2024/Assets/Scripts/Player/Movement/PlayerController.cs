@@ -16,6 +16,7 @@ public class PlayerController : NetworkBehaviour
 
     [Networked] private Quaternion networkRotation {get; set;}
     [Networked] private Quaternion networkPivotGun {get; set;}
+    [Networked] private Vector3 networkPosition {get; set;}
     
     private void Awake()
     {
@@ -32,25 +33,28 @@ public class PlayerController : NetworkBehaviour
         // PlayerMovement.TurnToCameraDirection();
 
         if (Object.HasInputAuthority)
-            {
-                PlayerMovement.TurnToCameraDirection();
-                PlayerMovement.RotateGun(ref pivotGun);
-                networkRotation = transform.rotation;
-                networkPivotGun = pivotGun.rotation;
-                RPC_SendRotationToHost(transform.rotation, pivotGun.rotation);
+        {
+            PlayerMovement.TurnToCameraDirection();
+            PlayerMovement.RotateGun(ref pivotGun);
+            networkRotation = transform.rotation;
+            networkPivotGun = pivotGun.rotation;
+            networkPosition = transform.position;
+            RPC_SendRotationToHost(transform.rotation, pivotGun.rotation, transform.position);
 
-            }else{
-                transform.rotation = networkRotation;
-                pivotGun.rotation = networkPivotGun;
-            }
+        }else{
+            transform.rotation = networkRotation;
+            pivotGun.rotation = networkPivotGun;
+            transform.position = networkPosition;
+        }
             
 
-        }
+    }
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)] 
-    private void RPC_SendRotationToHost(Quaternion playerRotation, Quaternion gunRotation) 
+    private void RPC_SendRotationToHost(Quaternion playerRotation, Quaternion gunRotation, Vector3 playerPosition) 
     { 
         networkRotation = playerRotation; 
         networkPivotGun = gunRotation;
+        networkPosition = playerPosition;
     }
 
     public void UpdateNetwork()
@@ -80,7 +84,8 @@ public class PlayerController : NetworkBehaviour
         { 
             camera.gameObject.SetActive(true); 
             camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
-            camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform; 
+            camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
+            GetComponent<StateMachine>().enabled = true; 
 
         
         }
