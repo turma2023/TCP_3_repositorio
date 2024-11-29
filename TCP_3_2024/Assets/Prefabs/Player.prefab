@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4929397454461961713}
   - component: {fileID: 4515361201781050760}
-  - component: {fileID: 8156670993688921815}
+  - component: {fileID: 315647723645830975}
+  - component: {fileID: 8138798401983588469}
   m_Layer: 5
   m_Name: armas
   m_TagString: Untagged
@@ -45,7 +46,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 77486206922000850}
   m_CullTransparentMesh: 1
---- !u!114 &8156670993688921815
+--- !u!114 &315647723645830975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,7 +55,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 77486206922000850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ec716e08709f1c46a66f991ffe5fc94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptableObjectDeArmas: {fileID: 11400000, guid: 7e5518c073dd25e4ca9e377493e5d306,
+    type: 2}
+--- !u!114 &8138798401983588469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77486206922000850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -65,16 +80,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &1275523437928419073
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +176,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4393134462109885535}
   - component: {fileID: 7697906666657142815}
-  - component: {fileID: 8982139946833514406}
+  - component: {fileID: 4415578964341255162}
+  - component: {fileID: 1696346217655163826}
   m_Layer: 5
   m_Name: armas
   m_TagString: Untagged
@@ -199,7 +212,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1594430471092690881}
   m_CullTransparentMesh: 1
---- !u!114 &8982139946833514406
+--- !u!114 &4415578964341255162
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -208,7 +221,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1594430471092690881}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ec716e08709f1c46a66f991ffe5fc94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptableObjectDeArmas: {fileID: 11400000, guid: 1522ff198cafbd54195a92fbc5c2ed05,
+    type: 2}
+--- !u!114 &1696346217655163826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594430471092690881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -219,16 +246,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &2376188701041854136
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +301,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1423903963911978889}
   - component: {fileID: 4566670501165742176}
-  - component: {fileID: 2463873215851372122}
+  - component: {fileID: 2452563275165828281}
+  - component: {fileID: 3875842117559390122}
   m_Layer: 5
   m_Name: armas
   m_TagString: Untagged
@@ -312,7 +337,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3089410676630242263}
   m_CullTransparentMesh: 1
---- !u!114 &2463873215851372122
+--- !u!114 &2452563275165828281
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,7 +346,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 3089410676630242263}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ec716e08709f1c46a66f991ffe5fc94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptableObjectDeArmas: {fileID: 11400000, guid: b8c10bd20ea97994795075c1c00633d9,
+    type: 2}
+--- !u!114 &3875842117559390122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3089410676630242263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -332,16 +371,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &3755214135292004853
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +388,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4427309024262283298}
   - component: {fileID: 2004854365851208258}
-  - component: {fileID: 6055434652880063208}
+  - component: {fileID: 5831644630663292729}
+  - component: {fileID: 5903460152852134899}
   m_Layer: 5
   m_Name: armas
   m_TagString: Untagged
@@ -387,7 +424,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3755214135292004853}
   m_CullTransparentMesh: 1
---- !u!114 &6055434652880063208
+--- !u!114 &5831644630663292729
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -396,7 +433,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 3755214135292004853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ec716e08709f1c46a66f991ffe5fc94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptableObjectDeArmas: {fileID: 11400000, guid: 6d0be282e958db94fabe4eb2ab7e2237,
+    type: 2}
+--- !u!114 &5903460152852134899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3755214135292004853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -407,16 +458,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &4077851406460033232
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,7 +475,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5490233005751354486}
   - component: {fileID: 755140173933114491}
-  - component: {fileID: 8922341058435461651}
+  - component: {fileID: 5839155821281556417}
+  - component: {fileID: 5583156477903754141}
   m_Layer: 5
   m_Name: armas
   m_TagString: Untagged
@@ -462,7 +511,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4077851406460033232}
   m_CullTransparentMesh: 1
---- !u!114 &8922341058435461651
+--- !u!114 &5839155821281556417
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -471,7 +520,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 4077851406460033232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ec716e08709f1c46a66f991ffe5fc94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptableObjectDeArmas: {fileID: 11400000, guid: 9124159879ff03741a9385e6e42128dc,
+    type: 2}
+--- !u!114 &5583156477903754141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4077851406460033232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -482,16 +545,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &4441425888638943778
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,7 +637,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3767009624018355852}
   - component: {fileID: 7286580336885680043}
-  - component: {fileID: 6015404263571574091}
+  - component: {fileID: 7509399263573789383}
+  - component: {fileID: 3196790393293750967}
   m_Layer: 5
   m_Name: armas
   m_TagString: Untagged
@@ -612,7 +673,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4641414299837525643}
   m_CullTransparentMesh: 1
---- !u!114 &6015404263571574091
+--- !u!114 &7509399263573789383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -621,7 +682,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 4641414299837525643}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ec716e08709f1c46a66f991ffe5fc94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptableObjectDeArmas: {fileID: 11400000, guid: 4c83d7b880dfc1c4b849641e11d6c6c3,
+    type: 2}
+--- !u!114 &3196790393293750967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4641414299837525643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -632,16 +707,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &5261775127040032075
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,7 +1085,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3942599318212163460}
   - component: {fileID: 4883193538211642412}
-  - component: {fileID: 1713862251523296841}
+  - component: {fileID: 7922634264707211036}
+  - component: {fileID: 7974663358117199934}
   m_Layer: 5
   m_Name: armas
   m_TagString: Untagged
@@ -1048,7 +1121,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6574883787399744775}
   m_CullTransparentMesh: 1
---- !u!114 &1713862251523296841
+--- !u!114 &7922634264707211036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1057,7 +1130,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 6574883787399744775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ec716e08709f1c46a66f991ffe5fc94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptableObjectDeArmas: {fileID: 11400000, guid: 97891b25c7a3dc0419d5f790c12e89a5,
+    type: 2}
+--- !u!114 &7974663358117199934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6574883787399744775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -1068,16 +1155,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &7024181811872388279
 GameObject:
   m_ObjectHideFlags: 0
@@ -1457,7 +1541,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loja_de_armas: {fileID: 8006263869178934574}
-  Rigidbody: {fileID: 4452040171791609489}
+  esta_na_loja: 0
+  esta_na_Area_Da_loja: 0
 --- !u!1 &7552470730648206399
 GameObject:
   m_ObjectHideFlags: 0
@@ -1752,7 +1837,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4422878515137821575
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1786,7 +1871,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3378503537592801172}
   - component: {fileID: 7849360900833549626}
-  - component: {fileID: 7531265941270460107}
+  - component: {fileID: 6166081006676127088}
+  - component: {fileID: 7208364462383884708}
   m_Layer: 5
   m_Name: armas
   m_TagString: Untagged
@@ -1821,7 +1907,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8193282317674001629}
   m_CullTransparentMesh: 1
---- !u!114 &7531265941270460107
+--- !u!114 &6166081006676127088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1830,7 +1916,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 8193282317674001629}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ec716e08709f1c46a66f991ffe5fc94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptableObjectDeArmas: {fileID: 11400000, guid: 9f4e262bdfb1fb64f8e3eb8652bddc13,
+    type: 2}
+--- !u!114 &7208364462383884708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8193282317674001629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -1841,16 +1941,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &8639053692180641206
 GameObject:
   m_ObjectHideFlags: 0
@@ -2000,7 +2097,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7305918357019870140}
   - component: {fileID: 1155570884722981072}
-  - component: {fileID: 1952918818196105389}
+  - component: {fileID: 478412187289028718}
+  - component: {fileID: 6246430231988374120}
   m_Layer: 5
   m_Name: armas
   m_TagString: Untagged
@@ -2035,7 +2133,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8965570248502398993}
   m_CullTransparentMesh: 1
---- !u!114 &1952918818196105389
+--- !u!114 &478412187289028718
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2044,7 +2142,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 8965570248502398993}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ec716e08709f1c46a66f991ffe5fc94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptableObjectDeArmas: {fileID: 11400000, guid: d76a5372543841047bfc43dd0e5fec54,
+    type: 2}
+--- !u!114 &6246430231988374120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8965570248502398993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -2055,13 +2167,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
