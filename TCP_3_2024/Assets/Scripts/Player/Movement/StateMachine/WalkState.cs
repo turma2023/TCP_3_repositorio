@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
-public class WalkState : IState
+public class WalkState : NetworkBehaviour, IState
 {
     StateMachine stateMachine;
     public WalkState(StateMachine stateMachine)
@@ -26,7 +27,11 @@ public class WalkState : IState
     {
         Vector2 inputs = stateMachine.InputController.MoveAction.ReadValue<Vector2>();
         stateMachine.PlayerMovement.Movement(inputs);
-        Debug.Log("Executando estado Andando");
+        // var data = new NetworkInputData();
+        // data.direction = inputs;
+        // stateMachine.PlayerMovement.Movement(data.direction);
+        
+        
     }
 
     public void Exit()

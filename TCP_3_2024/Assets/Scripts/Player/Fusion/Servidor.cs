@@ -10,6 +10,7 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
 {
     private NetworkRunner _runner;
     [SerializeField] private NetworkPrefabRef _playerPrefab;
+    [SerializeField] private GameObject _cameraPrefab;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
     async void StartGame(GameMode mode)

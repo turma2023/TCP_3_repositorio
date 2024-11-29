@@ -1,3 +1,4 @@
+using Cinemachine;
 using Fusion;
 using Unity.Mathematics;
 using UnityEngine;
@@ -7,10 +8,14 @@ public class PlayerController : NetworkBehaviour
 {
     
     [SerializeField] private Transform pivotGun;
+    public Camera camera;
+    [SerializeField] private Transform playerCameraPosition;
     
     public PlayerMovement PlayerMovement {get; private set; }
     public PlayerInputController PlayerInputController { get; private set; }
+
     [Networked] private Quaternion networkRotation {get; set;}
+    [Networked] private Quaternion networkPivotGun {get; set;}
     
     private void Awake()
     {
@@ -18,23 +23,50 @@ public class PlayerController : NetworkBehaviour
         PlayerMovement = GetComponent<PlayerMovement>();
     }
 
-    private void Update()
+    // public NetworkVariable<Quaternion> networkRotation = new NetworkVariable<Quaternion>(); 
+    // public NetworkVariable<Quaternion> networkPivotGun = new NetworkVariable<Quaternion>();
+
+    private void FixedUpdate()
     {
-        PlayerMovement.RotateGun(ref pivotGun);
-        PlayerMovement.TurnToCameraDirection();
+        // PlayerMovement.RotateGun(ref pivotGun);
+        // PlayerMovement.TurnToCameraDirection();
+
+        if (Object.HasInputAuthority)
+            {
+                PlayerMovement.TurnToCameraDirection();
+                PlayerMovement.RotateGun(ref pivotGun);
+                networkRotation = transform.rotation;
+                networkPivotGun = pivotGun.rotation;
+                RPC_SendRotationToHost(transform.rotation, pivotGun.rotation);
+
+            }else{
+                transform.rotation = networkRotation;
+                pivotGun.rotation = networkPivotGun;
+            }
+            
+
+        }
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)] 
+    private void RPC_SendRotationToHost(Quaternion playerRotation, Quaternion gunRotation) 
+    { 
+        networkRotation = playerRotation; 
+        networkPivotGun = gunRotation;
     }
 
-    private void UpdateNetwork()
+    public void UpdateNetwork()
     {
-        Debug.Log(Object.HasInputAuthority);
+        // Debug.Log(Object.HasInputAuthority);
         if (Object.HasInputAuthority)
         {
             PlayerMovement.TurnToCameraDirection();
             networkRotation = transform.rotation;
+            Debug.Log("entrou aqui TRUE");
         }else{
             transform.rotation = networkRotation;
+            Debug.Log("entrou aqui FALSE");
         }
         PlayerMovement.RotateGun(ref pivotGun);
+
         // PlayerMovement.TurnToCameraDirection();
     }
 
@@ -42,6 +74,20 @@ public class PlayerController : NetworkBehaviour
     {
         base.Spawned();
         transform.rotation = Quaternion.identity;
+
+
+        if (Object.HasInputAuthority) 
+        { 
+            camera.gameObject.SetActive(true); 
+            camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
+            camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform; 
+
+        
+        }
+        else 
+        {
+            camera.gameObject.SetActive(false); 
+        }
         
     }
 

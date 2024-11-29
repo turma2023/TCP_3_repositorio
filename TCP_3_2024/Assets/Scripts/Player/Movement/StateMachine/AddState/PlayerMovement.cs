@@ -4,26 +4,27 @@ using UnityEngine;
 using Fusion;
 
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     
     private new Rigidbody rigidbody;
-
     [SerializeField] private float speed = 10f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float forceJump = 5f;
     NetworkTransform networkTransform;
+    private new Camera camera;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
         networkTransform = GetComponent<NetworkTransform>();
+        camera = GetComponent<PlayerController>().camera;
     }
 
 
-    public void Movement(Vector2 input)
+    public void Movement(Vector3 input)
     {
-        Debug.Log(networkTransform.transform.position);
+        // Debug.Log(networkTransform.transform.position);
         // TurnToCameraDirection();
         Vector3 moveDirection = (CameraDirection() * input.y + Camera.main.transform.right * input.x).normalized * speed;
         moveDirection.y = 0; 
@@ -40,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private Vector3 CameraDirection()
     {
-        Vector3 cameraDirection = Camera.main.transform.forward;
+        Vector3 cameraDirection = camera.transform.forward;
         cameraDirection.y = 0; 
         cameraDirection.Normalize();
 
@@ -49,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
     
     public void RotateGun(ref Transform pivotGun)
     {
-        pivotGun.rotation = Camera.main.transform.rotation;
+        pivotGun.rotation = camera.transform.rotation;
     }
     
     
