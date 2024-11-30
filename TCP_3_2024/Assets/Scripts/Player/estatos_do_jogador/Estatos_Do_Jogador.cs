@@ -16,6 +16,15 @@ public class Estatos_Do_Jogador : MonoBehaviour
 
 
 
+    void Start()
+    {
+
+        dinheiro_corente_do_jogador = dinheiro_do_jogador;
+        escudo_corente_do_jogador = escudo_do_jogador;
+        vida_corente_do_jogador = vida_do_jogador;
+    }
+
+
     public void receber_dano( int dano) 
     {
 
