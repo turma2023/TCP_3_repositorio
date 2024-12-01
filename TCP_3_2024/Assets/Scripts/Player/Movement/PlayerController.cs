@@ -1,3 +1,4 @@
+using System.Linq;
 using Cinemachine;
 using Fusion;
 using Unity.Mathematics;
@@ -7,8 +8,11 @@ using UnityEngine.InputSystem;
 public class PlayerController : NetworkBehaviour
 {
     
+    public int CurrentHealth { get; set; } 
+    public int MaxHealth = 100;
+
     [SerializeField] private Transform pivotGun;
-    public Camera camera;
+    public new Camera camera;
     [SerializeField] private Transform playerCameraPosition;
     
     public PlayerMovement PlayerMovement {get; private set; }
@@ -17,15 +21,52 @@ public class PlayerController : NetworkBehaviour
     [Networked] private Quaternion networkRotation {get; set;}
     [Networked] private Quaternion networkPivotGun {get; set;}
     [Networked] private Vector3 networkPosition {get; set;}
-    
+
     private void Awake()
     {
         PlayerInputController = new PlayerInputController(GetComponent<PlayerInput>());
         PlayerMovement = GetComponent<PlayerMovement>();
+        CurrentHealth = MaxHealth;
     }
 
-    // public NetworkVariable<Quaternion> networkRotation = new NetworkVariable<Quaternion>(); 
-    // public NetworkVariable<Quaternion> networkPivotGun = new NetworkVariable<Quaternion>();
+    public void TakeDamage(int damage) 
+    { 
+        CurrentHealth -= damage; 
+        if (CurrentHealth <= 0) 
+        { 
+            Die(); 
+        }
+    } 
+    private void Die() { 
+
+        // Transferir a autoridade para outro jogador antes de despawnar 
+        if (Object.HasStateAuthority) { 
+            PlayerRef newHost = FindNewHost(); 
+            if (newHost != null) { 
+                NetworkObject newHostObject = Runner.GetPlayerObject(newHost); 
+                if (newHostObject != null) { 
+                    Runner.SetPlayerObject(newHost, newHostObject); 
+                }
+            } 
+        } // Despawn o objeto de rede Runner.Despawn(Object); Debug.Log("Player died and despawned"
+
+
+        // Implementar lógica de morte do jogador 
+        Debug.Log("Player died");
+        // Destroy(gameObject);
+        Runner.Despawn(Object);
+    }
+
+    private PlayerRef FindNewHost() 
+    { // Implementar lógica para encontrar um novo host // Por exemplo, selecionar um jogador aleatório ou o próximo na lista de jogadores 
+        foreach (var player in Runner.ActivePlayers) { 
+            if (player != Object.InputAuthority) { 
+                return player; 
+            } 
+        } 
+        return default;
+    }
+
 
     private void FixedUpdate()
     {
@@ -43,10 +84,9 @@ public class PlayerController : NetworkBehaviour
 
         }else{
             transform.rotation = networkRotation;
-            pivotGun.rotation = networkPivotGun;
+            pivotGun.rotation  = networkPivotGun;
             transform.position = networkPosition;
-        }
-            
+        }       
 
     }
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)] 
@@ -57,23 +97,6 @@ public class PlayerController : NetworkBehaviour
         networkPosition = playerPosition;
     }
 
-    public void UpdateNetwork()
-    {
-        // Debug.Log(Object.HasInputAuthority);
-        if (Object.HasInputAuthority)
-        {
-            PlayerMovement.TurnToCameraDirection();
-            networkRotation = transform.rotation;
-            Debug.Log("entrou aqui TRUE");
-        }else{
-            transform.rotation = networkRotation;
-            Debug.Log("entrou aqui FALSE");
-        }
-        PlayerMovement.RotateGun(ref pivotGun);
-
-        // PlayerMovement.TurnToCameraDirection();
-    }
-
     public override void Spawned()
     {
         base.Spawned();
@@ -82,8 +105,9 @@ public class PlayerController : NetworkBehaviour
 
         if (Object.HasInputAuthority) 
         { 
+            Debug.Log("entrou aqui aaaaaaaaaaaaaaaaaaaaaa");
             camera.gameObject.SetActive(true); 
-            camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
+            // camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
             camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
             GetComponent<StateMachine>().enabled = true; 
 

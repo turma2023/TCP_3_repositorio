@@ -2,6 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using Fusion;
+using Unity.Mathematics;
 
 
 public class PlayerMovement : NetworkBehaviour
@@ -11,22 +12,20 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float speed = 10f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float forceJump = 5f;
-    NetworkTransform networkTransform;
+
     private new Camera camera;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-        networkTransform = GetComponent<NetworkTransform>();
         camera = GetComponent<PlayerController>().camera;
     }
 
 
     public void Movement(Vector3 input)
     {
-        // Debug.Log(networkTransform.transform.position);
-        // TurnToCameraDirection();
-        Vector3 moveDirection = (CameraDirection() * input.y + Camera.main.transform.right * input.x).normalized * speed;
+
+        Vector3 moveDirection = (CameraDirection() * input.y + camera.transform.right * input.x).normalized * speed;
         moveDirection.y = 0; 
         
         Vector3 movePlayer = transform.position + moveDirection * Time.fixedDeltaTime;

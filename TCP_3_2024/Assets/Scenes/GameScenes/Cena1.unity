@@ -710,6 +710,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1993729000}
   - component: {fileID: 1993729001}
+  - component: {fileID: 1993729002}
+  - component: {fileID: 1993729004}
+  - component: {fileID: 1993729005}
   m_Layer: 0
   m_Name: spawner
   m_TagString: Untagged
@@ -739,14 +742,59 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1993728997}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fe1a28d526e5b987a85fdbe9bfed7c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _playerPrefab:
     RawGuidValue: 71c3dd93045f8abda9bca9d602c264e1
-  _cameraPrefab: {fileID: 0}
+--- !u!114 &1993729002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993728997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35653422fb6a6e0a3acbf6bf02c9b52b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerPrefab:
+    RawGuidValue: 71c3dd93045f8abda9bca9d602c264e1
+--- !u!114 &1993729004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993728997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ee0037caa8bcb903a78a5aad4f59538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerPrefab:
+    RawGuidValue: 71c3dd93045f8abda9bca9d602c264e1
+--- !u!114 &1993729005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993728997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3025423892
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1993729004}
 --- !u!1 &2058921455
 GameObject:
   m_ObjectHideFlags: 0
