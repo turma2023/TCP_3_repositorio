@@ -2,6 +2,7 @@ using System.Linq;
 using Cinemachine;
 using Fusion;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -110,6 +111,7 @@ public class PlayerController : NetworkBehaviour
             // camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
             camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
             GetComponent<StateMachine>().enabled = true; 
+            pivotGun.gameObject.SetActive(false);
 
         
         }

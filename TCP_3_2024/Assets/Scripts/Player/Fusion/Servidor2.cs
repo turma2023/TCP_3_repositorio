@@ -11,7 +11,7 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
     private NetworkRunner _runner;
     [SerializeField] private NetworkPrefabRef _playerPrefab;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
-    private int maxPlayers = 2; // Defina o número máximo de jogadores por sala
+    private int maxPlayers = 10; // Defina o número máximo de jogadores por sala
     private int roomCount = 1; // Contador de salas
 
     async void StartGame()
