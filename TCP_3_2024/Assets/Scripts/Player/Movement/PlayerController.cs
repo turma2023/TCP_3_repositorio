@@ -8,9 +8,22 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : NetworkBehaviour
 {
+
     
-    public int CurrentHealth { get; set; } 
+
+    // !cor de cada lado 
+    public Material blueMaterial; 
+    public Material redMaterial;
+    private Renderer playerRenderer;
+    public GameObject PlayerModel;
+    [Networked] public string Team { get; set; }
+    //! fim cor de cada lado      
+
+    // ! vida
+    public int CurrentHealth { get; set; }
     public int MaxHealth = 100;
+    // ! fim vida
+
 
     [SerializeField] private Transform pivotGun;
     public new Camera camera;
@@ -28,6 +41,8 @@ public class PlayerController : NetworkBehaviour
         PlayerInputController = new PlayerInputController(GetComponent<PlayerInput>());
         PlayerMovement = GetComponent<PlayerMovement>();
         CurrentHealth = MaxHealth;
+
+        playerRenderer = PlayerModel.GetComponent<Renderer>();
     }
 
     public void TakeDamage(int damage) 
@@ -49,12 +64,9 @@ public class PlayerController : NetworkBehaviour
                     Runner.SetPlayerObject(newHost, newHostObject); 
                 }
             } 
-        } // Despawn o objeto de rede Runner.Despawn(Object); Debug.Log("Player died and despawned"
+        } 
 
-
-        // Implementar lógica de morte do jogador 
         Debug.Log("Player died");
-        // Destroy(gameObject);
         Runner.Despawn(Object);
     }
 
@@ -69,10 +81,27 @@ public class PlayerController : NetworkBehaviour
     }
 
 
+    public void SetTeam(string team)
+    { 
+        Team = team; 
+        ApplyTeamColor(); 
+    }
+
+    void ApplyTeamColor()
+    {
+        if (Team == "Blue")
+        {
+            playerRenderer.material = blueMaterial;
+        }
+        else if (Team == "Red")
+        {
+            playerRenderer.material = redMaterial;
+        }
+    }
+
+
     private void FixedUpdate()
     {
-        // PlayerMovement.RotateGun(ref pivotGun);
-        // PlayerMovement.TurnToCameraDirection();
 
         if (Object.HasInputAuthority)
         {
@@ -82,14 +111,19 @@ public class PlayerController : NetworkBehaviour
             networkPivotGun = pivotGun.rotation;
             networkPosition = transform.position;
             RPC_SendRotationToHost(transform.rotation, pivotGun.rotation, transform.position);
-
+            Debug.Log("if: "+ Team);
         }else{
             transform.rotation = networkRotation;
             pivotGun.rotation  = networkPivotGun;
             transform.position = networkPosition;
+            Debug.Log("else: "+ Team);
+            
         }       
 
     }
+
+    
+
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)] 
     private void RPC_SendRotationToHost(Quaternion playerRotation, Quaternion gunRotation, Vector3 playerPosition) 
     { 
@@ -106,20 +140,21 @@ public class PlayerController : NetworkBehaviour
 
         if (Object.HasInputAuthority) 
         { 
-            Debug.Log("entrou aqui aaaaaaaaaaaaaaaaaaaaaa");
             camera.gameObject.SetActive(true); 
             // camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
             camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
             GetComponent<StateMachine>().enabled = true; 
             pivotGun.gameObject.SetActive(false);
-
+            
         
         }
         else 
         {
             camera.gameObject.SetActive(false); 
+            // ApplyTeamColor();\
+            
         }
-        
+        ApplyTeamColor();
     }
 
 }

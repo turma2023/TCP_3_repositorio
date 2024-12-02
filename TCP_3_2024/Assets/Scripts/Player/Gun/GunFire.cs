@@ -52,6 +52,7 @@ public class GunFire : NetworkBehaviour
                 if (Physics.Raycast(playerController.camera.transform.position, playerController.camera.transform.forward, out hit, 100, layerMask))
                 {
                     PlayerController playerControllerLife = hit.transform.GetComponent<PlayerController>(); 
+                    Debug.Log(hit.transform.GetComponent<PlayerController>().Team);
                     if (playerControllerLife != null)
                     { // Enviar dano para o jogador acertado 
                         RPC_TakeDamage(playerControllerLife, damage); 

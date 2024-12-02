@@ -886,11 +886,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91e1c167f7129656b8c7781b08a38eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blueMaterial: {fileID: 2100000, guid: a3cf515a97515f00a9e12264271ffdfc, type: 2}
+  redMaterial: {fileID: 2100000, guid: 8008c0ac3f2ad304e95ec80c2937c959, type: 2}
+  PlayerModel: {fileID: 5261775127040032075}
   MaxHealth: 100
   pivotGun: {fileID: 8035333391432869016}
   camera: {fileID: 2476467844249181572}
   playerCameraPosition: {fileID: 7827312646664663125}
-  _PlayerMovement: {fileID: 0}
 --- !u!114 &1699423917238937469
 MonoBehaviour:
   m_ObjectHideFlags: 0
