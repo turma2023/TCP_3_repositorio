@@ -22,4 +22,4 @@ MonoBehaviour:
   "muni\xE7ao_guardada": 0
   distancia_deo_RaycastHit: 0
   cadencia_de_disparos: 0
-  valor_de_compra: 0
+  valor_de_compra: 500
