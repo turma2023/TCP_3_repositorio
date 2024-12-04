@@ -65,8 +65,8 @@ public class FirstPersonCamera : NetworkBehaviour
         // Prender o cursor novamente ao clicar com o botão esquerdo do mouse
         if (Input.GetMouseButtonDown(0))
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            //Cursor.lockState = CursorLockMode.Locked;
+           // Cursor.visible = false;
         }
         if (!Cursor.visible){
             transform.position = Target.position;

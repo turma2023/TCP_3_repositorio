@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156ae6cb22f823e42a56a5bedfb70cba, type: 3}
+  m_Name: fuzil 1
+  m_EditorClassIdentifier: 
+  idDaArma: 2
+  nome_da_arma: 
+  imagem_de_arma_para_a_loja: {fileID: 2800000, guid: 2fc59c05d20b05a46b5f46d391932a03,
+    type: 3}
+  modelo_da_arma: {fileID: 7632397930655863486, guid: 17546a3ddf4a02b4093a0a2796c9a226,
+    type: 3}
+  dano_da_arma: 0
+  "muni\xE7ao_do_caregador_da_arma": 250
+  "muni\xE7ao_guardada": 50
+  distancia_deo_RaycastHit: 0
+  cadencia_de_disparos: 0
+  valor_de_compra: 500
