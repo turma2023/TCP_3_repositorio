@@ -12,9 +12,9 @@ public class ScriptableObject_de_armas : ScriptableObject
     public GameObject modelo_da_arma;
     [Header("dano da arma")]
     public int dano_da_arma;
-    [Header("muniçao")]
-    public int muniçao_do_caregador_da_arma;
-    public int muniçao_guardada;
+    [Header("muniï¿½ao")]
+    public int municao_do_caregador_da_arma;
+    public int municao_guardada;
     [Header("disparos")]
     public float distancia_deo_RaycastHit;
     public float cadencia_de_disparos;

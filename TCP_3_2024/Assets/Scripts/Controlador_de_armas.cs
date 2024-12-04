@@ -21,8 +21,8 @@ public class Controlador_de_armas : NetworkBehaviour
     [Header("estatos das armas ")]
 
     public int dano;
-    public int muniçao_do_caregador;
-    public int muniçao_guardada;
+    public int municao_do_caregador;
+    public int municao_guardada;
 
 
 
@@ -44,8 +44,8 @@ public class Controlador_de_armas : NetworkBehaviour
     void Update()
     {
         dano = armaAtual.dano_da_arma;
-        muniçao_do_caregador = armaAtual.muniçao_do_caregador_da_arma;
-        muniçao_guardada = armaAtual.muniçao_guardada;
+        municao_do_caregador = armaAtual.municao_do_caregador_da_arma;
+        municao_guardada = armaAtual.municao_guardada;
         
 
 
@@ -74,7 +74,7 @@ public class Controlador_de_armas : NetworkBehaviour
                 Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.red);
                 Debug.Log("Did Hit");
 
-                // Verifica se o objeto atingido está na camada específica
+                // Verifica se o objeto atingido estï¿½ na camada especï¿½fica
                 if (hit.collider.gameObject.layer == LayerMask.NameToLayer("EnemyLayer"))
                 {
                     Debug.Log("Hit an enemy, applying damage");
@@ -84,7 +84,7 @@ public class Controlador_de_armas : NetworkBehaviour
 
                     if (inimigo != null)
                     {
-                        // Aplica o dano usando a função do script de inimigo
+                        // Aplica o dano usando a funï¿½ï¿½o do script de inimigo
                         inimigo.receber_dano(dano);
                     }
                 }
@@ -102,7 +102,7 @@ public class Controlador_de_armas : NetworkBehaviour
     {
         if (arma == null)
         {
-            Debug.LogError("Arma não pode ser comprada porque é nula.");
+            Debug.LogError("Arma nï¿½o pode ser comprada porque ï¿½ nula.");
             return;
         }
 
@@ -124,7 +124,7 @@ public class Controlador_de_armas : NetworkBehaviour
         }
         else
         {
-            Debug.Log("Não há mais espaço para armas.");
+            Debug.Log("Nï¿½o hï¿½ mais espaï¿½o para armas.");
         }
     }
 
@@ -133,7 +133,7 @@ public class Controlador_de_armas : NetworkBehaviour
 
        
 
-            if (armaAtual == novaArma) return; // Evita recriação da mesma arma
+            if (armaAtual == novaArma) return; // Evita recriaï¿½ï¿½o da mesma arma
 
             armaAtual = novaArma;
 
@@ -147,7 +147,7 @@ public class Controlador_de_armas : NetworkBehaviour
                 // Instancia o modelo como filho do ponto de aparecimento
                 modelo_atual = Instantiate(novaArma.modelo_da_arma, Ponto_De_aparecimento.transform.position, Quaternion.identity, Ponto_De_aparecimento.transform);
 
-                // Define a rotação do modelo para ignorar a rotação do pai
+                // Define a rotaï¿½ï¿½o do modelo para ignorar a rotaï¿½ï¿½o do pai
                 modelo_atual.transform.localRotation = Quaternion.identity;
             }
         

@@ -15,7 +15,7 @@ public class Controlador_De_Loja_De_Armas : NetworkBehaviour
 
     void Start()
     {
-        loja_de_armas.SetActive(false); // A loja começa fechada
+        loja_de_armas.SetActive(false); // A loja comeï¿½a fechada
     }
 
     void Update()
@@ -37,12 +37,12 @@ public class Controlador_De_Loja_De_Armas : NetworkBehaviour
             {
                 if (esta_na_loja)
                 {
-                    fechar_loja(); // Se já estiver na loja, fecha
+                    fechar_loja(); // Se jï¿½ estiver na loja, fecha
 
                 }
                 else
                 {
-                    abri_loja(); // Se não estiver na loja, abre
+                    abri_loja(); // Se nï¿½o estiver na loja, abre
 
                 }
             }
@@ -53,10 +53,10 @@ public class Controlador_De_Loja_De_Armas : NetworkBehaviour
     {
       
         loja_de_armas.SetActive(true); // Ativa o objeto da loja
-        esta_na_loja = true; // Marca que a loja está aberta
+        esta_na_loja = true; // Marca que a loja estï¿½ aberta
         Debug.Log("Entrou na loja");
         Cursor.lockState = CursorLockMode.None; // Libera o cursor
-        Cursor.visible = true; // Torna o cursor visível
+        Cursor.visible = true; // Torna o cursor visï¿½vel
 
     }
 
@@ -64,7 +64,7 @@ public class Controlador_De_Loja_De_Armas : NetworkBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         loja_de_armas.SetActive(false); // Desativa o objeto da loja
-        esta_na_loja = false; // Marca que a loja está fechada
+        esta_na_loja = false; // Marca que a loja estï¿½ fechada
         Debug.Log("Saiu da loja");
         Cursor.lockState = CursorLockMode.Locked; // Trava o cursor no centro
         Cursor.visible = false; // Esconde o cursor
@@ -75,7 +75,7 @@ public class Controlador_De_Loja_De_Armas : NetworkBehaviour
     {
         if (e_o_jogador)
         {
-            esta_na_Area_Da_loja = true; // Marca que o jogador entrou na área da loja
+            esta_na_Area_Da_loja = true; // Marca que o jogador entrou na ï¿½rea da loja
             Debug.LogError("Entrou na loja");
         }
 
@@ -86,8 +86,8 @@ public class Controlador_De_Loja_De_Armas : NetworkBehaviour
         if (e_o_jogador)
         {
             esta_na_loja = false; // Marca que o jogador saiu da loja
-            esta_na_Area_Da_loja = false; // Marca que o jogador saiu da área da loja
-            loja_de_armas.SetActive(false); // Fecha a loja quando sai da área
+            esta_na_Area_Da_loja = false; // Marca que o jogador saiu da ï¿½rea da loja
+            loja_de_armas.SetActive(false); // Fecha a loja quando sai da ï¿½rea
             Debug.LogError("Saiu da loja");
             Cursor.lockState = CursorLockMode.Locked; // Trava o cursor no centro
             Cursor.visible = false; // Esconde o cursor

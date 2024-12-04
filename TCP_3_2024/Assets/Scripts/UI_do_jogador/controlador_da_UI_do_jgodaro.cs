@@ -12,8 +12,8 @@ public class controlador_da_UI_do_jgodaro : MonoBehaviour
 
     public Text vida;
     public Text escudo;
-    public Text muniçao;
-    public Text muniçao_guradada;
+    public Text municao;
+    public Text municao_guradada;
 
 
     void Start()
@@ -30,11 +30,11 @@ public class controlador_da_UI_do_jgodaro : MonoBehaviour
 
 
 
-        arma_equipada = armas.armaAtual; // Obtém a arma atual do controlador de armas
+        arma_equipada = armas.armaAtual; // Obtï¿½m a arma atual do controlador de armas
 
-        // Atribui a quantidade de munição ao componente Text como uma string
-        muniçao.text = arma_equipada.muniçao_do_caregador_da_arma.ToString();
-        muniçao_guradada.text = arma_equipada.muniçao_guardada.ToString();
+        // Atribui a quantidade de muniï¿½ï¿½o ao componente Text como uma string
+        municao.text = arma_equipada.municao_do_caregador_da_arma.ToString();
+        municao_guradada.text = arma_equipada.municao_guardada.ToString();
     }
 
 }
