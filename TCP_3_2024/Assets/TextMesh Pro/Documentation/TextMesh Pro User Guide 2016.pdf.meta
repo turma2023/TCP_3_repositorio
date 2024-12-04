@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 1b8d251f9af63b746bf2f7ffe00ebb9b
+<<<<<<<< HEAD:TCP_3_2024/Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta
+guid: 592c8a6a3eebcf74abf2cac67722f378
+========
+guid: a215391cc9c74ca4da924269fa786a7b
+>>>>>>>> Guilherme:TCP_3_2024/Assets/Scenes/GameScenes/BombA.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
