@@ -1,3 +1,4 @@
+using Fusion;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,8 @@ public class TeamSelection : MonoBehaviour
     public Button redTeamButton;
     private string selectedTeam;
 
+    private GameObject runner;
+
 
     void Start()
     {
@@ -14,9 +17,10 @@ public class TeamSelection : MonoBehaviour
         redTeamButton.onClick.AddListener(() => SelectTeam("Red"));
     }
 
-    public void Show()
+    public void Show(GameObject runner)
     {
         // Mostrar a interface de seleção de time
+        this.runner = runner;
         gameObject.SetActive(true);
     }
 
@@ -25,9 +29,8 @@ public class TeamSelection : MonoBehaviour
         selectedTeam = team;
         Debug.Log("Selected Team: " + team);
         gameObject.SetActive(false);
-        FindObjectOfType<Servidor2>().SetSelectedTeam(selectedTeam);
-        // FindObjectOfType<PlayerController>().SetTeam(selectedTeam);
-        // FindObjectOfType<HostManager>().selectedTeam = selectedTeam;
+
+        this.runner.GetComponent<PlayerController>().SetTeam(team);
 
     }
 

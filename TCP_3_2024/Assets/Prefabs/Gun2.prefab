@@ -13,13 +13,13 @@ GameObject:
   - component: {fileID: 5769217489197311709}
   - component: {fileID: 510943429759737666}
   - component: {fileID: 1484912630358305048}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Gun2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3686432818883514350
 Transform:
   m_ObjectHideFlags: 0
@@ -124,3 +124,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   playerController: {fileID: 0}
+  damage: 5
+  _prefabBall: {fileID: 990733219504873257, guid: bd7b85436913880e9984f66e220e53dd,
+    type: 3}

@@ -5,13 +5,10 @@ using Fusion.Sockets;
 
 public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
-    // private NetworkRunner _runner;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
     [SerializeField] private NetworkPrefabRef _playerPrefab;
-
-    public string selectedTeam;
-
+    
 
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
@@ -22,10 +19,7 @@ public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
             _spawnedCharacters.Add(player, networkPlayerObject);
 
-            string team = GetComponent<Servidor2>().GetSelectedTeam();
-            networkPlayerObject.GetComponent<PlayerController>().SetTeam(team);
-            // GetComponent<Servidor2>().SetSelectedTeam("");
-            Debug.Log("testando cor" + team);
+
         }
         else
         {
@@ -48,6 +42,10 @@ public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    private void PlayerSpawn()
+    {
+
+    }
 
     public void TransferHost(NetworkRunner runner)
     {

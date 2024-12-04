@@ -9,14 +9,15 @@ using UnityEngine.InputSystem;
 public class PlayerController : NetworkBehaviour
 {
 
-    
-
     // !cor de cada lado 
     public Material blueMaterial; 
     public Material redMaterial;
     private Renderer playerRenderer;
     public GameObject PlayerModel;
     [Networked] public string Team { get; set; }
+
+    [SerializeField] private GameObject TeamUI;
+
     //! fim cor de cada lado      
 
     // ! vida
@@ -71,7 +72,8 @@ public class PlayerController : NetworkBehaviour
     }
 
     private PlayerRef FindNewHost() 
-    { // Implementar lógica para encontrar um novo host // Por exemplo, selecionar um jogador aleatório ou o próximo na lista de jogadores 
+    {
+        // Implementar lógica para encontrar um novo host // Por exemplo, selecionar um jogador aleatório ou o próximo na lista de jogadores 
         foreach (var player in Runner.ActivePlayers) { 
             if (player != Object.InputAuthority) { 
                 return player; 
@@ -86,7 +88,9 @@ public class PlayerController : NetworkBehaviour
         Team = team; 
         ApplyTeamColor(); 
     }
-
+    public string GetTeam(){
+        return Team;
+    }
     void ApplyTeamColor()
     {
         if (Team == "Blue")
@@ -100,7 +104,7 @@ public class PlayerController : NetworkBehaviour
     }
 
 
-    private void FixedUpdate()
+    private void Update()
     {
 
         if (Object.HasInputAuthority)
@@ -110,26 +114,29 @@ public class PlayerController : NetworkBehaviour
             networkRotation = transform.rotation;
             networkPivotGun = pivotGun.rotation;
             networkPosition = transform.position;
-            RPC_SendRotationToHost(transform.rotation, pivotGun.rotation, transform.position);
-            Debug.Log("if: "+ Team);
+            Team = this.Team;
+            RPC_SendRotationToHost(transform.rotation, pivotGun.rotation, transform.position, Team);
         }else{
             transform.rotation = networkRotation;
             pivotGun.rotation  = networkPivotGun;
             transform.position = networkPosition;
-            Debug.Log("else: "+ Team);
-            
-        }       
+
+            this.Team = Team;
+            this.ApplyTeamColor();
+        }     
 
     }
 
     
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)] 
-    private void RPC_SendRotationToHost(Quaternion playerRotation, Quaternion gunRotation, Vector3 playerPosition) 
+    private void RPC_SendRotationToHost(Quaternion playerRotation, Quaternion gunRotation, Vector3 playerPosition, string Team) 
     { 
         networkRotation = playerRotation; 
         networkPivotGun = gunRotation;
         networkPosition = playerPosition;
+        this.Team = Team;
+        ApplyTeamColor();
     }
 
     public override void Spawned()
@@ -145,16 +152,16 @@ public class PlayerController : NetworkBehaviour
             camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
             GetComponent<StateMachine>().enabled = true; 
             pivotGun.gameObject.SetActive(false);
-            
+
+
+            TeamUI.GetComponent<TeamSelection>().Show(gameObject);
         
         }
         else 
         {
             camera.gameObject.SetActive(false); 
-            // ApplyTeamColor();\
             
         }
-        ApplyTeamColor();
     }
 
 }

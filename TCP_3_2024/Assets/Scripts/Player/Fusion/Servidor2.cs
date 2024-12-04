@@ -8,16 +8,17 @@ using Unity.VisualScripting;
 
 public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
 {
-    private NetworkRunner _runner;
-    [SerializeField] private NetworkPrefabRef _playerPrefab;
-    private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+    public NetworkRunner _runner;
     private int maxPlayers = 10; // Defina o número máximo de jogadores por sala
     private int roomCount = 1; // Contador de salas
-    public string selectedTeam;
 
+    [SerializeField] public NetworkObject ballPrefab;
 
-    async void StartGame()
+    async void StartGame(GameMode gameMode)
     {
+
+        
+
         if (_runner != null)
         {
             Destroy(_runner.gameObject);
@@ -30,12 +31,15 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
         _runner.AddCallbacks(this);
         _runner.AddCallbacks(FindObjectOfType<HostManager>());
 
+        
+
         var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
 
         var startGameArgs = new StartGameArgs()
         {
-            GameMode = GameMode.AutoHostOrClient,
-            SessionName = "TestRoom" + roomCount,
+            // ObjectProvider = new PooledNetworkObjectProvider(), //!aqui para ativar o pool
+            GameMode = gameMode,
+            SessionName = "TestRoom2" + roomCount,
             Scene = scene,
             SceneManager = _runner.gameObject.AddComponent<NetworkSceneManagerDefault>(),
             PlayerCount = maxPlayers
@@ -46,24 +50,8 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
         if (!result.Ok && result.ShutdownReason == ShutdownReason.GameIsFull)
         {
             roomCount++;
-            StartGame();
+            StartGame(gameMode);
         }
-        else
-        {
-            ShowTeamSelection();
-        }
-    }
-
-    void ShowTeamSelection() { 
-        // Mostrar a interface de seleção de time 
-        FindObjectOfType<TeamSelection>().Show(); 
-    }
-
-    public void SetSelectedTeam(string team) { 
-        selectedTeam = team; 
-    } 
-    public string GetSelectedTeam() { 
-        return selectedTeam; 
     }
     
 
@@ -73,7 +61,15 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
         {
             if (GUI.Button(new Rect(0, 0, 200, 40), "Start Game"))
             {
-                StartGame();
+                StartGame(GameMode.AutoHostOrClient);
+            }
+            if (GUI.Button(new Rect(0, 40, 200, 40), "Host"))
+            {
+                StartGame(GameMode.Host);
+            }
+            if (GUI.Button(new Rect(0, 80, 200, 40), "Join"))
+            {
+                StartGame(GameMode.Client);
             }
         }
     }
