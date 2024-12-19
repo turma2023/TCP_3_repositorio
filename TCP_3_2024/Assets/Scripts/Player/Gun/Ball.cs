@@ -14,6 +14,11 @@ public class Ball : NetworkBehaviour
     life = TickTimer.CreateFromSeconds(Runner, 1.0f);
   }
 
+  // public void Start()
+  // {
+  //   life = TickTimer.CreateFromSeconds(Runner, 1.0f);
+  // }
+
   public override void FixedUpdateNetwork()
   {
     

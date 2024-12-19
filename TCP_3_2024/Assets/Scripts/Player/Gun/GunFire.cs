@@ -39,7 +39,7 @@ public class GunFire : NetworkBehaviour
 
                 
 
-                RPC_Teste(transform.forward);
+                RPC_SpawnBall(transform.forward);
                 
 
                 RaycastHit hit;
@@ -80,11 +80,10 @@ public class GunFire : NetworkBehaviour
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_Teste(Vector3 transform) 
+    private void RPC_SpawnBall(Vector3 transform) 
     { 
         if(delay.ExpiredOrNotRunning(Runner)){
             delay = TickTimer.CreateFromSeconds(Runner, 0.5f);
-            Debug.Log("RPC_TESTE FOI CHAMADO: " + transform);
             Runner.Spawn(
                 _prefabBall,
                 this.transform.position + transform, 

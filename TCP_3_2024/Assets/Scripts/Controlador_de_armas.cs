@@ -64,37 +64,37 @@ public class Controlador_de_armas : NetworkBehaviour
         }
 
         // Raycast para disparo
-        if (playerInputController.FireAction.IsPressed())
-        {
-            Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-            RaycastHit hit;
+        // if (playerInputController.FireAction.IsPressed())
+        // {
+        //     Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
+        //     RaycastHit hit;
 
-            if (Physics.Raycast(ray.origin, ray.direction, out hit, 100, layerMask))
-            {
-                Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.red);
-                Debug.Log("Did Hit");
+        //     if (Physics.Raycast(ray.origin, ray.direction, out hit, 100, layerMask))
+        //     {
+        //         Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.red);
+        //         Debug.Log("Did Hit");
 
-                // Verifica se o objeto atingido est� na camada espec�fica
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("EnemyLayer"))
-                {
-                    Debug.Log("Hit an enemy, applying damage");
+        //         // Verifica se o objeto atingido est� na camada espec�fica
+        //         if (hit.collider.gameObject.layer == LayerMask.NameToLayer("EnemyLayer"))
+        //         {
+        //             Debug.Log("Hit an enemy, applying damage");
 
-                    // Encontra o script que controla a vida do inimigo (supondo que o inimigo tenha esse script)
-                    var inimigo = hit.collider.gameObject.GetComponent<Estatos_Do_Jogador>();
+        //             // Encontra o script que controla a vida do inimigo (supondo que o inimigo tenha esse script)
+        //             var inimigo = hit.collider.gameObject.GetComponent<Estatos_Do_Jogador>();
 
-                    if (inimigo != null)
-                    {
-                        // Aplica o dano usando a fun��o do script de inimigo
-                        inimigo.receber_dano(dano);
-                    }
-                }
-            }
-            else
-            {
-                Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
-                Debug.Log("Did not Hit");
-            }
-        }
+        //             if (inimigo != null)
+        //             {
+        //                 // Aplica o dano usando a fun��o do script de inimigo
+        //                 inimigo.receber_dano(dano);
+        //             }
+        //         }
+        //     }
+        //     else
+        //     {
+        //         Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
+        //         Debug.Log("Did not Hit");
+        //     }
+        // }
     }
     
 
