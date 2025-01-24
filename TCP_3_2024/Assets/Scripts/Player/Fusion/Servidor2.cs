@@ -52,6 +52,8 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
             roomCount++;
             StartGame(gameMode);
         }
+
+        MatchManager.Instance.Initialize();
     }
     
 

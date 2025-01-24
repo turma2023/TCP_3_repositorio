@@ -13,7 +13,6 @@ public class JumpState : IState
     }
     public void Enter()
     {
-        Debug.Log("Entrou no estado Jump");
     }
 
     public void Update()
@@ -21,13 +20,11 @@ public class JumpState : IState
         stateMachine.TryIdle();
         stateMachine.TryWalk();
 
-        Debug.Log("Executando estado Jump");
     }
 
     public void FixedUpdate()
     {
 
-        Debug.Log("Executando estado Jump");
 
         if (playerMovement.IsGrounded())
         {
@@ -38,6 +35,5 @@ public class JumpState : IState
 
     public void Exit()
     {
-        Debug.Log("saiu do estado Jump");
     }
 }
