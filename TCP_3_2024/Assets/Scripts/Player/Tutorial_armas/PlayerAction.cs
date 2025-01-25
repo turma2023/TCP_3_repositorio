@@ -24,10 +24,11 @@ public class PlayerAction : NetworkBehaviour
 
     private void Update()
     {
-
-        if(playerInputController.FireAction.IsPressed()){
-            GunSelector.ActiveGun.Shoot();
-        }
+        // if (Object.HasInputAuthority){
+            if(playerInputController.FireAction.IsPressed()){
+                GunSelector.ActiveGun.Shoot();
+            }
+        // }
 
     }
 

@@ -21,3 +21,6 @@ MonoBehaviour:
   SpawnRotation: {x: 0, y: 0, z: 0}
   ShootConfig: {fileID: 11400000, guid: 50e590bbc5d4c8877a7278c7ae560d29, type: 2}
   TrailConfig: {fileID: 11400000, guid: 8f1e75e431e68df5fb58c20bf2e5626a, type: 2}
+  ShootSystem: {fileID: 0}
+  bulletPrefab: {fileID: 1203574805966567819, guid: df90a4d0b8d24b1178a2112cd2b7a114,
+    type: 3}

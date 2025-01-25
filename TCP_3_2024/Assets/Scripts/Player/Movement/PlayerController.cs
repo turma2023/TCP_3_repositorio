@@ -26,7 +26,7 @@ public class PlayerController : NetworkBehaviour
     // ! fim vida
 
 
-    [SerializeField] private Transform pivotGun;
+    [SerializeField] public Transform pivotGun;
     public new Camera camera;
     [SerializeField] private Transform playerCameraPosition;
     

@@ -17,49 +17,124 @@ public class GunFire : NetworkBehaviour
     [SerializeField] private NetworkObject _prefabBall;
 
     [Networked] private TickTimer delay { get; set; }
+    private ParticleSystem particles;
+    
+    [SerializeField] private float spreadAmountMax = 5f;
+    [SerializeField] private float spreadAmountMin = 0f;
+
+    private float spreadAmountCurrotin = 0f;
+
+    [SerializeField] private float recoilForce = 0.1f;
+    [SerializeField] private float recoilDuration = 0.1f;
+
+    private Vector3 originalPosition;
 
 
+    [SerializeField] private RectTransform imageRectTransform;
 
-    void Start()
+    [SerializeField] private float resizeDuration = 0.5f;
+    private int minSize = 50;
+    private int maxSize = 200;
+
+    [SerializeField] private BallPool bulletPool;
+
+    void Awake()
     {
-
         playerInputController = playerController.PlayerInputController;
 
         if (_prefabBall == null) { 
             Debug.LogError("Prefab da bolinha não está atribuído.");
         }
+        particles = GetComponentInChildren<ParticleSystem>();
+        originalPosition = transform.localPosition;
+
+        spreadAmountMax = spreadAmountMax / 100;
+        spreadAmountCurrotin = spreadAmountMin;
 
     }
+
+    void ResizeImage(float width, float height)
+    {
+        imageRectTransform.sizeDelta = new Vector2(width, height);
+    }
+    
 
     private void FixedUpdate()
     {
-
         if (Object.HasInputAuthority){
+            // Debug.LogError(spreadAmountCurrotin)
+
+            float scale = Mathf.Lerp(minSize, maxSize, spreadAmountCurrotin / spreadAmountMax);
+            ResizeImage(scale, scale);
+
             if (playerInputController.FireAction.IsPressed()){
-
-                
-
-                RPC_SpawnBall(transform.forward);
-                
-
                 RaycastHit hit;
-                if (Physics.Raycast(playerController.camera.transform.position, playerController.camera.transform.forward, out hit, 100, layerMask))
+                Vector3 shootDirection = GetSpreadDirection(playerController.camera.transform.forward);
+
+
+                if (Physics.Raycast(playerController.camera.transform.position, shootDirection, out hit, 100, layerMask))
                 {
-                    Debug.DrawRay(playerController.camera.transform.position, playerController.camera.transform.forward * hit.distance, Color.red);
+                    Debug.DrawRay(playerController.camera.transform.position, shootDirection * hit.distance, Color.red);
 
                     PlayerController hitPayerControllerLife = hit.transform.GetComponent<PlayerController>(); 
-                    
-                    // Debug.Log("Meu time: "+playerController.Team + "Outro time: " + playerControllerLife.Team);
+                    RPC_SpawnBall(hit.point);
                     if (hitPayerControllerLife != null)
-                    { // Enviar dano para o jogador acertado 
-                        RPC_TakeDamage(hitPayerControllerLife,damage); 
+                    { 
+                        RPC_TakeDamage(hitPayerControllerLife, damage); 
                     } 
+                }
                 
+
+                
+            }
+            else{
+                if (spreadAmountCurrotin > spreadAmountMin)
+                {
+                    if(delay.ExpiredOrNotRunning(Runner)){
+                        delay = TickTimer.CreateFromSeconds(Runner, 0.1f);
+                        spreadAmountCurrotin = spreadAmountCurrotin - 0.01f;
+                    }
                 }
             }
+        
         }
         
     }
+
+    private Vector3 GetSpreadDirection(Vector3 originalDirection)
+    {
+        float spreadX = UnityEngine.Random.Range(-spreadAmountCurrotin, spreadAmountCurrotin);
+        float spreadY = UnityEngine.Random.Range(-spreadAmountCurrotin, spreadAmountCurrotin);
+        float spreadZ = UnityEngine.Random.Range(-spreadAmountCurrotin, spreadAmountCurrotin);
+        Vector3 spreadDirection = originalDirection + new Vector3(spreadX, spreadY, spreadZ);
+        return spreadDirection.normalized;
+    }
+
+    private IEnumerator ApplyRecoil()
+    {
+        Vector3 recoilPosition = originalPosition - new Vector3(0, 0, recoilForce);
+        float elapsedTime = 0f;
+
+        while (elapsedTime < recoilDuration)
+        {
+            transform.localPosition = Vector3.Lerp(originalPosition, recoilPosition, elapsedTime / recoilDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        elapsedTime = 0f;
+
+        while (elapsedTime < recoilDuration)
+        {
+            transform.localPosition = Vector3.Lerp(recoilPosition, originalPosition, elapsedTime / recoilDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localPosition = originalPosition;
+    }
+
+    
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     private void RPC_TakeDamage(PlayerController playerController, int damage) 
@@ -83,19 +158,38 @@ public class GunFire : NetworkBehaviour
     private void RPC_SpawnBall(Vector3 transform) 
     { 
         if(delay.ExpiredOrNotRunning(Runner)){
-            delay = TickTimer.CreateFromSeconds(Runner, 0.5f);
+            delay = TickTimer.CreateFromSeconds(Runner, 0.1f);
+            StartCoroutine(ApplyRecoil());
+            
+            if (spreadAmountCurrotin < spreadAmountMax)
+            {
+                spreadAmountCurrotin = spreadAmountCurrotin + 0.01f;
+
+            }
+
             Runner.Spawn(
                 _prefabBall,
-                this.transform.position + transform, 
-                Quaternion.LookRotation(transform),
+                // this.transform.position + transform, 
+                transform, 
+                Quaternion.LookRotation(this.transform.forward * -1),
                 Object.InputAuthority, 
                 (runner, o) =>
                 {
-                    // Initialize the Ball before synchronizing it
+                
                     o.GetComponent<Ball>().Init();
 
                 }
             );
+            
+            particles.Play();
+
+
+            // NetworkObject bullet = bulletPool.GetObject();
+            // bullet.transform.position = transform;
+            // bullet.transform.rotation = Quaternion.LookRotation(this.transform.forward * -1);
+            // bullet.GetComponent<Ball>().Init(bulletPool);
+
+
         }
     }
 

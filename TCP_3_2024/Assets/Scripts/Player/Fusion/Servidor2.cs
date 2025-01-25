@@ -39,7 +39,7 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
         {
             // ObjectProvider = new PooledNetworkObjectProvider(), //!aqui para ativar o pool
             GameMode = gameMode,
-            SessionName = "TestRoom2" + roomCount,
+            SessionName = "TestRoom3" + roomCount,
             Scene = scene,
             SceneManager = _runner.gameObject.AddComponent<NetworkSceneManagerDefault>(),
             PlayerCount = maxPlayers
