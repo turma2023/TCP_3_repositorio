@@ -12,7 +12,7 @@ public class IdleState : IState
     
     public void Enter()
     {
-        Debug.Log("Entrou no estado Parado");
+
     }
 
 
@@ -21,16 +21,13 @@ public class IdleState : IState
     {
         stateMachine.TryWalk();
         stateMachine.TryJump();
-        Debug.Log("Executando estado Parado");
     }
 
     public void FixedUpdate()
     {
-        Debug.Log("Fixed estado Parado");
     }
 
     public void Exit()
     {
-        Debug.Log("saiu do estado Parado");
     }
 }

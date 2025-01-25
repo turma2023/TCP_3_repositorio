@@ -10,7 +10,7 @@ public class PlayerController : NetworkBehaviour
 {
 
     // !cor de cada lado 
-    public Material blueMaterial; 
+    public Material blueMaterial;
     public Material redMaterial;
     private Renderer playerRenderer;
     public GameObject PlayerModel;
@@ -29,13 +29,16 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] public Transform pivotGun;
     public new Camera camera;
     [SerializeField] private Transform playerCameraPosition;
-    
-    public PlayerMovement PlayerMovement {get; private set; }
+
+    public PlayerMovement PlayerMovement { get; private set; }
     public PlayerInputController PlayerInputController { get; private set; }
 
-    [Networked] private Quaternion networkRotation {get; set;}
-    [Networked] private Quaternion networkPivotGun {get; set;}
-    [Networked] private Vector3 networkPosition {get; set;}
+    [Networked] private Quaternion networkRotation { get; set; }
+    [Networked] private Quaternion networkPivotGun { get; set; }
+    [Networked] private Vector3 networkPosition { get; set; }
+
+    // Skills
+    [SerializeField] private SmokeBombSkill smokeBombSkill;
 
     private void Awake()
     {
@@ -44,51 +47,59 @@ public class PlayerController : NetworkBehaviour
         CurrentHealth = MaxHealth;
 
         playerRenderer = PlayerModel.GetComponent<Renderer>();
+        smokeBombSkill.Initialize(transform);
     }
 
-    public void TakeDamage(int damage) 
-    { 
-        CurrentHealth -= damage; 
-        if (CurrentHealth <= 0) 
-        { 
-            Die(); 
+    public void TakeDamage(int damage)
+    {
+        CurrentHealth -= damage;
+        if (CurrentHealth <= 0)
+        {
+            Die();
         }
-    } 
-    private void Die() { 
+    }
+    private void Die()
+    {
 
         // Transferir a autoridade para outro jogador antes de despawnar 
-        if (Object.HasStateAuthority) { 
-            PlayerRef newHost = FindNewHost(); 
-            if (newHost != null) { 
-                NetworkObject newHostObject = Runner.GetPlayerObject(newHost); 
-                if (newHostObject != null) { 
-                    Runner.SetPlayerObject(newHost, newHostObject); 
+        if (Object.HasStateAuthority)
+        {
+            PlayerRef newHost = FindNewHost();
+            if (newHost != null)
+            {
+                NetworkObject newHostObject = Runner.GetPlayerObject(newHost);
+                if (newHostObject != null)
+                {
+                    Runner.SetPlayerObject(newHost, newHostObject);
                 }
-            } 
-        } 
+            }
+        }
 
         Debug.Log("Player died");
         Runner.Despawn(Object);
     }
 
-    private PlayerRef FindNewHost() 
+    private PlayerRef FindNewHost()
     {
         // Implementar lógica para encontrar um novo host // Por exemplo, selecionar um jogador aleatório ou o próximo na lista de jogadores 
-        foreach (var player in Runner.ActivePlayers) { 
-            if (player != Object.InputAuthority) { 
-                return player; 
-            } 
-        } 
+        foreach (var player in Runner.ActivePlayers)
+        {
+            if (player != Object.InputAuthority)
+            {
+                return player;
+            }
+        }
         return default;
     }
 
 
     public void SetTeam(string team)
-    { 
-        Team = team; 
-        ApplyTeamColor(); 
+    {
+        Team = team;
+        ApplyTeamColor();
     }
-    public string GetTeam(){
+    public string GetTeam()
+    {
         return Team;
     }
     void ApplyTeamColor()
@@ -106,6 +117,19 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
+        if (smokeBombSkill.Preparing)
+        {
+            smokeBombSkill.ShowTrajectory(transform);
+
+            if (Input.GetKeyDown(KeyCode.Mouse0)) smokeBombSkill.Execute();
+            if (Input.GetKeyDown(KeyCode.T)) smokeBombSkill.Cancel();
+        }
+
+        else
+        {
+            smokeBombSkill.HideTrajectory();
+            if (Input.GetKeyDown(KeyCode.T)) smokeBombSkill.Anticipate();
+        }
 
         if (Object.HasInputAuthority)
         {
@@ -116,23 +140,25 @@ public class PlayerController : NetworkBehaviour
             networkPosition = transform.position;
             Team = this.Team;
             RPC_SendRotationToHost(transform.rotation, pivotGun.rotation, transform.position, Team);
-        }else{
+        }
+        else
+        {
             transform.rotation = networkRotation;
-            pivotGun.rotation  = networkPivotGun;
+            pivotGun.rotation = networkPivotGun;
             transform.position = networkPosition;
 
             this.Team = Team;
             this.ApplyTeamColor();
-        }     
+        }
 
     }
 
-    
 
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)] 
-    private void RPC_SendRotationToHost(Quaternion playerRotation, Quaternion gunRotation, Vector3 playerPosition, string Team) 
-    { 
-        networkRotation = playerRotation; 
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    private void RPC_SendRotationToHost(Quaternion playerRotation, Quaternion gunRotation, Vector3 playerPosition, string Team)
+    {
+        networkRotation = playerRotation;
         networkPivotGun = gunRotation;
         networkPosition = playerPosition;
         this.Team = Team;
@@ -145,22 +171,22 @@ public class PlayerController : NetworkBehaviour
         transform.rotation = Quaternion.identity;
 
 
-        if (Object.HasInputAuthority) 
-        { 
-            camera.gameObject.SetActive(true); 
+        if (Object.HasInputAuthority)
+        {
+            camera.gameObject.SetActive(true);
             // camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
             camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
-            GetComponent<StateMachine>().enabled = true; 
+            GetComponent<StateMachine>().enabled = true;
             pivotGun.gameObject.SetActive(false);
 
 
             TeamUI.GetComponent<TeamSelection>().Show(gameObject);
-        
+
         }
-        else 
+        else
         {
-            camera.gameObject.SetActive(false); 
-            
+            camera.gameObject.SetActive(false);
+
         }
     }
 
