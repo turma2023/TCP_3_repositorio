@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Bullet
   - VirtualCamera
+  - area_de_pnatar_bomba
+  - atacante
   layers:
   - Default
   - TransparentFX

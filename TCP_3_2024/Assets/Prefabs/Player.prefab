@@ -946,9 +946,10 @@ GameObject:
   - component: {fileID: 1286189810564018789}
   - component: {fileID: 7664993528420787197}
   - component: {fileID: 7920579999146743829}
+  - component: {fileID: 8855907806312619251}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: atacante
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1183,6 +1184,28 @@ MonoBehaviour:
   loja_de_armas: {fileID: 3386380834045709560}
   esta_na_loja: 0
   esta_na_Area_Da_loja: 0
+--- !u!114 &8855907806312619251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7299474097578385189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc2cff7d33b18ca4fad6024206bbdff6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tem_bomba: 1
+  ponto_de_apareciemnto: {fileID: 8701779087536696405}
+  layerChao:
+    serializedVersion: 2
+    m_Bits: 128
+  bomba: {fileID: 5309684309488290011, guid: dfe030d776434f54ca7f8c4128378380, type: 3}
+  esta_em_uma_area_de_plantar_bomba: 0
+  tempo_para_plantar: 2
+  tempo_corido: 0
+  slide_de_pante: {fileID: 0}
 --- !u!1 &8858427907013089677
 GameObject:
   m_ObjectHideFlags: 0
