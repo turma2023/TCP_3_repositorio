@@ -50,6 +50,29 @@ public class PlayerController : NetworkBehaviour
         smokeBombSkill.Initialize(transform);
     }
 
+    private void Start()
+    {
+        MatchManager.Instance.OnRoundEnd += OnRoundEnd;
+    }
+
+    private void OnDisable()
+    {
+        MatchManager.Instance.OnRoundEnd -= OnRoundEnd;
+    }
+
+    private void OnRoundEnd()
+    {
+        if (MatchManager.Instance.CurrentMatchPhase == MatchPhases.MatchEnd) return;
+        Invoke("ResetPlayer", 2f);
+    }
+
+    private void ResetPlayer()
+    {
+        CurrentHealth = MaxHealth;
+        transform.position = new Vector3(UnityEngine.Random.Range(-10, 10), 1, UnityEngine.Random.Range(-10, 10));
+        transform.rotation = Quaternion.identity;
+        pivotGun.rotation = Quaternion.identity;
+    }
     public void TakeDamage(int damage)
     {
         CurrentHealth -= damage;

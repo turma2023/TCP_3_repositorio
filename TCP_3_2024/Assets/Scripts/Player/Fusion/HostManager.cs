@@ -2,6 +2,7 @@ using UnityEngine;
 using Fusion;
 using System.Collections.Generic;
 using Fusion.Sockets;
+using Photon.Realtime;
 
 public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
@@ -13,19 +14,7 @@ public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        if (_spawnedCharacters.Count < runner.SessionInfo.PlayerCount)
-        {
-            Vector3 spawnPosition = new Vector3(Random.Range(-10, 10), 1, Random.Range(-10, 10));
-            NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
-            _spawnedCharacters.Add(player, networkPlayerObject);
-            Debug.Log("Host Manager Player Joined");
-
-
-        }
-        else
-        {
-            Debug.Log("Sala cheia. Não é possível adicionar mais jogadores.");
-        }
+        SpawnPlayer(runner, player);
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -41,9 +30,33 @@ public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
         {
             TransferHost(runner);
         }
+
     }
 
-    private void PlayerSpawn()
+    private void SpawnPlayer(NetworkRunner runner, PlayerRef player)
+    {
+        if (_spawnedCharacters.Count < runner.SessionInfo.PlayerCount)
+        {
+            Vector3 spawnPosition = new Vector3(Random.Range(-10, 10), 1, Random.Range(-10, 10));
+            NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
+            _spawnedCharacters.Add(player, networkPlayerObject);
+            Debug.Log("Host Manager Player Joined");
+            Debug.Log("Player ID: " + player.PlayerId);
+
+            foreach (var character in _spawnedCharacters)
+            {
+                Debug.Log("Joined ID: " + character.Key.PlayerId);
+            }
+
+
+        }
+        else
+        {
+            Debug.Log("Sala cheia. Não é possível adicionar mais jogadores.");
+        }
+    }
+
+    private void ResetPlayer()
     {
 
     }
@@ -78,11 +91,18 @@ public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, System.ArraySegment<byte> data) { }
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-        Debug.Log("Scene Reloaded");
+
+
     }
-    public void OnSceneLoadStart(NetworkRunner runner) { }
+    public void OnSceneLoadStart(NetworkRunner runner)
+    {
+        Debug.Log("Player Count: " + runner.SessionInfo.PlayerCount);
+    }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
+    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
+    {
+
+    }
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
 
 
