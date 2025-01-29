@@ -40,7 +40,6 @@ public class MatchManager : MonoBehaviour
     void Start()
     {
         OnRoundEnd += OnRoundEnded;
-        OnPhaseChanged += TryEndMatch;
     }
 
     void Update()
@@ -53,6 +52,7 @@ public class MatchManager : MonoBehaviour
 
     public void Initialize()
     {
+        if (IsInitialized) return;
         ResetImportantValues();
         IsInitialized = true;
         OnMatchStart?.Invoke();
@@ -60,13 +60,15 @@ public class MatchManager : MonoBehaviour
 
     public void ReloadScene()
     {
-        SceneManager.LoadScene("Cena1");
+        //SceneManager.LoadScene("Cena1");
+        Servidor2.Instance.Runner.LoadScene("Cena1");
     }
 
     public void ResetImportantValues()
     {
         RoundTime = originalRoundTime;
         BuyPhaseTime = originalBuyPhaseTime;
+        CurrentMatchPhase = MatchPhases.BuyPhase;
     }
 
     public void UpdateRoundsWon()
@@ -86,6 +88,8 @@ public class MatchManager : MonoBehaviour
                     break;
                 }
         }
+
+        Debug.Log("Rounds Updated");
     }
 
     public void SetBuyPhaseTime(float time)
@@ -96,13 +100,13 @@ public class MatchManager : MonoBehaviour
     private void UpdateTimers()
     {
 
-        if (BuyPhaseTime > 0)
+        if (BuyPhaseTime > 0f)
         {
             BuyPhaseTime -= Time.deltaTime;
             return;
         }
 
-        if (RoundTime > 0) RoundTime -= Time.deltaTime;
+        if (RoundTime > 0f) RoundTime -= Time.deltaTime;
 
     }
 
@@ -146,23 +150,27 @@ public class MatchManager : MonoBehaviour
         }
     }
 
-    private void TryEndMatch(MatchPhases currentMatchPhase)
+    private void TryEndMatch()
     {
-        if (currentMatchPhase == MatchPhases.EndPhase && TeamARoundsWon + TeamBRoundsWon >= MaxNumberOfRounds)
+        if (CurrentMatchPhase == MatchPhases.EndPhase && TeamARoundsWon + TeamBRoundsWon >= MaxNumberOfRounds)
         {
+            CurrentMatchPhase = MatchPhases.MatchEnd;
             OnMatchEnd?.Invoke();
+            Debug.Log("Match Ended");
         }
     }
     private void OnRoundEnded()
     {
+        TryEndMatch();
+
+        if (CurrentMatchPhase == MatchPhases.MatchEnd) return;
         UpdateRoundsWon();
-        Invoke("ReloadScene", 2f);
+        Invoke("ResetImportantValues", 2f);
     }
 
     private void OnDisable()
     {
         OnMatchEnd -= OnRoundEnded;
-        OnPhaseChanged -= TryEndMatch;
     }
 }
 
@@ -173,4 +181,5 @@ public enum MatchPhases
     BuyPhase,
     RoundPhase,
     EndPhase,
+    MatchEnd,
 }

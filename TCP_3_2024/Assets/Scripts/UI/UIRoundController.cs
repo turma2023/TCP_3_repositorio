@@ -51,7 +51,7 @@ public class UIRoundController : MonoBehaviour
     {
         if (matchManager.BuyPhaseTime > 0)
         {
-            timerText.text = matchManager.BuyPhaseTime.ToString("F0");
+            timerText.text = Mathf.CeilToInt(matchManager.BuyPhaseTime).ToString("F0");
             return;
         }
 
@@ -60,13 +60,19 @@ public class UIRoundController : MonoBehaviour
 
             case > 3:
                 {
-                    timerText.text = matchManager.RoundTime.ToString("F0");
+                    timerText.text = Mathf.CeilToInt(matchManager.RoundTime).ToString("F0");
                     break;
                 }
 
-            case float n when n >= 0 && n < 3:
+            case float n when n > 0 && n < 3:
                 {
                     timerText.text = matchManager.RoundTime.ToString("F1");
+                    break;
+                }
+
+            case float n when n <= 0:
+                {
+                    timerText.text = Mathf.CeilToInt(matchManager.RoundTime).ToString("F0");
                     break;
                 }
         }
@@ -91,6 +97,12 @@ public class UIRoundController : MonoBehaviour
             case MatchPhases.EndPhase:
                 {
                     phaseText.text = "End Phase";
+                    break;
+                }
+
+            case MatchPhases.MatchEnd:
+                {
+                    phaseText.text = "Match Ended";
                     break;
                 }
         }
