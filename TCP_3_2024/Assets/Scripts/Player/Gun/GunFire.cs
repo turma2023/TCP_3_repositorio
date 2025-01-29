@@ -77,6 +77,7 @@ public class GunFire : NetworkBehaviour
                     Debug.DrawRay(playerController.camera.transform.position, shootDirection * hit.distance, Color.red);
 
                     PlayerController hitPayerControllerLife = hit.transform.GetComponent<PlayerController>(); 
+                    RPC_ShootEffect();
                     RPC_SpawnBall(hit.point);
                     if (hitPayerControllerLife != null)
                     { 
@@ -134,6 +135,17 @@ public class GunFire : NetworkBehaviour
         transform.localPosition = originalPosition;
     }
 
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    private void RPC_ShootEffect(){
+        particles.Play();
+        StartCoroutine(ApplyRecoil());
+            
+        if (spreadAmountCurrotin < spreadAmountMax)
+        {
+            spreadAmountCurrotin = spreadAmountCurrotin + 0.01f;
+
+        }
+    }
     
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
@@ -159,13 +171,6 @@ public class GunFire : NetworkBehaviour
     { 
         if(delay.ExpiredOrNotRunning(Runner)){
             delay = TickTimer.CreateFromSeconds(Runner, 0.1f);
-            StartCoroutine(ApplyRecoil());
-            
-            if (spreadAmountCurrotin < spreadAmountMax)
-            {
-                spreadAmountCurrotin = spreadAmountCurrotin + 0.01f;
-
-            }
 
             Runner.Spawn(
                 _prefabBall,
@@ -181,7 +186,6 @@ public class GunFire : NetworkBehaviour
                 }
             );
             
-            particles.Play();
 
 
             // NetworkObject bullet = bulletPool.GetObject();

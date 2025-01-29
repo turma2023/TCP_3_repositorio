@@ -173,11 +173,13 @@ public class PlayerController : NetworkBehaviour
 
         if (Object.HasInputAuthority)
         {
-            camera.gameObject.SetActive(true);
+            camera.gameObject.GetComponent<Camera>().enabled = !camera.gameObject.GetComponent<Camera>().enabled;
+            camera.GetComponent<FirstPersonCamera>().enabled = !camera.GetComponent<FirstPersonCamera>().enabled;
+
             // camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
             camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
             GetComponent<StateMachine>().enabled = true;
-            pivotGun.gameObject.SetActive(false);
+            // pivotGun.gameObject.SetActive(false);
 
 
             TeamUI.GetComponent<TeamSelection>().Show(gameObject);
@@ -185,7 +187,7 @@ public class PlayerController : NetworkBehaviour
         }
         else
         {
-            camera.gameObject.SetActive(false);
+            // camera.gameObject.SetActive(false);
 
         }
     }

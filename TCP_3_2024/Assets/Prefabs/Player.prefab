@@ -324,7 +324,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5400199040187848618}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
@@ -516,7 +516,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5400199040187848618}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cd55bfb6b79590e09f2f2180da45e11, type: 3}
   m_Name: 
@@ -571,7 +571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8035333391432869016
 Transform:
   m_ObjectHideFlags: 0
@@ -1073,7 +1073,7 @@ MonoBehaviour:
   _Team: 
   TeamUI: {fileID: 2082863568686592407}
   MaxHealth: 100
-  pivotGun: {fileID: 8035333391432869016}
+  pivotGun: {fileID: 623484362520666290}
   camera: {fileID: 2476467844249181572}
   playerCameraPosition: {fileID: 7827312646664663125}
   smokeBombSkill: {fileID: 11400000, guid: 2c63ffe2b2e2cc746b50e6af3f940952, type: 2}
@@ -1205,7 +1205,6 @@ MonoBehaviour:
   esta_em_uma_area_de_plantar_bomba: 0
   tempo_para_plantar: 2
   tempo_corido: 0
-  slide_de_pante: {fileID: 0}
 --- !u!1 &8858427907013089677
 GameObject:
   m_ObjectHideFlags: 0
