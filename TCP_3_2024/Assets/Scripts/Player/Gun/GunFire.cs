@@ -38,7 +38,7 @@ public class GunFire : NetworkBehaviour
 
     [SerializeField] private BallPool bulletPool;
 
-    void Awake()
+    void Start()
     {
         playerInputController = playerController.PlayerInputController;
 
@@ -50,6 +50,9 @@ public class GunFire : NetworkBehaviour
 
         spreadAmountMax = spreadAmountMax / 100;
         spreadAmountCurrotin = spreadAmountMin;
+        if (Object.HasInputAuthority){
+            imageRectTransform.gameObject.SetActive(true);
+        }
 
     }
 
@@ -60,42 +63,46 @@ public class GunFire : NetworkBehaviour
     
 
     private void FixedUpdate()
+    // public override void FixedUpdateNetwork()
     {
         if (Object.HasInputAuthority){
-            // Debug.LogError(spreadAmountCurrotin)
 
             float scale = Mathf.Lerp(minSize, maxSize, spreadAmountCurrotin / spreadAmountMax);
             ResizeImage(scale, scale);
 
-            if (playerInputController.FireAction.IsPressed()){
-                RaycastHit hit;
-                Vector3 shootDirection = GetSpreadDirection(playerController.camera.transform.forward);
+            if(delay.ExpiredOrNotRunning(Runner)){
+                delay = TickTimer.CreateFromSeconds(Runner, 0.1f);
+
+                
+
+                if (playerInputController.FireAction.IsPressed()){
+                    RaycastHit hit;
+                    Vector3 shootDirection = GetSpreadDirection(playerController.camera.transform.forward);
 
 
-                if (Physics.Raycast(playerController.camera.transform.position, shootDirection, out hit, 100, layerMask))
-                {
-                    Debug.DrawRay(playerController.camera.transform.position, shootDirection * hit.distance, Color.red);
+                    if (Physics.Raycast(playerController.camera.transform.position, shootDirection, out hit, 100, layerMask))
+                    {
+                        Debug.DrawRay(playerController.camera.transform.position, shootDirection * hit.distance, Color.red);
 
-                    PlayerController hitPayerControllerLife = hit.transform.GetComponent<PlayerController>(); 
-                    RPC_SpawnBall(hit.point);
-                    if (hitPayerControllerLife != null)
-                    { 
-                        RPC_TakeDamage(hitPayerControllerLife, damage); 
-                    } 
+                        PlayerController hitPayerControllerLife = hit.transform.GetComponent<PlayerController>(); 
+                        RPC_ShootEffect();
+                        RPC_SpawnBall(hit.point);
+                        if (hitPayerControllerLife != null)
+                        { 
+                            RPC_TakeDamage(hitPayerControllerLife, damage); 
+                        } 
+                    }
+                    
                 }
-                
-
-                
-            }
-            else{
-                if (spreadAmountCurrotin > spreadAmountMin)
-                {
-                    if(delay.ExpiredOrNotRunning(Runner)){
-                        delay = TickTimer.CreateFromSeconds(Runner, 0.1f);
+                else{
+                    if (spreadAmountCurrotin > spreadAmountMin)
+                    {
                         spreadAmountCurrotin = spreadAmountCurrotin - 0.01f;
+                        
                     }
                 }
             }
+            
         
         }
         
@@ -134,6 +141,17 @@ public class GunFire : NetworkBehaviour
         transform.localPosition = originalPosition;
     }
 
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    private void RPC_ShootEffect(){
+        particles.Play();
+        StartCoroutine(ApplyRecoil());
+            
+        if (spreadAmountCurrotin < spreadAmountMax)
+        {
+            spreadAmountCurrotin = spreadAmountCurrotin + 0.005f;
+
+        }
+    }
     
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
@@ -157,40 +175,16 @@ public class GunFire : NetworkBehaviour
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     private void RPC_SpawnBall(Vector3 transform) 
     { 
-        if(delay.ExpiredOrNotRunning(Runner)){
-            delay = TickTimer.CreateFromSeconds(Runner, 0.1f);
-            StartCoroutine(ApplyRecoil());
-            
-            if (spreadAmountCurrotin < spreadAmountMax)
+        Runner.Spawn(
+            _prefabBall,
+            transform, 
+            Quaternion.LookRotation(this.transform.forward * -1),
+            Object.InputAuthority, 
+            (runner, o) =>
             {
-                spreadAmountCurrotin = spreadAmountCurrotin + 0.01f;
-
+                o.GetComponent<Ball>().Init();
             }
-
-            Runner.Spawn(
-                _prefabBall,
-                // this.transform.position + transform, 
-                transform, 
-                Quaternion.LookRotation(this.transform.forward * -1),
-                Object.InputAuthority, 
-                (runner, o) =>
-                {
-                
-                    o.GetComponent<Ball>().Init();
-
-                }
-            );
-            
-            particles.Play();
-
-
-            // NetworkObject bullet = bulletPool.GetObject();
-            // bullet.transform.position = transform;
-            // bullet.transform.rotation = Quaternion.LookRotation(this.transform.forward * -1);
-            // bullet.GetComponent<Ball>().Init(bulletPool);
-
-
-        }
+        );  
     }
 
 

@@ -324,7 +324,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5400199040187848618}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
@@ -516,7 +516,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5400199040187848618}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cd55bfb6b79590e09f2f2180da45e11, type: 3}
   m_Name: 
@@ -571,7 +571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8035333391432869016
 Transform:
   m_ObjectHideFlags: 0
@@ -655,7 +655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &393733310524241961
 RectTransform:
   m_ObjectHideFlags: 0
@@ -943,13 +943,12 @@ GameObject:
   - component: {fileID: 1699423917238937469}
   - component: {fileID: 7176670275111712288}
   - component: {fileID: -6594754226195438632}
-  - component: {fileID: 1286189810564018789}
   - component: {fileID: 7664993528420787197}
   - component: {fileID: 7920579999146743829}
   - component: {fileID: 8855907806312619251}
   m_Layer: 8
   m_Name: Player
-  m_TagString: atacante
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1073,7 +1072,7 @@ MonoBehaviour:
   _Team: 
   TeamUI: {fileID: 2082863568686592407}
   MaxHealth: 100
-  pivotGun: {fileID: 8035333391432869016}
+  pivotGun: {fileID: 623484362520666290}
   camera: {fileID: 2476467844249181572}
   playerCameraPosition: {fileID: 7827312646664663125}
   smokeBombSkill: {fileID: 11400000, guid: 2c63ffe2b2e2cc746b50e6af3f940952, type: 2}
@@ -1132,25 +1131,8 @@ MonoBehaviour:
   - {fileID: 6735262216554282787}
   - {fileID: 1699423917238937469}
   - {fileID: 7176670275111712288}
-  - {fileID: 1286189810564018789}
   - {fileID: 7920579999146743829}
   - {fileID: 4253264080048976645}
---- !u!114 &1286189810564018789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7299474097578385189}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncScale: 0
-  SyncParent: 1
-  _autoAOIOverride: 1
-  DisableSharedModeInterpolation: 0
 --- !u!114 &7664993528420787197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1205,7 +1187,6 @@ MonoBehaviour:
   esta_em_uma_area_de_plantar_bomba: 0
   tempo_para_plantar: 2
   tempo_corido: 0
-  slide_de_pante: {fileID: 0}
 --- !u!1 &8858427907013089677
 GameObject:
   m_ObjectHideFlags: 0

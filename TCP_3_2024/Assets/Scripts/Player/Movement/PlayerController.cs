@@ -1,8 +1,12 @@
+using System.Linq;
+using Cinemachine;
 using Fusion;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : NetworkBehaviour, IPlayerLeft
+public class PlayerController : NetworkBehaviour
 {
 
     // !cor de cada lado 
@@ -13,8 +17,6 @@ public class PlayerController : NetworkBehaviour, IPlayerLeft
     [Networked] public string Team { get; set; }
 
     [SerializeField] private GameObject TeamUI;
-
-    public PlayerController Local {  get; private set; }
 
     //! fim cor de cada lado      
 
@@ -30,87 +32,36 @@ public class PlayerController : NetworkBehaviour, IPlayerLeft
 
     public PlayerMovement PlayerMovement { get; private set; }
     public PlayerInputController PlayerInputController { get; private set; }
-    public BombHandler BombHandler { get; private set; }
 
     [Networked] private Quaternion networkRotation { get; set; }
     [Networked] private Quaternion networkPivotGun { get; set; }
     [Networked] private Vector3 networkPosition { get; set; }
+
+    private int numTeam;
 
     // Skills
     [SerializeField] private SmokeBombSkill smokeBombSkill;
 
     private void Awake()
     {
+        numTeam = UnityEngine.Random.Range(1, 3);
+
         PlayerInputController = new PlayerInputController(GetComponent<PlayerInput>());
         PlayerMovement = GetComponent<PlayerMovement>();
         CurrentHealth = MaxHealth;
-        BombHandler = GetComponent<BombHandler>();
 
         playerRenderer = PlayerModel.GetComponent<Renderer>();
         smokeBombSkill.Initialize(transform);
     }
 
-    private void Start()
-    {
-        MatchManager.Instance.OnRoundEnd += OnRoundEnd;
-    }
+    
 
-    private void OnDisable()
-    {
-        MatchManager.Instance.OnRoundEnd -= OnRoundEnd;
-    }
-
-    private void OnRoundEnd()
-    {
-        if (MatchManager.Instance.CurrentMatchPhase == MatchPhases.MatchEnd) return;
-        Invoke("ResetPlayer", 2f);
-    }
-
-    private void ResetPlayer()
-    {
-        CurrentHealth = MaxHealth;
-        transform.position = new Vector3(UnityEngine.Random.Range(-10, 10), 1, UnityEngine.Random.Range(-10, 10));
-        transform.rotation = Quaternion.identity;
-        pivotGun.rotation = Quaternion.identity;
-    }
     public void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
         if (CurrentHealth <= 0)
         {
             Die();
-        }
-    }
-
-    public override void Spawned()
-    {
-        transform.name = $"Player_{Object.Id}";
-
-        if(Object.HasInputAuthority)
-        {
-            Local = this;
-            Debug.Log("Spawned Local Player");
-            camera.gameObject.SetActive(true);
-            // camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
-            camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
-            GetComponent<StateMachine>().enabled = true;
-            pivotGun.gameObject.SetActive(false);
-
-
-            TeamUI.GetComponent<TeamSelection>().Show(gameObject);
-            return;
-        }
-
-        camera.gameObject.SetActive(false);
-        Debug.Log("Spawned Remote Player");
-
-    }
-
-    public void PlayerLeft(PlayerRef player)
-    {
-        if (player == Object.InputAuthority)
-        {
-            Runner.Despawn(Object);
         }
     }
     private void Die()
@@ -130,7 +81,7 @@ public class PlayerController : NetworkBehaviour, IPlayerLeft
             }
         }
 
-        //Debug.Log("Player died");
+        Debug.Log("Player died");
         Runner.Despawn(Object);
     }
 
@@ -151,27 +102,52 @@ public class PlayerController : NetworkBehaviour, IPlayerLeft
     public void SetTeam(string team)
     {
         Team = team;
-        ApplyTeamColor();
+        // ApplyTeamColor();
     }
     public string GetTeam()
     {
         return Team;
     }
-    void ApplyTeamColor()
-    {
-        if (Team == "Blue")
+
+    public void Start(){
+        if (numTeam == 1)
         {
-            playerRenderer.material = blueMaterial;
+            gameObject.tag = "Atacante";
         }
-        else if (Team == "Red")
+        if (numTeam == 2)
         {
+            gameObject.tag = "Defensor";
+        }
+
+    }
+
+    // [Rpc(RpcSources.All, RpcTargets.All)]
+    // [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    void RPC_ApplyTeamColor()
+    {
+        // if (Team == "Blue")
+        // {
+        //     playerRenderer.material = blueMaterial;
+        // }
+        // else if (Team == "Red")
+        // {
+        //     playerRenderer.material = redMaterial;
+        // }
+
+        if (gameObject.tag == "Atacante"){
             playerRenderer.material = redMaterial;
+        }
+        if (gameObject.tag == "Defensor"){
+            playerRenderer.material = blueMaterial;
         }
     }
 
 
     private void Update()
     {
+        // if (Object.has)
+        RPC_ApplyTeamColor();
+
         if (smokeBombSkill.Preparing)
         {
             smokeBombSkill.ShowTrajectory(transform);
@@ -202,8 +178,8 @@ public class PlayerController : NetworkBehaviour, IPlayerLeft
             pivotGun.rotation = networkPivotGun;
             transform.position = networkPosition;
 
-            Team = Team;
-            ApplyTeamColor();
+            // this.Team = Team;
+            // this.ApplyTeamColor();
         }
 
     }
@@ -216,8 +192,35 @@ public class PlayerController : NetworkBehaviour, IPlayerLeft
         networkRotation = playerRotation;
         networkPivotGun = gunRotation;
         networkPosition = playerPosition;
-        this.Team = Team;
-        ApplyTeamColor();
+        // this.Team = Team;
+        // ApplyTeamColor();
+    }
+
+    public override void Spawned()
+    {
+        base.Spawned();
+        transform.rotation = Quaternion.identity;
+
+
+        if (Object.HasInputAuthority)
+        {
+            camera.gameObject.GetComponent<Camera>().enabled = !camera.gameObject.GetComponent<Camera>().enabled;
+            camera.GetComponent<FirstPersonCamera>().enabled = !camera.GetComponent<FirstPersonCamera>().enabled;
+
+            // camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
+            camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
+            GetComponent<StateMachine>().enabled = true;
+            // pivotGun.gameObject.SetActive(false);
+
+
+            TeamUI.GetComponent<TeamSelection>().Show(gameObject);
+
+        }
+        else
+        {
+            // camera.gameObject.SetActive(false);
+
+        }
     }
 
 }

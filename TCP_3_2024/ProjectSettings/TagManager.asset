@@ -7,6 +7,9 @@ TagManager:
   - Bullet
   - VirtualCamera
   - area_de_pnatar_bomba
+  - Defensor
+  - Atacante
+  - Undefined
   - atacante
   layers:
   - Default
