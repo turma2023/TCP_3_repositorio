@@ -37,11 +37,15 @@ public class PlayerController : NetworkBehaviour
     [Networked] private Quaternion networkPivotGun { get; set; }
     [Networked] private Vector3 networkPosition { get; set; }
 
+    private int numTeam;
+
     // Skills
     [SerializeField] private SmokeBombSkill smokeBombSkill;
 
     private void Awake()
     {
+        numTeam = UnityEngine.Random.Range(1, 3);
+
         PlayerInputController = new PlayerInputController(GetComponent<PlayerInput>());
         PlayerMovement = GetComponent<PlayerMovement>();
         CurrentHealth = MaxHealth;
@@ -49,6 +53,8 @@ public class PlayerController : NetworkBehaviour
         playerRenderer = PlayerModel.GetComponent<Renderer>();
         smokeBombSkill.Initialize(transform);
     }
+
+    
 
     public void TakeDamage(int damage)
     {
@@ -96,27 +102,52 @@ public class PlayerController : NetworkBehaviour
     public void SetTeam(string team)
     {
         Team = team;
-        ApplyTeamColor();
+        // ApplyTeamColor();
     }
     public string GetTeam()
     {
         return Team;
     }
-    void ApplyTeamColor()
-    {
-        if (Team == "Blue")
+
+    public void Start(){
+        if (numTeam == 1)
         {
-            playerRenderer.material = blueMaterial;
+            gameObject.tag = "Atacante";
         }
-        else if (Team == "Red")
+        if (numTeam == 2)
         {
+            gameObject.tag = "Defensor";
+        }
+
+    }
+
+    // [Rpc(RpcSources.All, RpcTargets.All)]
+    // [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    void RPC_ApplyTeamColor()
+    {
+        // if (Team == "Blue")
+        // {
+        //     playerRenderer.material = blueMaterial;
+        // }
+        // else if (Team == "Red")
+        // {
+        //     playerRenderer.material = redMaterial;
+        // }
+
+        if (gameObject.tag == "Atacante"){
             playerRenderer.material = redMaterial;
+        }
+        if (gameObject.tag == "Defensor"){
+            playerRenderer.material = blueMaterial;
         }
     }
 
 
     private void Update()
     {
+        // if (Object.has)
+        RPC_ApplyTeamColor();
+
         if (smokeBombSkill.Preparing)
         {
             smokeBombSkill.ShowTrajectory(transform);
@@ -147,8 +178,8 @@ public class PlayerController : NetworkBehaviour
             pivotGun.rotation = networkPivotGun;
             transform.position = networkPosition;
 
-            this.Team = Team;
-            this.ApplyTeamColor();
+            // this.Team = Team;
+            // this.ApplyTeamColor();
         }
 
     }
@@ -161,8 +192,8 @@ public class PlayerController : NetworkBehaviour
         networkRotation = playerRotation;
         networkPivotGun = gunRotation;
         networkPosition = playerPosition;
-        this.Team = Team;
-        ApplyTeamColor();
+        // this.Team = Team;
+        // ApplyTeamColor();
     }
 
     public override void Spawned()

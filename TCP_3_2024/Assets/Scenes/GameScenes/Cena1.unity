@@ -140,7 +140,7 @@ PrefabInstance:
     - target: {fileID: -6594754226195438632, guid: 71c3dd93045f8abda9bca9d602c264e1,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -6594754226195438632, guid: 71c3dd93045f8abda9bca9d602c264e1,
         type: 3}
@@ -241,6 +241,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7299474097578385189, guid: 71c3dd93045f8abda9bca9d602c264e1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Undefined
       objectReference: {fileID: 0}
     - target: {fileID: 8652189981951843556, guid: 71c3dd93045f8abda9bca9d602c264e1,
         type: 3}

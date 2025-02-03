@@ -63,6 +63,7 @@ public class GunFire : NetworkBehaviour
     
 
     private void FixedUpdate()
+    // public override void FixedUpdateNetwork()
     {
         if (Object.HasInputAuthority){
 
