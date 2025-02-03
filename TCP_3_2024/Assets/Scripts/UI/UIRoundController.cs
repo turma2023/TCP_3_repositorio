@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System.Security.Cryptography;
 
 public class UIRoundController : MonoBehaviour
 {
@@ -23,8 +20,9 @@ public class UIRoundController : MonoBehaviour
         matchManager = MatchManager.Instance;
         DisableUI();
         matchManager.OnPhaseChanged += UpdatePhasePanel;
-        matchManager.OnPhaseChanged += UpdateRoundPanel;
+        matchManager.OnRoundEnd += UpdateRoundPanel;
         matchManager.OnMatchStart += EnableUI;
+        UpdateRoundPanel();
     }
 
     void Update()
@@ -108,10 +106,8 @@ public class UIRoundController : MonoBehaviour
         }
     }
 
-    private void UpdateRoundPanel(MatchPhases currentPhase)
+    private void UpdateRoundPanel()
     {
-        if (currentPhase != MatchPhases.EndPhase) return;
-
         ASideText.text = matchManager.TeamARoundsWon.ToString();
         BSideText.text = matchManager.TeamBRoundsWon.ToString();
     }
@@ -119,7 +115,7 @@ public class UIRoundController : MonoBehaviour
     private void OnDisable()
     {
         matchManager.OnPhaseChanged -= UpdatePhasePanel;
-        matchManager.OnPhaseChanged -= UpdateRoundPanel;
+        matchManager.OnRoundEnd -= UpdateRoundPanel;
         matchManager.OnMatchStart -= EnableUI;
     }
 }

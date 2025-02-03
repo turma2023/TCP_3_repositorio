@@ -4,62 +4,80 @@ using Fusion;
 using Fusion.Sockets;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
 using Unity.VisualScripting;
 
 public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
 {
     public NetworkRunner Runner { get; private set; }
-    public static Servidor2 Instance { get; private set; }
-    private int maxPlayers = 10; // Defina o número máximo de jogadores por sala
-    private int roomCount = 1; // Contador de salas
-    private GameMode gameMode = GameMode.AutoHostOrClient;
+    [SerializeField] private NetworkPrefabRef character1Prefab;
+    [SerializeField] private NetworkPrefabRef character2Prefab;
+    [SerializeField] private int maxPlayers; // Defina o número máximo de jogadores por sala
+    //private int roomCount = 1; // Contador de salas
+    //private GameMode gameMode = GameMode.AutoHostOrClient;
 
     [SerializeField] public NetworkObject ballPrefab;
 
-
     async void StartGame(GameMode gameMode)
     {
-        Debug.Log("Game Started");
+        if (Runner != null) Destroy(Runner.gameObject);
 
-        if (Runner != null)
+        var connectionResult = await InitializeNetworkRunner(gameMode, NetAddress.Any(), SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex), null);
+
+        if (!CheckConnectionResult(connectionResult))
         {
-            Destroy(Runner.gameObject);
+            StartGame(gameMode);
+            return;
         }
 
-        Runner = new GameObject("NetworkRunner").AddComponent<NetworkRunner>();
-        Runner.ProvideInput = true;
+        FindObjectOfType<UISearchMatchController>().Initialize();
+        //MatchManager.Instance.Initialize();
+    }
 
-        // Adicionar o listener de eventos
+    private bool CheckConnectionResult(StartGameResult connectionResult)
+    {
+        if (!connectionResult.Ok && connectionResult.ShutdownReason == ShutdownReason.GameIsFull)
+        {
+            //roomCount++;
+            return false;
+        }
+
+        return true;
+    }
+
+    public virtual Task<StartGameResult> InitializeNetworkRunner(GameMode gameMode, NetAddress address, SceneRef scene, Action<NetworkRunner> onGameStarted)
+    {
+        Runner = new GameObject("Network Runner").AddComponent<NetworkRunner>();
+
+        Spawner spawner = Runner.AddComponent<Spawner>();
+        spawner.SetPlayableCharactersPrefabs(character1Prefab, character2Prefab);
+
         Runner.AddCallbacks(this);
         Runner.AddCallbacks(FindObjectOfType<HostManager>());
+        Runner.AddCallbacks(spawner);
 
-        var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
+        var sceneManager = Runner.GetComponents(typeof(MonoBehaviour)).OfType<INetworkSceneManager>().FirstOrDefault();
 
-        var startGameArgs = new StartGameArgs()
+        if (sceneManager == null)
         {
-            // ObjectProvider = new PooledNetworkObjectProvider(), //!aqui para ativar o pool
-            GameMode = gameMode,
-            SessionName = "TestRoom3" + roomCount,
-            Scene = scene,
-            SceneManager = Runner.gameObject.AddComponent<NetworkSceneManagerDefault>(),
-            PlayerCount = maxPlayers
-        };
-
-        var result = await Runner.StartGame(startGameArgs);
-
-        if (!result.Ok && result.ShutdownReason == ShutdownReason.GameIsFull)
-        {
-            roomCount++;
-            StartGame(gameMode);
+            sceneManager = Runner.gameObject.AddComponent<NetworkSceneManagerDefault>();
         }
 
-        MatchManager.Instance.Initialize();
+        Runner.ProvideInput = true;
+
+        return Runner.StartGame(new StartGameArgs
+        {
+            GameMode = gameMode,
+            Address = address,
+            Scene = scene,
+            SessionName = "Test Room",
+            OnGameStarted = onGameStarted,
+            SceneManager = sceneManager,
+            PlayerCount = maxPlayers
+        });
     }
 
-    private void Awake()
-    {
-        if (!Instance) Instance = this;
-    }
     private void OnGUI()
     {
         if (Runner == null)
@@ -67,23 +85,35 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
             if (GUI.Button(new Rect(0, 0, 200, 40), "Start Game"))
             {
                 StartGame(GameMode.AutoHostOrClient);
-                gameMode = GameMode.AutoHostOrClient;
+                //gameMode = GameMode.AutoHostOrClient;
             }
             if (GUI.Button(new Rect(0, 40, 200, 40), "Host"))
             {
                 StartGame(GameMode.Host);
-                gameMode = GameMode.Host;
+                //gameMode = GameMode.Host;
             }
             if (GUI.Button(new Rect(0, 80, 200, 40), "Join"))
             {
                 StartGame(GameMode.Client);
-                gameMode = GameMode.Client;
+                //gameMode = GameMode.Client;
             }
         }
     }
 
 
-    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) { }
+    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
+    {
+        if (runner.ActivePlayers.Count() != maxPlayers) return;
+
+        if (!runner.IsSceneAuthority) return;
+
+        // Unload current active scene.
+        runner.UnloadScene(SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex));
+
+        // Load next specified scene.
+        SceneRef sceneRef = runner.GetSceneRef("Cena1TestNewServer");
+        runner.LoadScene(sceneRef, LoadSceneMode.Single);
+    }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { }
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
@@ -107,11 +137,6 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
 
     }
     public void OnSceneLoadStart(NetworkRunner runner)
-    {
-
-    }
-
-    public void OnEnable()
     {
 
     }

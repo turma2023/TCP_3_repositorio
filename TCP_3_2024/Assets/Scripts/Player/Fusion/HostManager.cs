@@ -14,7 +14,9 @@ public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        SpawnPlayer(runner, player);
+        //SpawnPlayer(runner, player);
+
+        Debug.Log("Host Manager On Player Joined");
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -40,19 +42,19 @@ public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
             Vector3 spawnPosition = new Vector3(Random.Range(-10, 10), 1, Random.Range(-10, 10));
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
             _spawnedCharacters.Add(player, networkPlayerObject);
-            Debug.Log("Host Manager Player Joined");
-            Debug.Log("Player ID: " + player.PlayerId);
+            //Debug.Log("Host Manager Player Joined");
+            //Debug.Log("Player ID: " + player.PlayerId);
 
             foreach (var character in _spawnedCharacters)
             {
-                Debug.Log("Joined ID: " + character.Key.PlayerId);
+                //Debug.Log("Joined ID: " + character.Key.PlayerId);
             }
 
 
         }
         else
         {
-            Debug.Log("Sala cheia. Não é possível adicionar mais jogadores.");
+            //Debug.Log("Sala cheia. Não é possível adicionar mais jogadores.");
         }
     }
 
@@ -64,13 +66,13 @@ public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
     public void TransferHost(NetworkRunner runner)
     {
         // Encontrar um novo jogador para ser o host
-        Debug.Log("ta no Tranfer");
+        //Debug.Log("ta no Tranfer");
         foreach (var player in runner.ActivePlayers)
         {
             if (player != Object.InputAuthority)
             {
                 runner.SetPlayerObject(player, runner.GetPlayerObject(player));
-                Debug.Log("Novo host: " + player);
+                //Debug.Log("Novo host: " + player);
                 break;
             }
         }
@@ -96,7 +98,7 @@ public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
     }
     public void OnSceneLoadStart(NetworkRunner runner)
     {
-        Debug.Log("Player Count: " + runner.SessionInfo.PlayerCount);
+        //Debug.Log("Player Count: " + runner.SessionInfo.PlayerCount);
     }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)

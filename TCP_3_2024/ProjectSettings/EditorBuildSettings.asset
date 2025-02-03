@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/GameScenes/Server Test Scenes/SearchMatchPrototype.unity
+    guid: ec158c0472219654483e7b9d15bc262f
+  - enabled: 1
+    path: Assets/Scenes/GameScenes/Server Test Scenes/Cena1TestNewServer.unity
+    guid: 431e502cbf25a744b8fbbf1b41508218
   m_configObjects: {}

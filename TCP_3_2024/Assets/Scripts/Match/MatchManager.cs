@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MatchManager : MonoBehaviour
 {
@@ -61,7 +60,7 @@ public class MatchManager : MonoBehaviour
     public void ReloadScene()
     {
         //SceneManager.LoadScene("Cena1");
-        Servidor2.Instance.Runner.LoadScene("Cena1");
+        //Servidor2.Instance.Runner.LoadScene("Cena1");
     }
 
     public void ResetImportantValues()
@@ -89,12 +88,17 @@ public class MatchManager : MonoBehaviour
                 }
         }
 
-        Debug.Log("Rounds Updated");
     }
 
     public void SetBuyPhaseTime(float time)
     {
         originalBuyPhaseTime = time;
+    }
+
+    public void SetCurrentPhase(MatchPhases phase)
+    {
+        CurrentMatchPhase = phase;
+        OnPhaseChanged?.Invoke(phase);
     }
 
     private void UpdateTimers()
@@ -156,15 +160,15 @@ public class MatchManager : MonoBehaviour
         {
             CurrentMatchPhase = MatchPhases.MatchEnd;
             OnMatchEnd?.Invoke();
-            Debug.Log("Match Ended");
+
         }
     }
     private void OnRoundEnded()
     {
+        UpdateRoundsWon();
         TryEndMatch();
 
         if (CurrentMatchPhase == MatchPhases.MatchEnd) return;
-        UpdateRoundsWon();
         Invoke("ResetImportantValues", 2f);
     }
 

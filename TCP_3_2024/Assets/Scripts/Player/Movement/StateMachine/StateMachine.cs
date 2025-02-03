@@ -1,28 +1,25 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Fusion;
-using UnityEngine;
 
 public class StateMachine : NetworkBehaviour
 {
     private IState currentState;
-    public StateFactory factory { get; private set; }
+    public StateFactory StateFactory { get; private set; }
     public PlayerInputController InputController { get; private set; }
-    
     public PlayerMovement PlayerMovement { get; private set; }
+    public BombHandler BombHandler { get; private set; }
     private void Start()
     {
         PlayerController player = GetComponent<PlayerController>();
         PlayerMovement = player.PlayerMovement;
-        factory = new StateFactory(this);
-        ChangeState(factory.Idle);
+        StateFactory = new StateFactory(this);
+        ChangeState(StateFactory.Idle);
         InputController = player.PlayerInputController;
+        BombHandler = player.BombHandler;
     }
-    
+
     public void ChangeState(IState newState)
-    {   
-        // currentState?.Exit();
+    {
+        //currentState?.Exit();
         if (currentState != null)
         {
             currentState.Exit();
@@ -53,24 +50,41 @@ public class StateMachine : NetworkBehaviour
 
         if (InputController.MoveAction.IsPressed())
         {
-            ChangeState(factory.Walk);
+            ChangeState(StateFactory.Walk);
         }
-        
+
     }
 
     public void TryIdle()
     {
         if (!InputController.MoveAction.IsPressed())
         {
-            ChangeState(factory.Idle);
+            ChangeState(StateFactory.Idle);
         }
     }
 
     public void TryJump()
     {
-        if(InputController.JumpAction.WasPressedThisFrame()){
-            ChangeState(factory.Jump);
+        if (InputController.JumpAction.WasPressedThisFrame())
+        {
+            ChangeState(StateFactory.Jump);
         }
     }
-    
+
+    public void TryPlant()
+    {
+        if (InputController.Interact.IsPressed() && BombHandler.CanPlant)
+        {
+            ChangeState(StateFactory.Plant);
+        }
+    }
+
+    public void TryDefuse()
+    {
+        if (InputController.Interact.IsPressed() && BombHandler.CanDefuse)
+        {
+            ChangeState(StateFactory.Defuse); 
+        }
+    }
+
 }

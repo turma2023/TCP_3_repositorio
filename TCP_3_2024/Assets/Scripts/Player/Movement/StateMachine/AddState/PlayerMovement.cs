@@ -1,8 +1,5 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using Fusion;
-using Unity.Mathematics;
 
 
 public class PlayerMovement : NetworkBehaviour

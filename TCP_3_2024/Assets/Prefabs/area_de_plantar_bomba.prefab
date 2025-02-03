@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 573655649019845715}
   - component: {fileID: 9155312269482596323}
   - component: {fileID: 4129403724359569009}
-  - component: {fileID: 144139178759744637}
   m_Layer: 0
   m_Name: area_de_plantar_bomba
   m_TagString: area_de_pnatar_bomba
@@ -106,15 +105,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 6.8419127, z: 1}
   m_Center: {x: 0, y: 2.9209569, z: 0}
---- !u!114 &144139178759744637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7367966022796524299}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bfa3c9afd5bcae429633a34a6d8d58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

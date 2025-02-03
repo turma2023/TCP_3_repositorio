@@ -1,12 +1,8 @@
-using System.Linq;
-using Cinemachine;
 using Fusion;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : NetworkBehaviour
+public class PlayerController : NetworkBehaviour, IPlayerLeft
 {
 
     // !cor de cada lado 
@@ -17,6 +13,8 @@ public class PlayerController : NetworkBehaviour
     [Networked] public string Team { get; set; }
 
     [SerializeField] private GameObject TeamUI;
+
+    public PlayerController Local {  get; private set; }
 
     //! fim cor de cada lado      
 
@@ -32,6 +30,7 @@ public class PlayerController : NetworkBehaviour
 
     public PlayerMovement PlayerMovement { get; private set; }
     public PlayerInputController PlayerInputController { get; private set; }
+    public BombHandler BombHandler { get; private set; }
 
     [Networked] private Quaternion networkRotation { get; set; }
     [Networked] private Quaternion networkPivotGun { get; set; }
@@ -45,6 +44,7 @@ public class PlayerController : NetworkBehaviour
         PlayerInputController = new PlayerInputController(GetComponent<PlayerInput>());
         PlayerMovement = GetComponent<PlayerMovement>();
         CurrentHealth = MaxHealth;
+        BombHandler = GetComponent<BombHandler>();
 
         playerRenderer = PlayerModel.GetComponent<Renderer>();
         smokeBombSkill.Initialize(transform);
@@ -81,6 +81,38 @@ public class PlayerController : NetworkBehaviour
             Die();
         }
     }
+
+    public override void Spawned()
+    {
+        transform.name = $"Player_{Object.Id}";
+
+        if(Object.HasInputAuthority)
+        {
+            Local = this;
+            Debug.Log("Spawned Local Player");
+            camera.gameObject.SetActive(true);
+            // camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
+            camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
+            GetComponent<StateMachine>().enabled = true;
+            pivotGun.gameObject.SetActive(false);
+
+
+            TeamUI.GetComponent<TeamSelection>().Show(gameObject);
+            return;
+        }
+
+        camera.gameObject.SetActive(false);
+        Debug.Log("Spawned Remote Player");
+
+    }
+
+    public void PlayerLeft(PlayerRef player)
+    {
+        if (player == Object.InputAuthority)
+        {
+            Runner.Despawn(Object);
+        }
+    }
     private void Die()
     {
 
@@ -98,7 +130,7 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
-        Debug.Log("Player died");
+        //Debug.Log("Player died");
         Runner.Despawn(Object);
     }
 
@@ -170,8 +202,8 @@ public class PlayerController : NetworkBehaviour
             pivotGun.rotation = networkPivotGun;
             transform.position = networkPosition;
 
-            this.Team = Team;
-            this.ApplyTeamColor();
+            Team = Team;
+            ApplyTeamColor();
         }
 
     }
@@ -186,31 +218,6 @@ public class PlayerController : NetworkBehaviour
         networkPosition = playerPosition;
         this.Team = Team;
         ApplyTeamColor();
-    }
-
-    public override void Spawned()
-    {
-        base.Spawned();
-        transform.rotation = Quaternion.identity;
-
-
-        if (Object.HasInputAuthority)
-        {
-            camera.gameObject.SetActive(true);
-            // camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
-            camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
-            GetComponent<StateMachine>().enabled = true;
-            pivotGun.gameObject.SetActive(false);
-
-
-            TeamUI.GetComponent<TeamSelection>().Show(gameObject);
-
-        }
-        else
-        {
-            camera.gameObject.SetActive(false);
-
-        }
     }
 
 }
