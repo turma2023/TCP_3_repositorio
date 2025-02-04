@@ -36,6 +36,7 @@ public class PlayerController : NetworkBehaviour
     [Networked] private Quaternion networkRotation { get; set; }
     [Networked] private Quaternion networkPivotGun { get; set; }
     [Networked] private Vector3 networkPosition { get; set; }
+    public BombHandler BombHandler { get; private set; }
 
     private int numTeam;
 
@@ -52,6 +53,7 @@ public class PlayerController : NetworkBehaviour
 
         playerRenderer = PlayerModel.GetComponent<Renderer>();
         smokeBombSkill.Initialize(transform);
+        BombHandler = GetComponent<BombHandler>();
     }
 
     
