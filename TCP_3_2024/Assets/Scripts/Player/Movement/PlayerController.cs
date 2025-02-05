@@ -38,8 +38,6 @@ public class PlayerController : NetworkBehaviour
     [Networked] private Vector3 networkPosition { get; set; }
     public BombHandler BombHandler { get; private set; }
 
-    public BombHandler BombHandler { get; private set; }
-
     private int numTeam;
 
     // Skills

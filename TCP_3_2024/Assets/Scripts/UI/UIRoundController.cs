@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-
 public class UIRoundController : MonoBehaviour
 {
     [Header("Timer Panel References")]
