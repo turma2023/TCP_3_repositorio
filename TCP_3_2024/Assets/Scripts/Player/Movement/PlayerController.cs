@@ -37,6 +37,8 @@ public class PlayerController : NetworkBehaviour
     [Networked] private Quaternion networkPivotGun { get; set; }
     [Networked] private Vector3 networkPosition { get; set; }
 
+    public BombHandler BombHandler { get; private set; }
+
     private int numTeam;
 
     // Skills

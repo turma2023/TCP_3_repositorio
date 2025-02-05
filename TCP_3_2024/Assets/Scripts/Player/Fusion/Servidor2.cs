@@ -108,10 +108,12 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
         if (!runner.IsSceneAuthority) return;
 
         // Unload current active scene.
-        runner.UnloadScene(SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex));
+        // runner.UnloadScene(SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex));
 
         // Load next specified scene.
-        SceneRef sceneRef = runner.GetSceneRef("Cena1TestNewServer");
+        // SceneRef sceneRef = runner.GetSceneRef("Cena1TestNewServer");
+        SceneRef sceneRef = runner.GetSceneRef("ChangeCharacter");
+
         runner.LoadScene(sceneRef, LoadSceneMode.Single);
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { }
