@@ -5,12 +5,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using Photon.Realtime;
 
 public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     private NetworkPrefabRef character1Prefab;
     private NetworkPrefabRef character2Prefab;
     private NetworkPrefabRef selectedCharacter;
+    private Dictionary<PlayerRef, NetworkPrefabRef> selectedCharactersDictionary;
+
+    private void Start()
+    {
+        selectedCharactersDictionary = new Dictionary<PlayerRef, NetworkPrefabRef>();
+    }
 
     public void SetPlayableCharactersPrefabs(NetworkPrefabRef character1, NetworkPrefabRef character2)
     {
@@ -20,14 +27,26 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
     }
 
-    public void SetSelectedCharacter(NetworkPrefabRef selectedCharacter)
+    public void SetSelectedCharacter(NetworkRunner runner, NetworkPrefabRef selectedCharacter)
     {
-        this.selectedCharacter = selectedCharacter;
+        foreach (PlayerRef playerRef in runner.ActivePlayers)
+        {
+            if (playerRef == runner.LocalPlayer)
+            {
+                selectedCharactersDictionary.Add(playerRef, selectedCharacter);
+            }
+        }
     }
 
-    public void SpawnSelectedPlayer(NetworkRunner runner, PlayerRef player)
+    public void SpawnSelectedPlayer(NetworkRunner runner, PlayerRef playerRef)
     {
+        if (!runner.IsSceneAuthority) return;
 
+        if (selectedCharactersDictionary.ContainsKey(playerRef))
+        {
+            runner.Spawn(selectedCharactersDictionary[playerRef], new Vector3(UnityEngine.Random.Range(-10, 10), 1, UnityEngine.Random.Range(-10, 10)), Quaternion.identity, playerRef);
+            selectedCharactersDictionary.Remove(playerRef);
+        }
     }
 
     private void SpawnAllPlayers(NetworkRunner runner)
@@ -114,7 +133,10 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
         if (SceneManager.GetActiveScene().name == "Cena1TestNewServer")
         {
-            SpawnAllPlayers(runner);
+            foreach (PlayerRef playerRef in runner.ActivePlayers)
+            {
+                SpawnSelectedPlayer(runner, playerRef);
+            }
         }
     }
 
