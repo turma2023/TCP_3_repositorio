@@ -40,7 +40,7 @@ public class PlayerSelectionManager : MonoBehaviour
     public void SetDefaultCharacter()
     {
         //spawner.SetDefaultCharacter(runner);
-        buttonList[0].OnClick();
+        buttonList[1].OnClick();
     }
 
     private void SelectCharacter(PlayerSelectionButton playerSelectionButton, NetworkObject characterPrefab)

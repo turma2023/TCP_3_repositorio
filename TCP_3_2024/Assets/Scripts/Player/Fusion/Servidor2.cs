@@ -21,10 +21,6 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkObject character1Prefab;
     [SerializeField] private NetworkObject character2Prefab;
 
-    [Header("Other Network Objects")]
-    [SerializeField] private NetworkObject ballPrefab;
-
-
     [Header("Server Settings")]
     [SerializeField] private int maxNumberOfPlayers;
 
