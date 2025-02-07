@@ -46,10 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35653422fb6a6e0a3acbf6bf02c9b52b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character1Prefab:
-    RawGuidValue: 71c3dd93045f8abda9bca9d602c264e1
-  character2Prefab:
-    RawGuidValue: 00000000000000000000000000000000
+  serverTimerPrefab: {fileID: 6419087459547311166, guid: ae047d600982df340908c6d42149d111,
+    type: 3}
+  character1Prefab: {fileID: -6594754226195438632, guid: 71c3dd93045f8abda9bca9d602c264e1,
+    type: 3}
+  character2Prefab: {fileID: -6594754226195438632, guid: 71c3dd93045f8abda9bca9d602c264e1,
+    type: 3}
+  maxPlayers: 1
   ballPrefab: {fileID: 0}
 --- !u!114 &4217141445084327973
 MonoBehaviour:

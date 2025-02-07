@@ -9,17 +9,16 @@ using Photon.Realtime;
 
 public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 {
-    private NetworkPrefabRef character1Prefab;
-    private NetworkPrefabRef character2Prefab;
-    private NetworkPrefabRef selectedCharacter;
-    private Dictionary<PlayerRef, NetworkPrefabRef> selectedCharactersDictionary;
+    private NetworkObject character1Prefab;
+    private NetworkObject character2Prefab;
+    private Dictionary<PlayerRef, NetworkObject> selectedCharactersDictionary;
 
     private void Start()
     {
-        selectedCharactersDictionary = new Dictionary<PlayerRef, NetworkPrefabRef>();
+        selectedCharactersDictionary = new Dictionary<PlayerRef, NetworkObject>();
     }
 
-    public void SetPlayableCharactersPrefabs(NetworkPrefabRef character1, NetworkPrefabRef character2)
+    public void SetPlayableCharactersPrefabs(NetworkObject character1, NetworkObject character2)
     {
         if (character1 != null) character1Prefab = character1;
 
@@ -27,17 +26,22 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
     }
 
-    public void SetSelectedCharacter(NetworkRunner runner, NetworkPrefabRef selectedCharacter)
+    public void SetSelectedCharacter(NetworkRunner runner, NetworkObject selectedCharacter)
     {
         foreach (PlayerRef playerRef in runner.ActivePlayers)
         {
             if (playerRef == runner.LocalPlayer)
             {
-                selectedCharactersDictionary.Add(playerRef, selectedCharacter);
+                if (!selectedCharactersDictionary.ContainsKey(playerRef))
+                    selectedCharactersDictionary.Add(playerRef, selectedCharacter);
             }
         }
     }
 
+    public void SetDefaultCharacter(NetworkRunner runner)
+    {
+        SetSelectedCharacter(runner, character1Prefab);
+    }
     public void SpawnSelectedPlayer(NetworkRunner runner, PlayerRef playerRef)
     {
         if (!runner.IsSceneAuthority) return;
@@ -59,7 +63,6 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
             }
         }
     }
-
     public void SpawnDefaultPlayer(NetworkRunner runner, PlayerRef player)
     {
         if (runner.IsServer)

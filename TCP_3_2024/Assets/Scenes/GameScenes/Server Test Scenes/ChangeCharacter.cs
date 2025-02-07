@@ -10,34 +10,47 @@ public class ChangeCharacter : NetworkBehaviour, IPointerEnterHandler, IPointerE
 {
     
     private Button btnPlayer;
-    public NetworkObject prefabPlayer;
+    public NetworkObject playerPrefab;
 
     private Spawner spawner;
     private NetworkObject spawnedPlayer;
     private NetworkRunner runner;
+    [SerializeField] private Image highlight;
+    private bool hasClicked;
 
     void Start()
     {
         spawner = FindObjectOfType<Spawner>();
         runner = spawner.GetComponent<NetworkRunner>();
         btnPlayer = GetComponent<Button>();
+        //highlight = GetComponentInChildren<Image>(true);
         // btnPlayer.onClick.AddListener(() => spawner.SetSelectedCharacter(prefabPlayer));
     }
 
         // Método chamado quando o mouse entra no botão
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (hasClicked) return;
         Debug.Log("Mouse entrou no botão");
-        SpawnPlayerAtCenter();
+        highlight.gameObject.SetActive(true);
+        //SpawnPlayerAtCenter();
     }
 
     // Método chamado quando o mouse sai do botão
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (hasClicked) return;
         Debug.Log("Mouse saiu do botão");
-        DespawnPlayer();
+        highlight.gameObject.SetActive(false);
+        //DespawnPlayer();
     }
 
+    public void OnClick()
+    {
+        highlight.gameObject.SetActive(true);
+        highlight.color = new Color(255 / 255f, 0 / 255f, 0 / 255f, 0.85f);
+        hasClicked = !hasClicked;
+    }
     void SpawnPlayerAtCenter()
     {
         if (spawnedPlayer == null)
@@ -50,7 +63,7 @@ public class ChangeCharacter : NetworkBehaviour, IPointerEnterHandler, IPointerE
                 rotation = Quaternion.Euler(rotation.eulerAngles.x, rotation.eulerAngles.y + 180, rotation.eulerAngles.z);
 
                 // spawnedPlayer = runner.Spawn(prefabPlayer, worldPosition, rotation);
-                spawnedPlayer = Instantiate(prefabPlayer, worldPosition, rotation);
+                spawnedPlayer = Instantiate(playerPrefab, worldPosition, rotation);
 
 
                 spawnedPlayer.GetComponentInChildren<Camera>().transform.rotation = rotation;

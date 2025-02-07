@@ -1,19 +1,19 @@
 using System;
+using Fusion;
 using UnityEngine;
 
-public class MatchManager : MonoBehaviour
+public class MatchManager : NetworkBehaviour
 {
-    public static MatchManager Instance { get; private set; }
-    [field: SerializeField] public float RoundTime { get; private set; }
-    private float originalRoundTime;
-    [field: SerializeField] public float BuyPhaseTime { get; private set; }
-    private float originalBuyPhaseTime;
+    [field: SerializeField] public float? RoundTime { get; private set; }
+    private float? originalRoundTime;
+    [field: SerializeField] public float? BuyPhaseTime { get; private set; }
+    private float? originalBuyPhaseTime;
     [field: SerializeField] public int MaxNumberOfRounds { get; private set; }
     public MatchPhases CurrentMatchPhase { get; private set; }
 
     public bool IsInitialized { get; private set; }
-    public int TeamARoundsWon { get; private set; }
-    public int TeamBRoundsWon { get; private set; }
+    [Networked] public int TeamARoundsWon { get; private set; }
+    [Networked] public int TeamBRoundsWon { get; private set; }
     public int TotalRoundsCount => TeamARoundsWon + TeamBRoundsWon;
 
     public event Action OnBuyPhaseStart;
@@ -27,18 +27,24 @@ public class MatchManager : MonoBehaviour
 
     public event Action<MatchPhases> OnPhaseChanged;
 
+    private ServerTimer serverTimer;
 
     private void Awake()
     {
-        if (!Instance) Instance = this;
         DontDestroyOnLoad(gameObject);
 
         originalBuyPhaseTime = BuyPhaseTime;
         originalRoundTime = RoundTime;
+
+        serverTimer = FindObjectOfType<ServerTimer>();
+        serverTimer.OnTimerExpired += OnServerTimerEnd;
+        OnRoundEnd += OnRoundEnded;
+
+        Initialize();
     }
     void Start()
     {
-        OnRoundEnd += OnRoundEnded;
+        
     }
 
     void Update()
@@ -57,12 +63,6 @@ public class MatchManager : MonoBehaviour
         OnMatchStart?.Invoke();
     }
 
-    public void ReloadScene()
-    {
-        //SceneManager.LoadScene("Cena1");
-        //Servidor2.Instance.Runner.LoadScene("Cena1");
-    }
-
     public void ResetImportantValues()
     {
         RoundTime = originalRoundTime;
@@ -72,6 +72,8 @@ public class MatchManager : MonoBehaviour
 
     public void UpdateRoundsWon()
     {
+        if (!Runner.IsServer) return;
+
         int random = UnityEngine.Random.Range(0, 2);
         switch (random)
         {
@@ -106,11 +108,11 @@ public class MatchManager : MonoBehaviour
 
         if (BuyPhaseTime > 0f)
         {
-            BuyPhaseTime -= Time.deltaTime;
+            BuyPhaseTime = serverTimer.RemainingTime();
             return;
         }
 
-        if (RoundTime > 0f) RoundTime -= Time.deltaTime;
+        if (RoundTime > 0f) RoundTime = serverTimer.RemainingTime();
 
     }
 
@@ -156,7 +158,7 @@ public class MatchManager : MonoBehaviour
 
     private void TryEndMatch()
     {
-        if (CurrentMatchPhase == MatchPhases.EndPhase && TeamARoundsWon + TeamBRoundsWon >= MaxNumberOfRounds)
+        if (CurrentMatchPhase == MatchPhases.EndPhase && TotalRoundsCount >= MaxNumberOfRounds)
         {
             CurrentMatchPhase = MatchPhases.MatchEnd;
             OnMatchEnd?.Invoke();
@@ -172,9 +174,15 @@ public class MatchManager : MonoBehaviour
         Invoke("ResetImportantValues", 2f);
     }
 
+    private void OnServerTimerEnd()
+    {
+
+    }
+
     private void OnDisable()
     {
-        OnMatchEnd -= OnRoundEnded;
+        serverTimer.OnTimerExpired -= OnServerTimerEnd;
+        OnRoundEnd -= OnRoundEnded;
     }
 }
 

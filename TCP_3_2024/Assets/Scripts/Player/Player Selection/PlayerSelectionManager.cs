@@ -1,38 +1,63 @@
 using System;
+using Fusion;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerSelectionManager : MonoBehaviour
 {
+    public bool HasSelected {  get; private set; }
     private PlayerSelectionButton[] buttonList;
     [SerializeField] private Button cancelSelectionButton;
 
+    public event Action OnPlayerSelected;
     public event Action OnSelectionCanceled;
+
+    private Spawner spawner;
+    private NetworkRunner runner;
     private void Awake()
     {
         DisableCancelSelection();
         buttonList = GetComponentsInChildren<PlayerSelectionButton>();
         foreach (PlayerSelectionButton button in buttonList)
         {
-            button.OnPlayerSelected += OnPlayerSelected;
+            button.OnPlayerSelected += SelectCharacter;
         }
-        
+    }
+
+    private void Start()
+    {
+        runner = FindObjectOfType<NetworkRunner>();
+        spawner = runner.GetComponent<Spawner>();
     }
 
     public void CancelSelection()
     {
+        HasSelected = false;
         OnSelectionCanceled?.Invoke();
         DisableCancelSelection();
     }
 
-    private void OnPlayerSelected(PlayerSelectionButton playerSelectionButton)
+    public void SetDefaultCharacter()
+    {
+        //spawner.SetDefaultCharacter(runner);
+        buttonList[0].OnClick();
+    }
+
+    private void SelectCharacter(PlayerSelectionButton playerSelectionButton, NetworkObject characterPrefab)
     {
         EnableCancelSelection();
         foreach (PlayerSelectionButton button in buttonList)
         {
-            if (button == playerSelectionButton) continue;
+            if (button == playerSelectionButton)
+            {
+                spawner.SetSelectedCharacter(runner, characterPrefab);
+                HasSelected = true;
+                continue;
+            }
             button.DisableSelection();
         }
+
+        OnPlayerSelected?.Invoke();
     }
     
     private void EnableCancelSelection()
@@ -49,7 +74,7 @@ public class PlayerSelectionManager : MonoBehaviour
     {
         foreach (PlayerSelectionButton button in buttonList)
         {
-            button.OnPlayerSelected -= OnPlayerSelected;
+            button.OnPlayerSelected -= SelectCharacter;
         }
     }
 }

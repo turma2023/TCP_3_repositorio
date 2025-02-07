@@ -13,19 +13,39 @@ public class UIRoundController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI BSideText;
 
     private MatchManager matchManager;
+    private bool initialized;
 
     void Start()
     {
-        matchManager = MatchManager.Instance;
         DisableUI();
+        //AssignMatchManager();
+        //Initialize();
+    }
+
+    private void AssignMatchManager()
+    {
+        if (matchManager == null)
+        {
+            matchManager = FindObjectOfType<MatchManager>();
+        }
+    }
+
+    private void Initialize()
+    {
+        if (initialized) return;
+
         matchManager.OnPhaseChanged += UpdatePhasePanel;
         matchManager.OnRoundEnd += UpdateRoundPanel;
         matchManager.OnMatchStart += EnableUI;
+        EnableUI();
         UpdateRoundPanel();
+        initialized = true;
     }
 
     void Update()
     {
+        AssignMatchManager();
+        Initialize();
         UpdateTimerPanel();
     }
 
@@ -48,7 +68,7 @@ public class UIRoundController : MonoBehaviour
     {
         if (matchManager.BuyPhaseTime > 0)
         {
-            timerText.text = Mathf.CeilToInt(matchManager.BuyPhaseTime).ToString("F0");
+            timerText.text = Mathf.CeilToInt((float)matchManager.BuyPhaseTime).ToString("F0");
             return;
         }
 
@@ -57,19 +77,20 @@ public class UIRoundController : MonoBehaviour
 
             case > 3:
                 {
-                    timerText.text = Mathf.CeilToInt(matchManager.RoundTime).ToString("F0");
+                    timerText.text = Mathf.CeilToInt((float)matchManager.RoundTime).ToString("F0");
                     break;
                 }
 
             case float n when n > 0 && n < 3:
                 {
-                    timerText.text = matchManager.RoundTime.ToString("F1");
+                    float roundTime = (float)matchManager.RoundTime;
+                    timerText.text = roundTime.ToString("F1");
                     break;
                 }
 
             case float n when n <= 0:
                 {
-                    timerText.text = Mathf.CeilToInt(matchManager.RoundTime).ToString("F0");
+                    timerText.text = Mathf.CeilToInt((float)matchManager.RoundTime).ToString("F0");
                     break;
                 }
         }

@@ -11,19 +11,32 @@ using Unity.VisualScripting;
 public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
 {
     public NetworkRunner Runner { get; private set; }
-    [SerializeField] private NetworkPrefabRef character1Prefab;
-    [SerializeField] private NetworkPrefabRef character2Prefab;
-    [SerializeField] private int maxPlayers; // Defina o número máximo de jogadores por sala
-    //private int roomCount = 1; // Contador de salas
-    //private GameMode gameMode = GameMode.AutoHostOrClient;
 
-    [SerializeField] public NetworkObject ballPrefab;
+    [Header("Network Static Objects")]
+    [SerializeField] NetworkObject serverTimerPrefab;
+    [SerializeField] NetworkObject matchManagerPrefab;
+
+
+    [Header("Network Character prefabs")]
+    [SerializeField] private NetworkObject character1Prefab;
+    [SerializeField] private NetworkObject character2Prefab;
+
+    [Header("Other Network Objects")]
+    [SerializeField] private NetworkObject ballPrefab;
+
+
+    [Header("Server Settings")]
+    [SerializeField] private int maxNumberOfPlayers;
+
 
     async void StartGame(GameMode gameMode)
     {
+        DontDestroyOnLoad(gameObject);
         if (Runner != null) Destroy(Runner.gameObject);
 
         var connectionResult = await InitializeNetworkRunner(gameMode, NetAddress.Any(), SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex), null);
+        NetworkObject serverTimer = Runner.Spawn(serverTimerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
+        DontDestroyOnLoad(serverTimer);
 
         if (!CheckConnectionResult(connectionResult))
         {
@@ -35,6 +48,14 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
         //MatchManager.Instance.Initialize();
     }
 
+    public void LoadNextScene(NetworkRunner runner, string sceneName)
+    {
+        if (!runner.IsSceneAuthority) return;
+
+        SceneRef sceneRef = runner.GetSceneRef(sceneName);
+
+        runner.LoadScene(sceneRef, LoadSceneMode.Single);
+    }
     private bool CheckConnectionResult(StartGameResult connectionResult)
     {
         if (!connectionResult.Ok && connectionResult.ShutdownReason == ShutdownReason.GameIsFull)
@@ -56,6 +77,7 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
         Runner.AddCallbacks(this);
         Runner.AddCallbacks(FindObjectOfType<HostManager>());
         Runner.AddCallbacks(spawner);
+        
 
         var sceneManager = Runner.GetComponents(typeof(MonoBehaviour)).OfType<INetworkSceneManager>().FirstOrDefault();
 
@@ -66,6 +88,8 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
 
         Runner.ProvideInput = true;
 
+        
+
         return Runner.StartGame(new StartGameArgs
         {
             GameMode = gameMode,
@@ -74,10 +98,9 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
             SessionName = "Test Room",
             OnGameStarted = onGameStarted,
             SceneManager = sceneManager,
-            PlayerCount = maxPlayers
+            PlayerCount = maxNumberOfPlayers
         });
     }
-
     private void OnGUI()
     {
         if (Runner == null)
@@ -103,7 +126,7 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        if (runner.ActivePlayers.Count() != maxPlayers) return;
+        if (runner.ActivePlayers.Count() != maxNumberOfPlayers) return;
 
         if (!runner.IsSceneAuthority) return;
 
@@ -136,10 +159,15 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
     public void OnSceneLoadDone(NetworkRunner runner)
     {
+        if (!runner.IsSceneAuthority) return;
 
+        if (SceneManager.GetActiveScene().name == "Cena1TestNewServer")
+        {
+            Runner.Spawn(matchManagerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
+        }
     }
     public void OnSceneLoadStart(NetworkRunner runner)
     {
-
+            
     }
 }

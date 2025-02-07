@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class PlayerSelectionButton : UIHover
 {
-    [SerializeField] private NetworkObject playerPrefab;
+    [field: SerializeField] public NetworkObject playerPrefab { get; private set; }
 
     private Button button;
     private PlayerSelectionManager playerSelectionManager;
-    public event Action<PlayerSelectionButton> OnPlayerSelected;
+    public event Action<PlayerSelectionButton, NetworkObject> OnPlayerSelected;
     void Start()
     {
         button = GetComponent<Button>();
@@ -38,7 +38,7 @@ public class PlayerSelectionButton : UIHover
         highlight.fillCenter = true;
         highlight.color = new Color(255 / 255f, 0 / 255f, 0 / 255f, 0.85f);
         hasClicked = true;
-        OnPlayerSelected?.Invoke(this);
+        OnPlayerSelected?.Invoke(this, playerPrefab);
         button.enabled = false;
     }
 
