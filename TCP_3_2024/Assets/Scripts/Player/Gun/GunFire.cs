@@ -161,12 +161,12 @@ public class GunFire : NetworkBehaviour
 
         Debug.Log(playerController.GetTeam());
 
-        if (this.playerController.Team != playerController.Team)
+        if (this.playerController.tag != playerController.tag)
         {
-            Debug.Log("Dano no time: " + playerController.Team);
-            // playerController.TakeDamage(damage); 
+            Debug.Log("Dano no time: " + playerController.tag);
+            playerController.TakeDamage(damage); 
         }else{
-            Debug.Log("sem dano no time: " + playerController.Team);
+            Debug.Log("sem dano no time: " + playerController.tag);
         }
         
             

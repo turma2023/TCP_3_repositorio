@@ -11,6 +11,7 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkObject character2Prefab;
     public Dictionary<int, NetworkObject> SelectedCharactersDictionary { get; set; }
 
+    private int numTeam;
 
     private void Awake()
     {
@@ -21,12 +22,30 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
         SelectedCharactersDictionary = new Dictionary<int, NetworkObject>();
     }
 
+
     public void SetPlayableCharactersPrefabs(NetworkObject character1, NetworkObject character2)
     {
+        
+        SetTeam(character1, character2);
         if (character1 != null) character1Prefab = character1;
 
         if (character2 != null) character2Prefab = character2;
+    
+    }
 
+    private void SetTeam(NetworkObject character1, NetworkObject character2){
+        numTeam = UnityEngine.Random.Range(1, 3);
+        if (numTeam == 1)
+        {
+            character1.tag = "Atacante";
+            character2.tag = "Atacante";
+
+        }
+        if (numTeam == 2)
+        {
+            character1.tag = "Defensor";
+            character2.tag = "Defensor";
+        }
     }
 
     public void SetSelectedCharacter(PlayerRef playerRef, int selectedCharacter)
@@ -42,46 +61,6 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
         SelectedCharactersDictionary.TryAdd(playerRef.PlayerId, selectedCharacter);
     }
 
-    //[Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    //public void RPC_SetDefaultCharacter(NetworkRunner runner)
-    //{
-    //    RPC_SetSelectedCharacter(runner, character1Prefab);
-    //}
-    public void SpawnSelectedPlayer(NetworkRunner runner, PlayerRef playerRef)
-    {
-        if (!runner.IsServer) return;
-        //Debug.Log(selectedCharactersDictionary.Count);
-
-        //foreach (PlayerRef player in runner.ActivePlayers)
-        //{
-        //    if (selectedCharactersDictionary.ContainsKey(player))
-        //    {
-        //        runner.Spawn(selectedCharactersDictionary[player], new Vector3(UnityEngine.Random.Range(-10, 10), 1, UnityEngine.Random.Range(-10, 10)), Quaternion.identity, playerRef);
-        //        selectedCharactersDictionary.Remove(player);
-        //    }
-        //}
-
-    }
-
-    //public override void Spawned()
-    //{
-    //    if (PlayerSelection.selected == 1) Spawn(character1Prefab);
-    //    if (PlayerSelection.selected == 2) Spawn(character2Prefab);
-
-    //    void Spawn(NetworkObject prefab)
-    //    {
-    //        if (prefab == null)
-    //        {
-    //            Debug.Log("Prefab null on spawn");
-    //        }
-
-    //        foreach (PlayerRef player in Runner.ActivePlayers)
-    //        {
-    //            Runner.Spawn(prefab, new Vector3(UnityEngine.Random.Range(-10, 10), 1, UnityEngine.Random.Range(-10, 10)), Quaternion.identity, player);
-    //        }
-    //    }
-
-    //}
     private void SpawnAllPlayers()
     {
         if (!Runner.IsServer) return;
@@ -96,6 +75,7 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
             }
         }
     }
+
     public void SpawnDefaultPlayer(NetworkRunner runner, PlayerRef player)
     {
         if (runner.IsServer)
@@ -134,7 +114,6 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
@@ -166,6 +145,8 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnSceneLoadDone(NetworkRunner runner)
     {
+        if (!runner.IsSceneAuthority) return;
+
         if (SceneManager.GetActiveScene().name == "Cena1TestNewServer")
         {
             SpawnAllPlayers();
