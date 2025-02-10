@@ -12,18 +12,38 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
     private NetworkObject character1Prefab;
     private NetworkObject character2Prefab;
     private Dictionary<PlayerRef, NetworkObject> selectedCharactersDictionary;
+    private int numTeam;
 
     private void Start()
     {
+        
+
         selectedCharactersDictionary = new Dictionary<PlayerRef, NetworkObject>();
     }
 
     public void SetPlayableCharactersPrefabs(NetworkObject character1, NetworkObject character2)
     {
+        
+        SetTeam(character1, character2);
         if (character1 != null) character1Prefab = character1;
 
         if (character2 != null) character2Prefab = character2;
+    
+    }
 
+    private void SetTeam(NetworkObject character1, NetworkObject character2){
+        numTeam = UnityEngine.Random.Range(1, 3);
+        if (numTeam == 1)
+        {
+            character1.tag = "Atacante";
+            character2.tag = "Atacante";
+
+        }
+        if (numTeam == 2)
+        {
+            character1.tag = "Defensor";
+            character2.tag = "Defensor";
+        }
     }
 
     public void SetSelectedCharacter(NetworkRunner runner, NetworkObject selectedCharacter)

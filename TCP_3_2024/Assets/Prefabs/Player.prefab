@@ -774,7 +774,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 8008c0ac3f2ad304e95ec80c2937c959, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -948,7 +948,7 @@ GameObject:
   - component: {fileID: 8855907806312619251}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Atacante
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1178,15 +1178,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2cff7d33b18ca4fad6024206bbdff6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tem_bomba: 1
-  ponto_de_apareciemnto: {fileID: 8701779087536696405}
-  layerChao:
+  referencePoint: {fileID: 0}
+  groundLayer:
     serializedVersion: 2
-    m_Bits: 128
-  bomba: {fileID: 5309684309488290011, guid: dfe030d776434f54ca7f8c4128378380, type: 3}
-  esta_em_uma_area_de_plantar_bomba: 0
-  tempo_para_plantar: 2
-  tempo_corido: 0
+    m_Bits: 0
+  bombPrefab: {fileID: 0}
+  timeToPlant: 0
+  timeToDefuse: 0
 --- !u!1 &8858427907013089677
 GameObject:
   m_ObjectHideFlags: 0

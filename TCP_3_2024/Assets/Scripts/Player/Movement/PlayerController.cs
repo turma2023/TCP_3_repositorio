@@ -45,7 +45,7 @@ public class PlayerController : NetworkBehaviour
 
     private void Awake()
     {
-        numTeam = UnityEngine.Random.Range(1, 3);
+        // numTeam = UnityEngine.Random.Range(1, 3);
 
         PlayerInputController = new PlayerInputController(GetComponent<PlayerInput>());
         PlayerMovement = GetComponent<PlayerMovement>();
@@ -112,14 +112,14 @@ public class PlayerController : NetworkBehaviour
     }
 
     public void Start(){
-        if (numTeam == 1)
-        {
-            gameObject.tag = "Atacante";
-        }
-        if (numTeam == 2)
-        {
-            gameObject.tag = "Defensor";
-        }
+        // if (numTeam == 1)
+        // {
+        //     gameObject.tag = "Atacante";
+        // }
+        // if (numTeam == 2)
+        // {
+        //     gameObject.tag = "Defensor";
+        // }
 
     }
 
@@ -136,12 +136,12 @@ public class PlayerController : NetworkBehaviour
         //     playerRenderer.material = redMaterial;
         // }
 
-        if (gameObject.tag == "Atacante"){
-            playerRenderer.material = redMaterial;
-        }
-        if (gameObject.tag == "Defensor"){
-            playerRenderer.material = blueMaterial;
-        }
+        // if (gameObject.tag == "Atacante"){
+        //     playerRenderer.material = redMaterial;
+        // }
+        // if (gameObject.tag == "Defensor"){
+        //     playerRenderer.material = blueMaterial;
+        // }
     }
 
 
