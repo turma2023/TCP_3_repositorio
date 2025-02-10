@@ -1,20 +1,19 @@
 using System;
-using Fusion;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerSelectionButton : UIHover
 {
-    [field: SerializeField] public NetworkObject playerPrefab { get; private set; }
+    [field: SerializeField] public int CharacterIndex { get; private set; }
 
     private Button button;
-    private PlayerSelectionManager playerSelectionManager;
-    public event Action<PlayerSelectionButton, NetworkObject> OnPlayerSelected;
+    private UISelectionManager UISelectionManager;
+    public event Action<PlayerSelectionButton> OnPlayerSelected;
     void Start()
     {
         button = GetComponent<Button>();
-        playerSelectionManager = GetComponentInParent<PlayerSelectionManager>();
-        playerSelectionManager.OnSelectionCanceled += OnSelectionCanceled;
+        UISelectionManager = GetComponentInParent<UISelectionManager>();
+        UISelectionManager.OnSelectionCanceled += OnSelectionCanceled;
     }
 
     public void DisableSelection()
@@ -38,7 +37,7 @@ public class PlayerSelectionButton : UIHover
         highlight.fillCenter = true;
         highlight.color = new Color(255 / 255f, 0 / 255f, 0 / 255f, 0.85f);
         hasClicked = true;
-        OnPlayerSelected?.Invoke(this, playerPrefab);
+        OnPlayerSelected?.Invoke(this);
         button.enabled = false;
     }
 
@@ -50,6 +49,6 @@ public class PlayerSelectionButton : UIHover
 
     private void OnDisable()
     {
-        playerSelectionManager.OnSelectionCanceled -= OnSelectionCanceled;
+        UISelectionManager.OnSelectionCanceled -= OnSelectionCanceled;
     }
 }

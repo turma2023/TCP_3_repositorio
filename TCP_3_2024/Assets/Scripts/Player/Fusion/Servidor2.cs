@@ -15,11 +15,8 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
     [Header("Network Static Objects")]
     [SerializeField] NetworkObject serverTimerPrefab;
     [SerializeField] NetworkObject matchManagerPrefab;
-
-
-    [Header("Network Character prefabs")]
-    [SerializeField] private NetworkObject character1Prefab;
-    [SerializeField] private NetworkObject character2Prefab;
+    [SerializeField] NetworkObject spawnerPrefab;
+    [SerializeField] NetworkObject playerSelectionManagerPrefab;
 
     [Header("Server Settings")]
     [SerializeField] private int maxNumberOfPlayers;
@@ -31,8 +28,8 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
         if (Runner != null) Destroy(Runner.gameObject);
 
         var connectionResult = await InitializeNetworkRunner(gameMode, NetAddress.Any(), SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex), null);
-        NetworkObject serverTimer = Runner.Spawn(serverTimerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
-        DontDestroyOnLoad(serverTimer);
+        InitializeServerTimer();
+        InitializeSpawner();
 
         if (!CheckConnectionResult(connectionResult))
         {
@@ -42,6 +39,28 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
 
         FindObjectOfType<UISearchMatchController>().Initialize();
         //MatchManager.Instance.Initialize();
+    }
+
+    private void InitializeServerTimer()
+    {
+        if (!Runner.IsSceneAuthority) return;
+
+        NetworkObject serverTimer = Runner.Spawn(serverTimerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
+        //Runner.SceneManager.MakeDontDestroyOnLoad(serverTimer.gameObject);
+
+    }
+
+    private void InitializeSpawner()
+    {
+        if (!Runner.IsServer) return;
+
+        NetworkObject spawner = Runner.Spawn(spawnerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
+        if (spawner.GetComponent<Spawner>() is Spawner s)
+        {
+            Runner.AddCallbacks(s);
+            //Runner.SceneManager.MakeDontDestroyOnLoad(s.gameObject);
+        }
+
     }
 
     public void LoadNextScene(NetworkRunner runner, string sceneName)
@@ -67,13 +86,9 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
     {
         Runner = new GameObject("Network Runner").AddComponent<NetworkRunner>();
 
-        Spawner spawner = Runner.AddComponent<Spawner>();
-        spawner.SetPlayableCharactersPrefabs(character1Prefab, character2Prefab);
-
         Runner.AddCallbacks(this);
         Runner.AddCallbacks(FindObjectOfType<HostManager>());
-        Runner.AddCallbacks(spawner);
-        
+
 
         var sceneManager = Runner.GetComponents(typeof(MonoBehaviour)).OfType<INetworkSceneManager>().FirstOrDefault();
 
@@ -84,7 +99,7 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
 
         Runner.ProvideInput = true;
 
-        
+
 
         return Runner.StartGame(new StartGameArgs
         {
@@ -126,11 +141,6 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
 
         if (!runner.IsSceneAuthority) return;
 
-        // Unload current active scene.
-        // runner.UnloadScene(SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex));
-
-        // Load next specified scene.
-        // SceneRef sceneRef = runner.GetSceneRef("Cena1TestNewServer");
         SceneRef sceneRef = runner.GetSceneRef("ChangeCharacter");
 
         runner.LoadScene(sceneRef, LoadSceneMode.Single);
@@ -142,6 +152,7 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
+
     }
     public void OnConnectedToServer(NetworkRunner runner) { }
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
@@ -161,9 +172,14 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
         {
             Runner.Spawn(matchManagerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
         }
+
+        if (SceneManager.GetActiveScene().name == "ChangeCharacter")
+        {
+            Runner.Spawn(playerSelectionManagerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
+        }
     }
     public void OnSceneLoadStart(NetworkRunner runner)
     {
-            
+
     }
 }

@@ -148,7 +148,7 @@ public class PlayerController : NetworkBehaviour
     private void Update()
     {
         // if (Object.has)
-        RPC_ApplyTeamColor();
+        //RPC_ApplyTeamColor();
 
         if (smokeBombSkill.Preparing)
         {

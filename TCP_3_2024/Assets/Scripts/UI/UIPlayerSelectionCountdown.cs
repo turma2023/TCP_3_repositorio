@@ -7,19 +7,42 @@ public class UIPlayerSelectionCountdown : MonoBehaviour
     [SerializeField] private float selectionDuration;
     private TextMeshProUGUI timerText;
     private ServerTimer serverTimer;
-    private PlayerSelectionManager playerSelectionManager;
+    private UISelectionManager UISelectionManager;
+    private bool initialized;
 
     private void Start()
     {
         timerText = GetComponentInChildren<TextMeshProUGUI>();
-        serverTimer = FindObjectOfType<ServerTimer>();
-        playerSelectionManager = FindObjectOfType<PlayerSelectionManager>();
+
+        UISelectionManager = FindObjectOfType<UISelectionManager>();
+        if (!serverTimer) serverTimer = FindObjectOfType<ServerTimer>();
+
+        //serverTimer.StartTimer(selectionDuration);
+        //serverTimer.OnTimerExpired += OnTimerEnd;
+    }
+
+    private void Initialize()
+    {
+        if (initialized) return;
+        if (serverTimer == null) return;
         serverTimer.StartTimer(selectionDuration);
         serverTimer.OnTimerExpired += OnTimerEnd;
+        initialized = true;
+    }
+
+    private void FindServerTimer()
+    {
+        if (serverTimer == null) serverTimer = FindAnyObjectByType<ServerTimer>();
     }
     private void Update()
     {
-        if (!serverTimer.IsActive()) return;
+        FindServerTimer();
+        Initialize();
+        if (serverTimer == null || !serverTimer.IsActive())
+        {
+            Debug.Log("Server Timer is null");
+            return;
+        }
 
         float? remainingTime = serverTimer.RemainingTime();
 
@@ -31,9 +54,9 @@ public class UIPlayerSelectionCountdown : MonoBehaviour
 
     private void OnTimerEnd()
     {
-        if (!playerSelectionManager.HasSelected)
+        if (!UISelectionManager.HasSelected)
         {
-            playerSelectionManager.SetDefaultCharacter();
+            UISelectionManager.SetDefaultCharacter();
         }
 
         Servidor2 servidor = FindObjectOfType<Servidor2>();
@@ -43,6 +66,5 @@ public class UIPlayerSelectionCountdown : MonoBehaviour
     private void OnDisable()
     {
         serverTimer.OnTimerExpired -= OnTimerEnd;
-
     }
 }

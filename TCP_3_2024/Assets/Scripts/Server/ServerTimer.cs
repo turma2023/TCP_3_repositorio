@@ -7,12 +7,18 @@ public class ServerTimer : NetworkBehaviour, INetworkRunnerCallbacks
 {
     public TickTimer Timer { get; private set; }
     public event Action OnTimerExpired;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
     public void StartTimer(float timerDuration)
     {
-        if (Runner.IsServer)
-        {
-            Timer = TickTimer.CreateFromSeconds(Runner, timerDuration);
-        }
+        //if (Runner.IsServer)
+        //{
+        //    Timer = TickTimer.CreateFromSeconds(Runner, timerDuration);
+        //}
+        Timer = TickTimer.CreateFromSeconds(Runner, timerDuration);
     }
 
     public bool HasTimerExpired()

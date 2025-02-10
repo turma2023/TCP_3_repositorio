@@ -257,8 +257,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8438979823668126030}
-        m_TargetAssemblyTypeName: PlayerSelectionManager, Assembly-CSharp
+      - m_Target: {fileID: 4737947129471531924}
+        m_TargetAssemblyTypeName: UISelectionManager, Assembly-CSharp
         m_MethodName: CancelSelection
         m_Mode: 1
         m_Arguments:
@@ -291,7 +291,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6434770234130819655}
-  - component: {fileID: 8438979823668126030}
+  - component: {fileID: 4737947129471531924}
   m_Layer: 0
   m_Name: PlayerSelectionCanvas
   m_TagString: Untagged
@@ -317,7 +317,7 @@ Transform:
   - {fileID: 3491862122316054962}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8438979823668126030
+--- !u!114 &4737947129471531924
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2929492679291669904}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45a71d275bad3064aae134317b954e66, type: 3}
+  m_Script: {fileID: 11500000, guid: 0de281aa5210a474ca1ba32d88ac9f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cancelSelectionButton: {fileID: 560790621739850776}
@@ -524,6 +524,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -6594754226195438632, guid: 71c3dd93045f8abda9bca9d602c264e1,
         type: 3}
+    - target: {fileID: 4116397549573854625, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: <CharacterIndex>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -551,10 +556,17 @@ PrefabInstance:
     - target: {fileID: 1371862082153400679, guid: b2e9e6a69a02e544788db18e57aa955d,
         type: 3}
       propertyPath: m_text
-      value: 'Player 1
-
-
-'
+      value: Player 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371862082153400679, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371862082153400679, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3724998186272200492, guid: b2e9e6a69a02e544788db18e57aa955d,
         type: 3}
@@ -662,6 +674,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -6594754226195438632, guid: 71c3dd93045f8abda9bca9d602c264e1,
         type: 3}
+    - target: {fileID: 4116397549573854625, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: <CharacterIndex>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

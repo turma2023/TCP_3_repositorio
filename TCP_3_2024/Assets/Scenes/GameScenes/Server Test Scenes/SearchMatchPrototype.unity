@@ -426,6 +426,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8776042382256795978, guid: 50f28383c0252a947b3661b5276c868b,
         type: 3}
+      propertyPath: spawnerPrefab
+      value: 
+      objectReference: {fileID: 3444325514898176024, guid: 94c603f29252be480b1bed3646033895,
+        type: 3}
+    - target: {fileID: 8776042382256795978, guid: 50f28383c0252a947b3661b5276c868b,
+        type: 3}
       propertyPath: character1Prefab
       value: 
       objectReference: {fileID: -6594754226195438632, guid: 71c3dd93045f8abda9bca9d602c264e1,
@@ -451,8 +457,14 @@ PrefabInstance:
     - target: {fileID: 8776042382256795978, guid: 50f28383c0252a947b3661b5276c868b,
         type: 3}
       propertyPath: maxNumberOfPlayers
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8776042382256795978, guid: 50f28383c0252a947b3661b5276c868b,
+        type: 3}
+      propertyPath: playerSelectionManagerPrefab
+      value: 
+      objectReference: {fileID: 5708869573761157378, guid: b0664d3c068c06246acd3b7f88f57ca5,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

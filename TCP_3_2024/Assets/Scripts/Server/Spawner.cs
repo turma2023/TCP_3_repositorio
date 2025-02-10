@@ -3,19 +3,22 @@ using UnityEngine;
 using Fusion.Sockets;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine.SceneManagement;
-using Photon.Realtime;
 
-public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
+public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
 {
-    private NetworkObject character1Prefab;
-    private NetworkObject character2Prefab;
-    private Dictionary<PlayerRef, NetworkObject> selectedCharactersDictionary;
+    [SerializeField] private NetworkObject character1Prefab;
+    [SerializeField] private NetworkObject character2Prefab;
+    public Dictionary<int, NetworkObject> SelectedCharactersDictionary { get; set; }
 
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
     private void Start()
     {
-        selectedCharactersDictionary = new Dictionary<PlayerRef, NetworkObject>();
+        SelectedCharactersDictionary = new Dictionary<int, NetworkObject>();
     }
 
     public void SetPlayableCharactersPrefabs(NetworkObject character1, NetworkObject character2)
@@ -26,40 +29,70 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
     }
 
-    public void SetSelectedCharacter(NetworkRunner runner, NetworkObject selectedCharacter)
+    public void SetSelectedCharacter(PlayerRef playerRef, int selectedCharacter)
     {
-        foreach (PlayerRef playerRef in runner.ActivePlayers)
-        {
-            if (playerRef == runner.LocalPlayer)
-            {
-                if (!selectedCharactersDictionary.ContainsKey(playerRef))
-                    selectedCharactersDictionary.Add(playerRef, selectedCharacter);
-            }
-        }
+        if (!Runner.IsServer) return;
+
+        if (selectedCharacter == 1) RegisterSelectedCharacter(playerRef, character1Prefab);
+        if (selectedCharacter == 2) RegisterSelectedCharacter(playerRef, character2Prefab);
     }
 
-    public void SetDefaultCharacter(NetworkRunner runner)
+    private void RegisterSelectedCharacter(PlayerRef playerRef, NetworkObject selectedCharacter)
     {
-        SetSelectedCharacter(runner, character1Prefab);
+        SelectedCharactersDictionary.TryAdd(playerRef.PlayerId, selectedCharacter);
     }
+
+    //[Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    //public void RPC_SetDefaultCharacter(NetworkRunner runner)
+    //{
+    //    RPC_SetSelectedCharacter(runner, character1Prefab);
+    //}
     public void SpawnSelectedPlayer(NetworkRunner runner, PlayerRef playerRef)
     {
-        if (!runner.IsSceneAuthority) return;
+        if (!runner.IsServer) return;
+        //Debug.Log(selectedCharactersDictionary.Count);
 
-        if (selectedCharactersDictionary.ContainsKey(playerRef))
-        {
-            runner.Spawn(selectedCharactersDictionary[playerRef], new Vector3(UnityEngine.Random.Range(-10, 10), 1, UnityEngine.Random.Range(-10, 10)), Quaternion.identity, playerRef);
-            selectedCharactersDictionary.Remove(playerRef);
-        }
+        //foreach (PlayerRef player in runner.ActivePlayers)
+        //{
+        //    if (selectedCharactersDictionary.ContainsKey(player))
+        //    {
+        //        runner.Spawn(selectedCharactersDictionary[player], new Vector3(UnityEngine.Random.Range(-10, 10), 1, UnityEngine.Random.Range(-10, 10)), Quaternion.identity, playerRef);
+        //        selectedCharactersDictionary.Remove(player);
+        //    }
+        //}
+
     }
 
-    private void SpawnAllPlayers(NetworkRunner runner)
+    //public override void Spawned()
+    //{
+    //    if (PlayerSelection.selected == 1) Spawn(character1Prefab);
+    //    if (PlayerSelection.selected == 2) Spawn(character2Prefab);
+
+    //    void Spawn(NetworkObject prefab)
+    //    {
+    //        if (prefab == null)
+    //        {
+    //            Debug.Log("Prefab null on spawn");
+    //        }
+
+    //        foreach (PlayerRef player in Runner.ActivePlayers)
+    //        {
+    //            Runner.Spawn(prefab, new Vector3(UnityEngine.Random.Range(-10, 10), 1, UnityEngine.Random.Range(-10, 10)), Quaternion.identity, player);
+    //        }
+    //    }
+
+    //}
+    private void SpawnAllPlayers()
     {
-        if (runner.ActivePlayers.Count() == 2)
+        if (!Runner.IsServer) return;
+
+        foreach (PlayerRef player in Runner.ActivePlayers)
         {
-            foreach (PlayerRef playerRef in runner.ActivePlayers)
+
+            if (SelectedCharactersDictionary.TryGetValue(player.PlayerId, out NetworkObject selectedCharacter))
             {
-                SpawnDefaultPlayer(runner, playerRef);
+                Runner.Spawn(selectedCharacter, new Vector3(UnityEngine.Random.Range(-10, 10), 1, UnityEngine.Random.Range(-10, 10)), Quaternion.identity, player);
+                SelectedCharactersDictionary.Remove(player.PlayerId);
             }
         }
     }
@@ -101,6 +134,7 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
+
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
@@ -132,14 +166,9 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-        if (!runner.IsSceneAuthority) return;
-
         if (SceneManager.GetActiveScene().name == "Cena1TestNewServer")
         {
-            foreach (PlayerRef playerRef in runner.ActivePlayers)
-            {
-                SpawnSelectedPlayer(runner, playerRef);
-            }
+            SpawnAllPlayers();
         }
     }
 

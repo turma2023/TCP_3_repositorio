@@ -1,19 +1,16 @@
-using System;
-using Fusion;
 using UnityEngine;
+using System;
 using UnityEngine.UI;
 
-public class PlayerSelectionManager : MonoBehaviour
+public class UISelectionManager : MonoBehaviour
 {
-    public bool HasSelected {  get; private set; }
+    public bool HasSelected { get; private set; }
     private PlayerSelectionButton[] buttonList;
     [SerializeField] private Button cancelSelectionButton;
 
-    public event Action OnPlayerSelected;
+    public event Action<int> OnPlayerSelected;
     public event Action OnSelectionCanceled;
 
-    private Spawner spawner;
-    private NetworkRunner runner;
     private void Awake()
     {
         DisableCancelSelection();
@@ -24,11 +21,6 @@ public class PlayerSelectionManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        runner = FindObjectOfType<NetworkRunner>();
-        spawner = runner.GetComponent<Spawner>();
-    }
 
     public void CancelSelection()
     {
@@ -43,23 +35,22 @@ public class PlayerSelectionManager : MonoBehaviour
         buttonList[1].OnClick();
     }
 
-    private void SelectCharacter(PlayerSelectionButton playerSelectionButton, NetworkObject characterPrefab)
+    private void SelectCharacter(PlayerSelectionButton playerSelectionButton)
     {
         EnableCancelSelection();
         foreach (PlayerSelectionButton button in buttonList)
         {
             if (button == playerSelectionButton)
             {
-                spawner.SetSelectedCharacter(runner, characterPrefab);
                 HasSelected = true;
+                OnPlayerSelected?.Invoke(button.CharacterIndex);
                 continue;
             }
             button.DisableSelection();
         }
-
-        OnPlayerSelected?.Invoke();
+        
     }
-    
+
     private void EnableCancelSelection()
     {
         cancelSelectionButton?.gameObject.SetActive(true);
