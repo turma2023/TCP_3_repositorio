@@ -52,15 +52,17 @@ public class mare : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // Verifica se colidiu com um inimigo
-      //  if (other.CompareTag("Enemy"))
-        //{
-            // Aplica o efeito de stun no inimigo
-          //  Enemy enemy = other.GetComponent<Enemy>();
-         //   if (enemy != null)
-         //   {
-          //      enemy.Stun(stunDuration);
-           // }
-       // }
+        Debug.LogWarning("Colidiu com: " + other.gameObject.name); // Verifica se a colisão está sendo detectada
+
+        if (other.gameObject.tag != gameObject.tag)
+        {
+            Debug.Log("Tag do outro objeto não é a mesma, aplicando stun!");
+            PlayerMovement enemy = other.GetComponent<PlayerMovement>();
+            if (enemy != null)
+            {
+                enemy.Stun(stunDuration);
+            }
+        }
     }
+
 }

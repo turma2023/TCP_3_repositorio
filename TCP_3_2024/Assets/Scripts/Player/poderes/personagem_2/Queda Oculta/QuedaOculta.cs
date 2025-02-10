@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public class QuedaOculta : MonoBehaviour
@@ -9,6 +10,7 @@ public class QuedaOculta : MonoBehaviour
     public float wallDuration = 5f;    // Tempo que a parede dura
     public float curveIntensity = 2f;  // Intensidade da curva
     public float spawnRate = 0.1f;     // Tempo entre cada segmento gerado
+    
 
     private bool isCasting = false;
     private Vector3 lastWallPosition;
@@ -38,6 +40,10 @@ public class QuedaOculta : MonoBehaviour
 
             // Instancia a parede
             GameObject newWall = Instantiate(fireWallPrefab, spawnPosition, lastWallRotation);
+
+            // Define a nova Tag da parede instanciada
+            newWall.tag = gameObject.tag; // Certifique-se de que "NovaTag" existe no projeto
+
             Destroy(newWall, wallDuration);
 
             lastWallPosition = spawnPosition;

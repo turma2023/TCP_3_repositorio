@@ -949,6 +949,7 @@ GameObject:
   - component: {fileID: 8855907806312619251}
   - component: {fileID: 5375438264413500915}
   - component: {fileID: 5676674963300948328}
+  - component: {fileID: 6857408834313441564}
   m_Layer: 8
   m_Name: Player 2
   m_TagString: atacante
@@ -1108,6 +1109,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   forceJump: 5
+  isStunned: 0
+  isspideeffect: 0
 --- !u!114 &-6594754226195438632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1244,6 +1247,21 @@ MonoBehaviour:
   wallDuration: 5
   curveIntensity: 2
   spawnRate: 0.1
+--- !u!114 &6857408834313441564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7299474097578385189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1347730fda9aa7a4896cc2807b24ac7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imundacao: {fileID: 5864732803690760206, guid: 1ba605128c56e4541a3684f9f77305a3,
+    type: 3}
+  numero_de_usaos: 3
 --- !u!1 &8858427907013089677
 GameObject:
   m_ObjectHideFlags: 0

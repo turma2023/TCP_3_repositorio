@@ -18,6 +18,7 @@ public class lancador_de_onda : MonoBehaviour
     {
         if (shockwavePrefab != null)
         {
+            shockwavePrefab.tag = gameObject.tag;
             Instantiate(shockwavePrefab, transform.position, transform.rotation);
         }
     }

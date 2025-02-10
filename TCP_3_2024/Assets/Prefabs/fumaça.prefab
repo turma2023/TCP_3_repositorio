@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2241674944849494241}
   - component: {fileID: 6218046838165052144}
   - component: {fileID: -3000270497334654066}
+  - component: {fileID: -2108726593097690592}
   m_Layer: 0
   m_Name: "fuma\xE7a"
   m_TagString: Untagged
@@ -119,3 +120,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 10
+--- !u!114 &-2108726593097690592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3643237123592179672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2299640604
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours: []
