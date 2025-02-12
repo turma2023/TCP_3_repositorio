@@ -571,7 +571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8035333391432869016
 Transform:
   m_ObjectHideFlags: 0
@@ -1073,7 +1073,6 @@ MonoBehaviour:
   redMaterial: {fileID: 2100000, guid: 8008c0ac3f2ad304e95ec80c2937c959, type: 2}
   PlayerModel: {fileID: 6556092716220201655}
   _Team: 
-  TeamUI: {fileID: 2082863568686592407}
   MaxHealth: 100
   pivotGun: {fileID: 8035333391432869016}
   camera: {fileID: 2476467844249181572}
@@ -1775,12 +1774,6 @@ PrefabInstance:
       addedObject: {fileID: 393733310524241961}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aafad1d74fa2db9b090b550a698521dd, type: 3}
---- !u!1 &2082863568686592407 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 319049151386081830, guid: aafad1d74fa2db9b090b550a698521dd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1768415890651179953}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3386380834045709560 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3923897030230353737, guid: aafad1d74fa2db9b090b550a698521dd,

@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3427d426adfe49044bf68963934e2b81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character1Prefab: {fileID: -6594754226195438632, guid: 71c3dd93045f8abda9bca9d602c264e1,
+  character1Prefab: {fileID: -6594754226195438632, guid: bc302b308496f5f46b579ca01e1664dd,
     type: 3}
-  character2Prefab: {fileID: 1204545051600915091, guid: edfb877e2efce0b48ae261d6453f82df,
+  character2Prefab: {fileID: -6594754226195438632, guid: bc302b308496f5f46b579ca01e1664dd,
     type: 3}
 --- !u!114 &3444325514898176024
 MonoBehaviour:
