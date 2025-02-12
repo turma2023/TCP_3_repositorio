@@ -16,7 +16,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject PlayerModel;
     [Networked] public string Team { get; set; }
 
-    [SerializeField] private GameObject TeamUI;
+    //[SerializeField] private GameObject TeamUI;
 
     //! fim cor de cada lado      
 
@@ -215,7 +215,7 @@ public class PlayerController : NetworkBehaviour
             // pivotGun.gameObject.SetActive(false);
 
 
-            TeamUI.GetComponent<TeamSelection>().Show(gameObject);
+            //TeamUI.GetComponent<TeamSelection>().Show(gameObject);
 
         }
         else

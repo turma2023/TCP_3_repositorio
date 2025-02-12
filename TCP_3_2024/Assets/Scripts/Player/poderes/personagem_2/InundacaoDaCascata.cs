@@ -27,7 +27,7 @@ public class InundacaoDaCascata : MonoBehaviour
             PlayerMovement enemy = other.GetComponent<PlayerMovement>();
             if (enemy != null)
             {
-                enemy.Stun(stunDuration);
+                //enemy.Stun(stunDuration);
             }
         }
         else 
@@ -36,7 +36,7 @@ public class InundacaoDaCascata : MonoBehaviour
             PlayerMovement enemy = other.GetComponent<PlayerMovement>();
             if (enemy != null)
             {
-                enemy.speedbuff(spideeffect_duratin);
+                //enemy.speedbuff(spideeffect_duratin);
             }
         }
     }

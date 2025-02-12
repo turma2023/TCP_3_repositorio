@@ -10,12 +10,12 @@ public class lancador_da_imundacao : MonoBehaviour
 
     void Update()
     {
-        if(numero_de_usaos > 0)
-        if (Input.GetKeyDown(KeyCode.X)) // Tecla para lançar a onda
-        {
-            LaunchShockwave();
+        if (numero_de_usaos > 0)
+            if (Input.GetKeyDown(KeyCode.X)) // Tecla para lançar a onda
+            {
+                LaunchShockwave();
                 numero_de_usaos--;
-        }
+            }
     }
 
     void LaunchShockwave()

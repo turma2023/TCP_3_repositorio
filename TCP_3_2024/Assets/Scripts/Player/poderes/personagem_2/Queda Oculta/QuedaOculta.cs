@@ -17,10 +17,10 @@ public class QuedaOculta : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) // Pressionar para começar
-        {
-            StartCoroutine(SpawnFireWall());
-        }
+        //if (Input.GetKeyDown(KeyCode.Q)) // Pressionar para começar
+        //{
+        //    StartCoroutine(SpawnFireWall());
+        //}
     }
 
     IEnumerator SpawnFireWall()

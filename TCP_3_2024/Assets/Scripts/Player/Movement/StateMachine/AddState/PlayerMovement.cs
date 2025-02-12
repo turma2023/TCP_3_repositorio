@@ -1,20 +1,15 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using Fusion;
-using Unity.Mathematics;
 using System.Collections;
-
-
 public class PlayerMovement : NetworkBehaviour
 {
 
-    private  Rigidbody rigidbody;
+    private new Rigidbody rigidbody;
     [SerializeField] private float speed = 10f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float forceJump = 5f;
 
-    private  Camera camera;
+    private new Camera camera;
 
     private void Awake()
     {
@@ -78,10 +73,13 @@ public class PlayerMovement : NetworkBehaviour
 
 
 
-    //////mechido por vitor a baixo /////////
-    ///
 
-    public bool isStunned = false;
+
+
+
+////mechido por vitor a baixo /////////
+
+public bool isStunned = false;
     public bool isspideeffect = false;
     public void Stun(float duration)
     {
@@ -120,7 +118,7 @@ public class PlayerMovement : NetworkBehaviour
         isspideeffect = true;
 
         // Aqui você pode desativar o movimento do jogador
-        speed =20;
+        speed = 20;
         Debug.LogWarning("Jogador foi atingido e está atordoado!");
 
         yield return new WaitForSeconds(duration);
