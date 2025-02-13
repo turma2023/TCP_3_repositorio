@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98978ba84e878e34981bd779ee23420d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxNumberOfRounds>k__BackingField: 5
+  <MaxNumberOfRounds>k__BackingField: 15
   _TeamARoundsWon: 0
   _TeamBRoundsWon: 0
 --- !u!114 &5517715050050457715
