@@ -1,6 +1,7 @@
 using Fusion;
+using UnityEngine;
 
-public class StateMachine : NetworkBehaviour
+public class StateMachine : MonoBehaviour
 {
     private IState currentState;
     public StateFactory StateFactory { get; private set; }

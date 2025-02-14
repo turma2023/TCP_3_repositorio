@@ -60,7 +60,7 @@ public class UIPlayerSelectionCountdown : MonoBehaviour
         }
 
         Servidor2 servidor = FindObjectOfType<Servidor2>();
-        servidor.LoadNextScene(FindObjectOfType<NetworkRunner>(), "Cena1TestNewServer");
+        servidor.LoadNextScene(FindObjectOfType<NetworkRunner>(), "TerrainTest");
     }
 
     private void OnDisable()

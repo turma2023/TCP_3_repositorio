@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:TCP_3_2024/Assets/Scenes/GameScenes/Server Test Scenes/Cena1TestNewServer.unity.meta
 guid: 431e502cbf25a744b8fbbf1b41508218
+========
+guid: c5f8f2d3a94c18746984218331717481
+folderAsset: yes
+>>>>>>>> teste_5:TCP_3_2024/Assets/Scripts/Player/poderes.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
