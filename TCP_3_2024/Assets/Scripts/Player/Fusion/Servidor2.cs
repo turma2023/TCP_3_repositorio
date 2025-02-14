@@ -168,7 +168,7 @@ public class Servidor2 : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (!runner.IsSceneAuthority) return;
 
-        if (SceneManager.GetActiveScene().name == "Cena1TestNewServer")
+        if (SceneManager.GetActiveScene().name == "TerrainTest")
         {
             Runner.Spawn(matchManagerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
         }

@@ -70,7 +70,7 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
 
             if (SelectedCharactersDictionary.TryGetValue(player.PlayerId, out NetworkObject selectedCharacter))
             {
-                Runner.Spawn(selectedCharacter, new Vector3(UnityEngine.Random.Range(-10, 10), 1, UnityEngine.Random.Range(-10, 10)), Quaternion.identity, player);
+                Runner.Spawn(selectedCharacter, new Vector3(UnityEngine.Random.Range(140, 150), 5f, UnityEngine.Random.Range(120, 115)), Quaternion.identity, player);
                 SelectedCharactersDictionary.Remove(player.PlayerId);
             }
         }
@@ -147,7 +147,7 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
     {
         if (!runner.IsSceneAuthority) return;
 
-        if (SceneManager.GetActiveScene().name == "Cena1TestNewServer")
+        if (SceneManager.GetActiveScene().name == "TerrainTest")
         {
             SpawnAllPlayers();
         }
