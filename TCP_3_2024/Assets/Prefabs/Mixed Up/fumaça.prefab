@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6218046838165052144}
   - component: {fileID: -3000270497334654066}
   - component: {fileID: -2108726593097690592}
+  - component: {fileID: 6963024551004962574}
   m_Layer: 0
   m_Name: "fuma\xE7a"
   m_TagString: Untagged
@@ -116,7 +117,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3643237123592179672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c4d768d65337f64c8fdd2cf512b26f5, type: 3}
+  m_Script: {fileID: 11500000, guid: e5083d5814b1e4b40bdb4cd5802be900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 10
@@ -134,6 +135,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 2299640604
   ObjectInterest: 1
-  Flags: 1
+  Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: -3000270497334654066}
+  - {fileID: 6963024551004962574}
+--- !u!114 &6963024551004962574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3643237123592179672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 1
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0

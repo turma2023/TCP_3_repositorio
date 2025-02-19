@@ -1,25 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
-public class granada : MonoBehaviour
+public class granada : NetworkBehaviour
 {
     public float delay = 3f; // Tempo até a explosão
     public GameObject explosionEffect; // Prefab do efeito de explosão
 
-    void Start()
+    public override void Spawned()
     {
-        Invoke("Explode", delay); // Explode após o tempo definido
+        if (Runner.IsServer)
+        {
+            StartCoroutine(ExplodeAfterDelay());
+        }
     }
 
-    void Explode()
+    private IEnumerator ExplodeAfterDelay()
     {
-        // Instancia o efeito de explosão (prefab)
-        if (explosionEffect != null)
-        {
-            Instantiate(explosionEffect, transform.position, transform.rotation);
-        }
+        yield return new WaitForSeconds(delay);
+        Vector3 spawnPosition = transform.position;
+        Quaternion spawnRotation = transform.rotation;
+        RPC_Explode(spawnPosition, spawnRotation);
+    }
 
-        Destroy(gameObject); // Destroi a granada após a explosão
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    void RPC_Explode(Vector3 spawnPosition, Quaternion spawnRotation)
+    {
+        if (Runner.IsServer)
+        {
+            if (explosionEffect != null)
+            {
+                
+                NetworkObject explosionNetworkObject = Runner.Spawn(explosionEffect, spawnPosition, spawnRotation, Object.InputAuthority);
+
+              
+                explosionNetworkObject.gameObject.tag = gameObject.tag;
+            }
+
+           
+            Runner.Despawn(Object);
+        }
     }
 }

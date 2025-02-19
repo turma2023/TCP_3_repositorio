@@ -1,8 +1,9 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class mare : MonoBehaviour
+public class Mare : NetworkBehaviour
 {
     public float speed = 10f; // Velocidade da onda
     public float maxDistance = 20f; // Distância máxima que a onda viaja
@@ -12,27 +13,35 @@ public class mare : MonoBehaviour
     private Vector3 startPosition; // Posição inicial da onda
     private bool isMoving = true; // Controla se a onda está se movendo
 
-    void Start()
+    public override void Spawned()
     {
-        startPosition = transform.position; // Guarda a posição inicial
-        AlignToGround(); // Alinha a onda ao chão no início
+        if (Runner.IsServer)
+        {
+            startPosition = transform.position; // Guarda a posição inicial
+            AlignToGround(); // Alinha a onda ao chão no início
+        }
     }
 
-    void Update()
+    public override void FixedUpdateNetwork()
     {
-        if (isMoving)
+        if (Runner.IsServer && isMoving)
         {
-            // Move a onda para frente
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            MoveWave();
+        }
+    }
 
-            // Alinha a onda ao chão a cada frame
-            AlignToGround();
+    void MoveWave()
+    {
+        // Move a onda para frente na direção correta
+        transform.position += transform.forward * speed * Runner.DeltaTime;
 
-            // Verifica se a onda atingiu a distância máxima
-            if (Vector3.Distance(startPosition, transform.position) >= maxDistance)
-            {
-                Destroy(gameObject); // Destroi a onda
-            }
+        // Alinha a onda ao chão a cada frame
+        AlignToGround();
+
+        // Verifica se a onda atingiu a distância máxima
+        if (Vector3.Distance(startPosition, transform.position) >= maxDistance)
+        {
+            Runner.Despawn(Object); // Remove a onda da rede
         }
     }
 
@@ -64,5 +73,4 @@ public class mare : MonoBehaviour
             }
         }
     }
-
 }

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 7898066322152498054}
   - component: {fileID: 29903382697211987}
   - component: {fileID: 7394536290593261778}
+  - component: {fileID: -6975629736070678886}
+  - component: {fileID: -7495572551464159947}
   m_Layer: 0
   m_Name: "Inunda\xE7\xE3o Da Cascata"
   m_TagString: atacante
@@ -124,3 +126,37 @@ MonoBehaviour:
   maxSize: 50
   minSize: 0.1
   pulseCount: 3
+--- !u!114 &-6975629736070678886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5864732803690760206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3123392782
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: -7495572551464159947}
+--- !u!114 &-7495572551464159947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5864732803690760206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0

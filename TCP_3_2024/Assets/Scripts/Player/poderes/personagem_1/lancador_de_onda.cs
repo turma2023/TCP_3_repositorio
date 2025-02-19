@@ -1,25 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
-public class lancador_de_onda : MonoBehaviour
+public class LancadorDeOnda : NetworkBehaviour
 {
-    public GameObject shockwavePrefab; // Prefab da onda de choque
+    public GameObject shockwavePrefab; 
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)) // Tecla para lançar a onda
+        if (Input.GetKeyDown(KeyCode.E) && Object.HasInputAuthority)
         {
-            LaunchShockwave();
+            RPC_LaunchShockwave();
         }
     }
 
-    void LaunchShockwave()
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    void RPC_LaunchShockwave()
     {
-        if (shockwavePrefab != null)
+        if (Runner.IsServer)
         {
-            shockwavePrefab.tag = gameObject.tag;
-            Instantiate(shockwavePrefab, transform.position, transform.rotation);
+            if (shockwavePrefab != null)
+            {
+                Vector3 spawnPosition = transform.position;
+                Quaternion spawnRotation = transform.rotation;
+
+           
+                NetworkObject shockwaveNetworkObject = Runner.Spawn(shockwavePrefab, spawnPosition, spawnRotation, Object.InputAuthority);
+
+                
+                shockwaveNetworkObject.gameObject.tag = gameObject.tag;
+            }
         }
     }
 }

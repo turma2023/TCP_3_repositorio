@@ -1073,7 +1073,6 @@ MonoBehaviour:
   redMaterial: {fileID: 2100000, guid: 8008c0ac3f2ad304e95ec80c2937c959, type: 2}
   PlayerModel: {fileID: 6556092716220201655}
   _Team: 
-  TeamUI: {fileID: 2082863568686592407}
   MaxHealth: 100
   pivotGun: {fileID: 8035333391432869016}
   camera: {fileID: 2476467844249181572}
@@ -1136,6 +1135,9 @@ MonoBehaviour:
   - {fileID: 6735262216554282787}
   - {fileID: 7176670275111712288}
   - {fileID: 7920579999146743829}
+  - {fileID: 7850298890970736505}
+  - {fileID: -8705213913126607614}
+  - {fileID: 6855990217359469459}
   - {fileID: 4253264080048976645}
 --- !u!114 &7664993528420787197
 MonoBehaviour:
@@ -1774,12 +1776,6 @@ PrefabInstance:
       addedObject: {fileID: 393733310524241961}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aafad1d74fa2db9b090b550a698521dd, type: 3}
---- !u!1 &2082863568686592407 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 319049151386081830, guid: aafad1d74fa2db9b090b550a698521dd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1768415890651179953}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3386380834045709560 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3923897030230353737, guid: aafad1d74fa2db9b090b550a698521dd,
