@@ -1135,6 +1135,8 @@ MonoBehaviour:
   - {fileID: 6735262216554282787}
   - {fileID: 7176670275111712288}
   - {fileID: 7920579999146743829}
+  - {fileID: 5375438264413500915}
+  - {fileID: 5676674963300948328}
   - {fileID: 4253264080048976645}
 --- !u!114 &7664993528420787197
 MonoBehaviour:
@@ -1200,12 +1202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7789f10d1a492c48a61f13f510b6bf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trilha_de_agua: {fileID: 4864374033687219291, guid: 9fcd2418bc50a0e43b12d42efc2d77a7,
-    type: 3}
-  "dura\xE7ao_da_trilha": 0.1
-  "fro\xE7a_do_dash": 25
-  cameraTransform: {fileID: 8701779087536696405}
-  distanciaAtras: 2.3
+  "for\xE7a_do_dash": 10
 --- !u!114 &5676674963300948328
 MonoBehaviour:
   m_ObjectHideFlags: 0

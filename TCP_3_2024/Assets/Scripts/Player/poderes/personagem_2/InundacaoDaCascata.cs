@@ -3,25 +3,25 @@ using UnityEngine;
 
 public class InundacaoDaCascata : MonoBehaviour
 {
-    public float stunDuration = 2f; // Duração do stun
+    public float stunDuration = 2f; 
     public float spideeffect_duratin = 2f;
 
     [Header("Parâmetros de Crescimento")]
-    public float growthSpeed = 1f;  // Velocidade de crescimento
-    public float maxSize = 2f;      // Tamanho máximo
-    public float minSize = 0.5f;    // Tamanho mínimo
-    public int pulseCount = 3;      // Quantidade de pulsos (cresce e diminui)
+    public float growthSpeed = 1f;  
+    public float maxSize = 2f;      
+    public float minSize = 0.5f;   
+    public int pulseCount = 3;      
 
-    private bool isPulsing = false; // Para evitar múltiplas execuções
+    private bool isPulsing = false; 
 
     private void Start()
     {
-        StartCoroutine(PulseEffect()); // Inicia o sistema de pulsos automaticamente
+        StartCoroutine(PulseEffect()); 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag != gameObject.tag) // Se a tag for diferente
+        if (other.gameObject.tag != gameObject.tag) 
         {
             Debug.Log("Tag diferente! Aplicando stun...");
             PlayerMovement enemy = other.GetComponent<PlayerMovement>();
@@ -48,14 +48,14 @@ public class InundacaoDaCascata : MonoBehaviour
 
         for (int i = 0; i < pulseCount; i++)
         {
-            // Crescimento do objeto até o tamanho máximo
+      
             yield return StartCoroutine(ScaleOverTime(originalScale, maxSize, growthSpeed));
 
-            // Diminuição do objeto até o tamanho mínimo
+       
             yield return StartCoroutine(ScaleOverTime(transform.localScale, minSize, growthSpeed));
         }
 
-        // Após completar os pulsos, o objeto desaparece
+  
         gameObject.SetActive(false);
     }
 
@@ -66,19 +66,19 @@ public class InundacaoDaCascata : MonoBehaviour
 
         while (progress < 1f)
         {
-            // Lerp suave entre o tamanho inicial e o alvo
+            
             transform.localScale = Vector3.Lerp(startScale, target, progress);
             progress += Time.deltaTime * speed;
             yield return null;
         }
 
-        // Garante que a escala final seja exatamente o tamanho alvo
+    
         transform.localScale = target;
     }
 
     private void Update()
     {
-        // Mantém o objeto preso ao objeto ao qual está associado
+     
         if (transform.parent != null)
         {
             transform.position = transform.parent.position;

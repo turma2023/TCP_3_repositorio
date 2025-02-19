@@ -1,22 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
-public class parede_parada : MonoBehaviour
+public class ParedeParada : NetworkBehaviour
 {
     public GameObject wallPreviewPrefab; // Prefab do preview da parede
-    public GameObject wallRealPrefab; // Prefab da parede real
+    public GameObject wallRealPrefab; 
     public KeyCode placeKey = KeyCode.Q; // Tecla para instanciar a parede
     public KeyCode rotateKey = KeyCode.R; // Tecla para rotacionar o preview
-    public LayerMask groundLayer; // Camada do chão para posicionar a parede
+    public LayerMask groundLayer; // Camada do chao para posicionar a parede
 
     private GameObject currentPreview; // Preview atual
     private bool isPreviewActive = false; // Indica se o preview está ativo
 
     void Update()
     {
-        // Ativa/desativa o preview ao pressionar Q
-        if (Input.GetKeyDown(placeKey))
+        if (Input.GetKeyDown(placeKey) && Object.HasInputAuthority)
         {
             if (!isPreviewActive)
             {
@@ -24,17 +24,23 @@ public class parede_parada : MonoBehaviour
             }
             else
             {
-                PlaceWall();
+                Vector3 spawnPosition = currentPreview.transform.position;
+                Quaternion spawnRotation = currentPreview.transform.rotation;
+
+                // Destroi o preview local
+                Destroy(currentPreview);
+                isPreviewActive = false;
+
+                // Chama o RPC para spawnar a parede real
+                RPC_PlaceWall(spawnPosition, spawnRotation);
             }
         }
 
-        // Rotaciona o preview ao pressionar R
         if (isPreviewActive && Input.GetKeyDown(rotateKey))
         {
             RotatePreview();
         }
 
-        // Atualiza a posição do preview com base no mouse
         if (isPreviewActive)
         {
             UpdatePreviewPosition();
@@ -43,14 +49,12 @@ public class parede_parada : MonoBehaviour
 
     void StartPreview()
     {
-        // Instancia o preview da parede
         currentPreview = Instantiate(wallPreviewPrefab);
         isPreviewActive = true;
     }
 
     void UpdatePreviewPosition()
     {
-        // Posiciona o preview no local do mouse (raycast no chão)
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, groundLayer))
         {
@@ -60,17 +64,19 @@ public class parede_parada : MonoBehaviour
 
     void RotatePreview()
     {
-        // Rotaciona o preview em 90 graus
         currentPreview.transform.Rotate(0, 90, 0);
     }
 
-    void PlaceWall()
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    void RPC_PlaceWall(Vector3 spawnPosition, Quaternion spawnRotation)
     {
-        // Instancia a parede real na posição do preview
-        Instantiate(wallRealPrefab, currentPreview.transform.position, currentPreview.transform.rotation);
+        if (wallRealPrefab != null)
+        {
+          
+            NetworkObject wallNetworkObject = Runner.Spawn(wallRealPrefab, spawnPosition, spawnRotation, Object.InputAuthority);
 
-        // Destroi o preview e desativa o modo de preview
-        Destroy(currentPreview);
-        isPreviewActive = false;
+            
+            wallNetworkObject.gameObject.tag = gameObject.tag;
+        }
     }
 }
