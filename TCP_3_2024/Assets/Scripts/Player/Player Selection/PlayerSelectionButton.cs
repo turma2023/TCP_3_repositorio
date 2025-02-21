@@ -19,23 +19,23 @@ public class PlayerSelectionButton : UIHover
     public void DisableSelection()
     {
         hasClicked = true;
-        highlight.gameObject.SetActive(true);
-        highlight.color = Color.gray;
-        button.enabled = false;
-        highlight.fillCenter = true;
+        //highlight.gameObject.SetActive(true);
+        //highlight.color = Color.gray;
+        //button.enabled = false;
+        //highlight.fillCenter = true;
     }
 
     public void EnableSelection()
     {
         hasClicked = false;
         button.enabled = true;
-        highlight.fillCenter = false;
+        //highlight.fillCenter = false;
     }
     public void OnClick()
     {
-        highlight.gameObject.SetActive(true);
-        highlight.fillCenter = true;
-        highlight.color = new Color(255 / 255f, 0 / 255f, 0 / 255f, 0.85f);
+        highlight.gameObject.SetActive(false);
+        //highlight.fillCenter = true;
+        //highlight.color = new Color(255 / 255f, 0 / 255f, 0 / 255f, 0.85f);
         hasClicked = true;
         OnPlayerSelected?.Invoke(this);
         button.enabled = false;
@@ -47,8 +47,9 @@ public class PlayerSelectionButton : UIHover
         highlight.gameObject.SetActive(false);
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         UISelectionManager.OnSelectionCanceled -= OnSelectionCanceled;
     }
 }

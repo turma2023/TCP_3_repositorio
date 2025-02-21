@@ -27,12 +27,18 @@ public class UISelectionManager : MonoBehaviour
         HasSelected = false;
         OnSelectionCanceled?.Invoke();
         DisableCancelSelection();
+        foreach (PlayerSelectionButton button in buttonList)
+        {
+            button.gameObject.SetActive(true);
+            button.EnableSelection();
+        }
     }
 
     public void SetDefaultCharacter()
     {
         //spawner.SetDefaultCharacter(runner);
         buttonList[1].OnClick();
+        Debug.Log("Auto Select Character");
     }
 
     private void SelectCharacter(PlayerSelectionButton playerSelectionButton)
@@ -47,6 +53,7 @@ public class UISelectionManager : MonoBehaviour
                 continue;
             }
             button.DisableSelection();
+            button.gameObject.SetActive(false);
         }
         
     }

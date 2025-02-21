@@ -501,6 +501,13 @@ MonoBehaviour:
     GateFit: 2
     FocusDistance: 10
     m_SensorSize: {x: 1, y: 1}
+    Iso: 200
+    ShutterSpeed: 0.005
+    Aperture: 16
+    BladeCount: 5
+    Curvature: {x: 2, y: 11}
+    BarrelClipping: 0.25
+    Anamorphism: 0
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1077,6 +1084,7 @@ MonoBehaviour:
   pivotGun: {fileID: 8035333391432869016}
   camera: {fileID: 2476467844249181572}
   playerCameraPosition: {fileID: 7827312646664663125}
+  _networkPosition: {x: 0, y: 0, z: 0}
   smokeBombSkill: {fileID: 11400000, guid: 2c63ffe2b2e2cc746b50e6af3f940952, type: 2}
 --- !u!114 &1699423917238937469
 MonoBehaviour:

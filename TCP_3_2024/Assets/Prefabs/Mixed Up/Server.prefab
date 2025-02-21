@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5223433659172267317}
   - component: {fileID: 8776042382256795978}
-  - component: {fileID: 4217141445084327973}
   - component: {fileID: 2779142872194150414}
   m_Layer: 0
   m_Name: Server
@@ -48,26 +47,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverTimerPrefab: {fileID: 6419087459547311166, guid: ae047d600982df340908c6d42149d111,
     type: 3}
-  character1Prefab: {fileID: -6594754226195438632, guid: 71c3dd93045f8abda9bca9d602c264e1,
+  matchManagerPrefab: {fileID: 6419087459547311166, guid: ae047d600982df340908c6d42149d111,
     type: 3}
-  character2Prefab: {fileID: -6594754226195438632, guid: 71c3dd93045f8abda9bca9d602c264e1,
+  spawnerPrefab: {fileID: 3444325514898176024, guid: 94c603f29252be480b1bed3646033895,
     type: 3}
-  maxPlayers: 1
-  ballPrefab: {fileID: 0}
---- !u!114 &4217141445084327973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7006834209269563726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ee0037caa8bcb903a78a5aad4f59538, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerPrefab:
-    RawGuidValue: 71c3dd93045f8abda9bca9d602c264e1
+  playerSelectionManagerPrefab: {fileID: 5708869573761157378, guid: b0664d3c068c06246acd3b7f88f57ca5,
+    type: 3}
+  maxNumberOfPlayers: 2
 --- !u!114 &2779142872194150414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,5 +70,4 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 4217141445084327973}
+  NetworkedBehaviours: []

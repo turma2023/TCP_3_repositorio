@@ -1,6 +1,6 @@
-using Fusion;
 using TMPro;
 using UnityEngine;
+using Fusion;
 
 public class UIPlayerSelectionCountdown : MonoBehaviour
 {
@@ -54,12 +54,13 @@ public class UIPlayerSelectionCountdown : MonoBehaviour
 
     private void OnTimerEnd()
     {
+        Debug.Log("Timer Has Expired");
         if (!UISelectionManager.HasSelected)
         {
             UISelectionManager.SetDefaultCharacter();
         }
 
-        Servidor2 servidor = FindObjectOfType<Servidor2>();
+        Servidor servidor = FindObjectOfType<Servidor>();
         servidor.LoadNextScene(FindObjectOfType<NetworkRunner>(), "TerrainTest");
     }
 
