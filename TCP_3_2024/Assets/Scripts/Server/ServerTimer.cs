@@ -5,7 +5,7 @@ using Fusion.Sockets;
 
 public class ServerTimer : NetworkBehaviour, INetworkRunnerCallbacks
 {
-    public TickTimer Timer { get; private set; }
+    [Networked] public TickTimer Timer { get; private set; }
     public event Action OnTimerExpired;
 
     private void Awake()
@@ -14,18 +14,17 @@ public class ServerTimer : NetworkBehaviour, INetworkRunnerCallbacks
     }
     public void StartTimer(float timerDuration)
     {
-        //if (Runner.IsServer)
-        //{
-        //    Timer = TickTimer.CreateFromSeconds(Runner, timerDuration);
-        //}
-        Timer = TickTimer.CreateFromSeconds(Runner, timerDuration);
+        if (Runner.IsServer)
+        {
+            Timer = TickTimer.CreateFromSeconds(Runner, timerDuration);
+        }
     }
 
     public bool HasTimerExpired()
     {
         return Timer.Expired(Runner);
     }
-    public override void FixedUpdateNetwork()
+    public void Update()
     {
         if (Timer.Expired(Runner))
         {

@@ -25,21 +25,18 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void SetPlayableCharactersPrefabs(NetworkObject character1, NetworkObject character2)
     {
-        
-        SetTeam(character1, character2);
         if (character1 != null) character1Prefab = character1;
 
         if (character2 != null) character2Prefab = character2;
-    
     }
 
-    private void SetTeam(NetworkObject character1, NetworkObject character2){
+    private void SetTeam(NetworkObject character1, NetworkObject character2)
+    {
         numTeam = UnityEngine.Random.Range(1, 3);
         if (numTeam == 1)
         {
             character1.tag = "Atacante";
             character2.tag = "Atacante";
-
         }
         if (numTeam == 2)
         {
@@ -48,29 +45,69 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    private void SetTeam(NetworkObject character)
+    {
+        numTeam = UnityEngine.Random.Range(1, 3);
+
+        if (numTeam == 1) character.tag = "Atacante";
+        if (numTeam == 2) character.tag = "Defensor";
+    }
+
     public void SetSelectedCharacter(PlayerRef playerRef, int selectedCharacter)
     {
         if (!Runner.IsServer) return;
-
         if (selectedCharacter == 1) RegisterSelectedCharacter(playerRef, character1Prefab);
         if (selectedCharacter == 2) RegisterSelectedCharacter(playerRef, character2Prefab);
     }
 
     private void RegisterSelectedCharacter(PlayerRef playerRef, NetworkObject selectedCharacter)
     {
-        SelectedCharactersDictionary.TryAdd(playerRef.PlayerId, selectedCharacter);
+        if (SelectedCharactersDictionary.TryAdd(playerRef.PlayerId, selectedCharacter)) SetTeam(selectedCharacter);
     }
 
     private void SpawnAllPlayers()
     {
         if (!Runner.IsServer) return;
+        List<Transform> beachSidePositionsList = new List<Transform>();
+        List<Transform> forestSidePositionsList = new List<Transform>();
+
+        SpawnPositionProvider positionProvider = SpawnPositionProvider.Instance;
+
+        if (positionProvider != null) positionProvider.ProvidePositions(ref beachSidePositionsList, ref forestSidePositionsList);
 
         foreach (PlayerRef player in Runner.ActivePlayers)
         {
-
-            if (SelectedCharactersDictionary.TryGetValue(player.PlayerId, out NetworkObject selectedCharacter))
+            if (positionProvider != null && SelectedCharactersDictionary.TryGetValue(player.PlayerId, out NetworkObject selectedCharacter))
             {
-                Runner.Spawn(selectedCharacter, new Vector3(UnityEngine.Random.Range(140, 150), 5f, UnityEngine.Random.Range(120, 115)), Quaternion.identity, player);
+                int randomBeachSpawnPoint = UnityEngine.Random.Range(0, beachSidePositionsList.Count);
+                int randomForestSpawnPoint = UnityEngine.Random.Range(0, forestSidePositionsList.Count);
+
+                if (selectedCharacter.tag == "Atacante")
+                {
+                    Runner.Spawn(selectedCharacter, beachSidePositionsList[randomBeachSpawnPoint].position, Quaternion.identity, player);
+                    beachSidePositionsList.Remove(beachSidePositionsList[randomBeachSpawnPoint]);
+                }
+
+                else if (selectedCharacter.tag == "Defensor")
+                {
+                    Runner.Spawn(selectedCharacter, forestSidePositionsList[randomForestSpawnPoint].position, Quaternion.identity, player);
+                    forestSidePositionsList.Remove(forestSidePositionsList[randomForestSpawnPoint]);
+                }
+
+                else
+                {
+                    Runner.Spawn(selectedCharacter, forestSidePositionsList[randomForestSpawnPoint].position, Quaternion.identity, player);
+                    forestSidePositionsList.Remove(forestSidePositionsList[randomForestSpawnPoint]);
+                    Debug.Log("Different tag associated to player spawned");
+                }
+
+                //Runner.Spawn(selectedCharacter, new Vector3(UnityEngine.Random.Range(140, 150), 5f, UnityEngine.Random.Range(120, 115)), Quaternion.identity, player);
+                SelectedCharactersDictionary.Remove(player.PlayerId);
+            }
+
+            else if (positionProvider == null && SelectedCharactersDictionary.TryGetValue(player.PlayerId, out NetworkObject selectedCharacterException))
+            {
+                Runner.Spawn(selectedCharacterException, new Vector3(UnityEngine.Random.Range(140, 150), 5f, UnityEngine.Random.Range(150, 121)), Quaternion.identity, player);
                 SelectedCharactersDictionary.Remove(player.PlayerId);
             }
         }
@@ -78,10 +115,7 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void SpawnDefaultPlayer(NetworkRunner runner, PlayerRef player)
     {
-        if (runner.IsServer)
-        {
-            runner.Spawn(character1Prefab, new Vector3(UnityEngine.Random.Range(-10, 10), 1, UnityEngine.Random.Range(-10, 10)), Quaternion.identity, player);
-        }
+
     }
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {

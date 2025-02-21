@@ -4,156 +4,168 @@ using Fusion;
 using Fusion.Sockets;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
 
 public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
-
 {
-    private NetworkRunner _runner;
-    [SerializeField] private NetworkPrefabRef _playerPrefab;
+    public NetworkRunner Runner { get; private set; }
 
-    private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+    [Header("Network Static Objects")]
+    [SerializeField] NetworkObject serverTimerPrefab;
+    [SerializeField] NetworkObject matchManagerPrefab;
+    [SerializeField] NetworkObject spawnerPrefab;
+    [SerializeField] NetworkObject playerSelectionManagerPrefab;
 
+    [Header("Server Settings")]
+    [SerializeField] private int maxNumberOfPlayers;
 
-    private int maxPlayers = 2; // Defina o número máximo de jogadores por sala 
-    private int roomCount = 1; // Contador de salas
-
-    async void StartGame(GameMode mode)
+    public void StartServer()
     {
-        // Create the Fusion runner and let it know that we will be providing user input
-        if(_runner != null){
-            Destroy(_runner.gameObject);
-        }
-        _runner = gameObject.AddComponent<NetworkRunner>();
-        //!tentativa de criar um novo objeto para receber as informações da sala, problema do pleyer não spawnar na cena
-        // _runner = new GameObject("NetworkRunner").AddComponent<NetworkRunner>();  
-        // _runner = _runner.GetComponent<NetworkRunner>();
-        _runner.ProvideInput = true;
+        StartGame();
+    }
 
-        // Create the NetworkSceneInfo from the current scene
-        var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
-        var sceneInfo = new NetworkSceneInfo();
-        if (scene.IsValid) {
-            sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
-        }
+    async void StartGame(GameMode gameMode = GameMode.AutoHostOrClient)
+    {
+        DontDestroyOnLoad(gameObject);
+        if (Runner != null) Destroy(Runner.gameObject);
 
-        // Start or join (depends on gamemode) a session with a specific name
-        // await _runner.StartGame(new StartGameArgs()
-        var startGameArgs = new StartGameArgs()
+        var connectionResult = await InitializeNetworkRunner(gameMode, NetAddress.Any(), SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex), null);
+        InitializeServerTimer();
+        InitializeSpawner();
+
+        if (!CheckConnectionResult(connectionResult))
         {
-            GameMode = mode,
-            SessionName = "TestRoom" + roomCount,
-            Scene = scene,
-            SceneManager = _runner.gameObject.AddComponent<NetworkSceneManagerDefault>(),
-            PlayerCount = maxPlayers
-        };
+            if (connectionResult.ShutdownReason == ShutdownReason.GameIsFull)
+            {
+                StartGame(GameMode.Host);
+                return;
+            }
+        }
 
-        var result = await _runner.StartGame(startGameArgs);
+        FindObjectOfType<UISearchMatchController>().Initialize();
+        //MatchManager.Instance.Initialize();
+    }
 
-        if (!result.Ok && result.ShutdownReason == ShutdownReason.GameIsFull) 
-        { 
-            roomCount++; 
-            StartGame(GameMode.AutoHostOrClient); 
+    private void InitializeServerTimer()
+    {
+        if (!Runner.IsServer) return;
+
+        NetworkObject serverTimer = Runner.Spawn(serverTimerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
+        //Runner.SceneManager.MakeDontDestroyOnLoad(serverTimer.gameObject);
+
+    }
+
+    private void InitializeSpawner()
+    {
+        if (!Runner.IsServer) return;
+
+        NetworkObject spawner = Runner.Spawn(spawnerPrefab, new Vector3(10,10,10), Quaternion.identity, PlayerRef.None);
+        if (spawner.GetComponent<Spawner>() is Spawner s)
+        {
+            Runner.AddCallbacks(s);
+            //Runner.SceneManager.MakeDontDestroyOnLoad(s.gameObject);
         }
 
     }
 
-
-    private void OnGUI()
+    public void LoadNextScene(NetworkRunner runner, string sceneName)
     {
-        if (_runner == null)
+        if (!runner.IsSceneAuthority) return;
+
+        SceneRef sceneRef = runner.GetSceneRef(sceneName);
+
+        runner.LoadScene(sceneRef, LoadSceneMode.Single);
+    }
+    private bool CheckConnectionResult(StartGameResult connectionResult)
+    {
+        if (!connectionResult.Ok && connectionResult.ShutdownReason == ShutdownReason.GameIsFull)
         {
-            if (GUI.Button(new Rect(0,0,200,40), "Host"))
-            {
-                StartGame(GameMode.Host);
-            }
-            if (GUI.Button(new Rect(0,40,200,40), "Join"))
-            {
-                StartGame(GameMode.Client);
-            }
-            if (GUI.Button(new Rect(0,80,200,40), "Shared")) 
-            { 
-                StartGame(GameMode.Shared); 
-            }
-            if (GUI.Button(new Rect(0,120,200,40), "Auto")) 
-            { 
-                StartGame(GameMode.AutoHostOrClient); 
-            }
+            //roomCount++;
+            return false;
         }
+
+        return true;
+    }
+
+    public virtual Task<StartGameResult> InitializeNetworkRunner(GameMode gameMode, NetAddress address, SceneRef scene, Action<NetworkRunner> onGameStarted)
+    {
+        Runner = new GameObject("Network Runner").AddComponent<NetworkRunner>();
+
+        Runner.AddCallbacks(this);
+        //Runner.AddCallbacks(FindObjectOfType<HostManager>());
+
+
+        var sceneManager = Runner.GetComponents(typeof(MonoBehaviour)).OfType<INetworkSceneManager>().FirstOrDefault();
+
+        if (sceneManager == null)
+        {
+            sceneManager = Runner.gameObject.AddComponent<NetworkSceneManagerDefault>();
+        }
+
+        Runner.ProvideInput = true;
+
+
+
+        return Runner.StartGame(new StartGameArgs
+        {
+            GameMode = gameMode,
+            Address = address,
+            Scene = scene,
+            SessionName = "Test Room5",
+            OnGameStarted = onGameStarted,
+            SceneManager = sceneManager,
+            PlayerCount = maxNumberOfPlayers
+        });
+    }
+    //private void OnGUI()
+    //{
+    //    if (Runner == null)
+    //    {
+    //        if (GUI.Button(new Rect(0, 0, 200, 40), "Start Game"))
+    //        {
+    //            StartGame(GameMode.AutoHostOrClient);
+    //            //gameMode = GameMode.AutoHostOrClient;
+    //        }
+    //        if (GUI.Button(new Rect(0, 40, 200, 40), "Host"))
+    //        {
+    //            StartGame(GameMode.Host);
+    //            //gameMode = GameMode.Host;
+    //        }
+    //        if (GUI.Button(new Rect(0, 80, 200, 40), "Join"))
+    //        {
+    //            StartGame(GameMode.Client);
+    //            //gameMode = GameMode.Client;
+    //        }
+    //    }
+    //}
+    public void Disconect()
+    {
+        if (Runner == null) return;
+        if (!Runner.IsRunning) return;
+
+        Runner.Shutdown();
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        // if (runner.IsServer)
-        if (_spawnedCharacters.Count < maxPlayers)
-        {
-            // Create a unique position for the player
-            // Debug.Log("esta entrando aqui bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-            Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 3, 1, 0);
-            NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
-            // Keep track of the player avatars for easy access
-            _spawnedCharacters.Add(player, networkPlayerObject);
-        }
-        else { Debug.Log("Sala cheia. Não é possível adicionar mais jogadores."); }
+        if (runner.ActivePlayers.Count() != maxNumberOfPlayers) return;
 
+        if (!runner.IsSceneAuthority) return;
 
-        // if (_spawnedCharacters.Count >= maxPlayers)
-        // {
-        //     roomCount++;
-        //     StartGame(GameMode.AutoHostOrClient);
-        // }
-        // else
-        // {
-        //     Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(-10, 10), 1.5f, UnityEngine.Random.Range(-10, 10));
-        //     NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
-        //     _spawnedCharacters.Add(player, networkPlayerObject);
-        // }
+        SceneRef sceneRef = runner.GetSceneRef("ChangeCharacter");
 
-
-        // if  (runner.IsSharedModeMasterClient && player.IsRealPlayer) 
-        // { 
-        //     Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(-10, 10), 1.5f, UnityEngine.Random.Range(-10, 10)); 
-        //     NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
-        //     _spawnedCharacters.Add(player, networkPlayerObject); 
-        // }
-
-
+        runner.LoadScene(sceneRef, LoadSceneMode.Single);
     }
-
-    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
-    {
-        if (_spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
-        {
-            runner.Despawn(networkObject);
-            _spawnedCharacters.Remove(player);
-        }
-    }
-
-
-    public void OnInput(NetworkRunner runner, NetworkInput input)
-    {
-    var data = new NetworkInputData();
-
-    if (Input.GetKey(KeyCode.W))
-        data.direction += Vector3.forward;
-
-    if (Input.GetKey(KeyCode.S))
-        data.direction += Vector3.back;
-
-    if (Input.GetKey(KeyCode.A))
-        data.direction += Vector3.left;
-
-    if (Input.GetKey(KeyCode.D))
-        data.direction += Vector3.right;
-
-    input.Set(data);
-    }
-
-    
-
-
-
+    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { }
+    public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
+    public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
+    public void OnInput(NetworkRunner runner, NetworkInput input) { }
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
+    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
+    {
+
+    }
     public void OnConnectedToServer(NetworkRunner runner) { }
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
@@ -162,12 +174,24 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
-    public void OnSceneLoadDone(NetworkRunner runner) { }
-    public void OnSceneLoadStart(NetworkRunner runner) { }
-    public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player){ }
-    public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player){ }
-    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data){ }
-    public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress){ }
-  }
+    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
+    public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
+    public void OnSceneLoadDone(NetworkRunner runner)
+    {
+        if (!runner.IsSceneAuthority) return;
 
+        if (SceneManager.GetActiveScene().name == "TerrainTest")
+        {
+            Runner.Spawn(matchManagerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
+        }
 
+        if (SceneManager.GetActiveScene().name == "ChangeCharacter")
+        {
+            Runner.Spawn(playerSelectionManagerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
+        }
+    }
+    public void OnSceneLoadStart(NetworkRunner runner)
+    {
+
+    }
+}

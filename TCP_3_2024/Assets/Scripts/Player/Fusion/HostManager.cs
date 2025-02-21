@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Fusion.Sockets;
 using Photon.Realtime;
 
-public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
+public class HostManager : MonoBehaviour
 {
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
@@ -28,10 +28,10 @@ public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
             _spawnedCharacters.Remove(player);
         }
 
-        if (Object.HasStateAuthority && player == Object.InputAuthority)
-        {
-            TransferHost(runner);
-        }
+        //if (Object.HasStateAuthority && player == Object.InputAuthority)
+        //{
+        //    TransferHost(runner);
+        //}
 
     }
 
@@ -69,12 +69,12 @@ public class HostManager : NetworkBehaviour, INetworkRunnerCallbacks
         //Debug.Log("ta no Tranfer");
         foreach (var player in runner.ActivePlayers)
         {
-            if (player != Object.InputAuthority)
-            {
-                runner.SetPlayerObject(player, runner.GetPlayerObject(player));
-                //Debug.Log("Novo host: " + player);
-                break;
-            }
+            //if (player != Object.InputAuthority)
+            //{
+            //    runner.SetPlayerObject(player, runner.GetPlayerObject(player));
+            //    //Debug.Log("Novo host: " + player);
+            //    break;
+            //}
         }
     }
 

@@ -1,20 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class UISearchMatchController : MonoBehaviour
 {
-    [SerializeField] private GameObject searchMatchPanel;
-    private TextMeshProUGUI timerText;
+    [SerializeField] private GameObject cancelButton;
+    [SerializeField] private TextMeshProUGUI timerText;
     private bool initialized;
     private float elapsedTime;
     private int secconds;
     private int minutes;
+    private string initialText;
+
 
     private void Start()
     {
-        searchMatchPanel.SetActive(false);
+        initialText = timerText.text;
     }
     void Update()
     {
@@ -33,8 +33,20 @@ public class UISearchMatchController : MonoBehaviour
     }
     public void Initialize()
     {
-        timerText = searchMatchPanel.GetComponentInChildren<TextMeshProUGUI>();
-        searchMatchPanel.SetActive(true);
+        cancelButton.SetActive(true);
         initialized = true;
+    }
+
+    public void CancelSearch()
+    {
+        cancelButton.SetActive(false);
+        initialized = false;
+        timerText.text = initialText;
+        elapsedTime = 0f;
+    }
+
+    private void OnDisable()
+    {
+        timerText.text = initialText;
     }
 }

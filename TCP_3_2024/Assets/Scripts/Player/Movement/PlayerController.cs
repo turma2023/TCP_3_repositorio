@@ -1,7 +1,4 @@
-using System.Linq;
-using Cinemachine;
 using Fusion;
-using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -35,7 +32,7 @@ public class PlayerController : NetworkBehaviour
 
     [Networked] private Quaternion networkRotation { get; set; }
     [Networked] private Quaternion networkPivotGun { get; set; }
-    [Networked] private Vector3 networkPosition { get; set; }
+    [Networked] public Vector3 networkPosition { get; set; }
     public BombHandler BombHandler { get; private set; }
 
     private int numTeam;
@@ -45,18 +42,24 @@ public class PlayerController : NetworkBehaviour
 
     private void Awake()
     {
-        // numTeam = UnityEngine.Random.Range(1, 3);
 
         PlayerInputController = new PlayerInputController(GetComponent<PlayerInput>());
         PlayerMovement = GetComponent<PlayerMovement>();
         CurrentHealth = MaxHealth;
 
         playerRenderer = PlayerModel.GetComponent<Renderer>();
-        smokeBombSkill.Initialize(transform);
         BombHandler = GetComponent<BombHandler>();
     }
 
-    
+    void Start()
+    {
+        //transform.position = networkPosition;
+    }
+
+    private void SetStartPosition()
+    {
+        networkPosition = transform.position;
+    }
 
     public void TakeDamage(int damage)
     {
@@ -89,7 +92,6 @@ public class PlayerController : NetworkBehaviour
 
     private PlayerRef FindNewHost()
     {
-        // Implementar lógica para encontrar um novo host // Por exemplo, selecionar um jogador aleatório ou o próximo na lista de jogadores 
         foreach (var player in Runner.ActivePlayers)
         {
             if (player != Object.InputAuthority)
@@ -104,65 +106,16 @@ public class PlayerController : NetworkBehaviour
     public void SetTeam(string team)
     {
         Team = team;
-        // ApplyTeamColor();
     }
     public string GetTeam()
     {
         return Team;
     }
 
-    public void Start(){
-        // if (numTeam == 1)
-        // {
-        //     gameObject.tag = "Atacante";
-        // }
-        // if (numTeam == 2)
-        // {
-        //     gameObject.tag = "Defensor";
-        // }
-
-    }
-
-    // [Rpc(RpcSources.All, RpcTargets.All)]
-    // [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    void RPC_ApplyTeamColor()
-    {
-        // if (Team == "Blue")
-        // {
-        //     playerRenderer.material = blueMaterial;
-        // }
-        // else if (Team == "Red")
-        // {
-        //     playerRenderer.material = redMaterial;
-        // }
-
-        // if (gameObject.tag == "Atacante"){
-        //     playerRenderer.material = redMaterial;
-        // }
-        // if (gameObject.tag == "Defensor"){
-        //     playerRenderer.material = blueMaterial;
-        // }
-    }
-
 
     private void Update()
     {
-        // if (Object.has)
-        //RPC_ApplyTeamColor();
 
-        if (smokeBombSkill.Preparing)
-        {
-            smokeBombSkill.ShowTrajectory(transform);
-
-            if (Input.GetKeyDown(KeyCode.Mouse0)) smokeBombSkill.Execute();
-            if (Input.GetKeyDown(KeyCode.T)) smokeBombSkill.Cancel();
-        }
-
-        else
-        {
-            smokeBombSkill.HideTrajectory();
-            if (Input.GetKeyDown(KeyCode.T)) smokeBombSkill.Anticipate();
-        }
 
         if (Object.HasInputAuthority)
         {
@@ -200,9 +153,9 @@ public class PlayerController : NetworkBehaviour
 
     public override void Spawned()
     {
-        base.Spawned();
+        //base.Spawned();
         transform.rotation = Quaternion.identity;
-
+        if (Object.HasStateAuthority) SetStartPosition();
 
         if (Object.HasInputAuthority)
         {
@@ -213,16 +166,17 @@ public class PlayerController : NetworkBehaviour
             camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
             GetComponent<StateMachine>().enabled = true;
             // pivotGun.gameObject.SetActive(false);
-
-
+            //networkPosition = transform.position;
             //TeamUI.GetComponent<TeamSelection>().Show(gameObject);
 
         }
         else
         {
-            // camera.gameObject.SetActive(false);
 
         }
+
+        transform.position = networkPosition;
+
     }
 
 }
