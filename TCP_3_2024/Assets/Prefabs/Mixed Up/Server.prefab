@@ -53,7 +53,7 @@ MonoBehaviour:
     type: 3}
   playerSelectionManagerPrefab: {fileID: 5708869573761157378, guid: b0664d3c068c06246acd3b7f88f57ca5,
     type: 3}
-  maxNumberOfPlayers: 2
+  maxNumberOfPlayers: 1
 --- !u!114 &2779142872194150414
 MonoBehaviour:
   m_ObjectHideFlags: 0

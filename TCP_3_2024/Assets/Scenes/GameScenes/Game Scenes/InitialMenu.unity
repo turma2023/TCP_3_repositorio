@@ -7257,9 +7257,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8776042382256795978, guid: 50f28383c0252a947b3661b5276c868b,
         type: 3}
-      propertyPath: maxNumberOfPlayers
-      value: 2
-      objectReference: {fileID: 0}
+      propertyPath: matchManagerPrefab
+      value: 
+      objectReference: {fileID: 5517715050050457715, guid: b545168e3f376be41891ed6502d60571,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
