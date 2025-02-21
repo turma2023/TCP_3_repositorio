@@ -31,17 +31,20 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
         if (Runner != null) Destroy(Runner.gameObject);
 
         var connectionResult = await InitializeNetworkRunner(gameMode, NetAddress.Any(), SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex), null);
-        InitializeServerTimer();
-        InitializeSpawner();
+        
 
         if (!CheckConnectionResult(connectionResult))
         {
             if (connectionResult.ShutdownReason == ShutdownReason.GameIsFull)
             {
+                Runner.RemoveCallbacks(this);
                 StartGame(GameMode.Host);
                 return;
             }
         }
+
+        InitializeServerTimer();
+        InitializeSpawner();
 
         FindObjectOfType<UISearchMatchController>().Initialize();
         //MatchManager.Instance.Initialize();

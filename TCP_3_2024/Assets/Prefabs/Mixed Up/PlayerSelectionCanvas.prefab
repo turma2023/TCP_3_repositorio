@@ -1,5 +1,80 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1278428078858831305
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 543073805501245486}
+  - component: {fileID: 5901825655172649618}
+  - component: {fileID: 5335169531953904859}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &543073805501245486
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278428078858831305}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.81, y: 2.81, z: 2.81}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 5929980892438641686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 45.469913, y: -4.9163427}
+  m_SizeDelta: {x: 94, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5901825655172649618
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278428078858831305}
+  m_CullTransparentMesh: 1
+--- !u!114 &5335169531953904859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278428078858831305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 18587e4a919423a4bb4ba127520cfdc8, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1601098956357089685
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +507,81 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5399052675762867392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 488150548585023985}
+  - component: {fileID: 5607270395945210369}
+  - component: {fileID: 6449428552707538649}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &488150548585023985
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5399052675762867392}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.1475737, y: 3.1475737, z: 3.1475737}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 6808813609343981049}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -60.848526, y: -2.2675738}
+  m_SizeDelta: {x: 94, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5607270395945210369
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5399052675762867392}
+  m_CullTransparentMesh: 1
+--- !u!114 &6449428552707538649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5399052675762867392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 0274ea89c28c3814a869ed1ef1f7dc28, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8416166934882565094
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,10 +654,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4905277852765528141}
     m_Modifications:
+    - target: {fileID: 101406374806477198, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_fontSizeMin
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 679469092088287279, guid: b2e9e6a69a02e544788db18e57aa955d,
         type: 3}
       propertyPath: m_Name
       value: 'Player Selection '
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371862082153400679, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2511114270041036031, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2511114270041036031, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1b2f52cc33ba3d0468ea3673d9954c3d,
+        type: 3}
+    - target: {fileID: 3302426363037369277, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_text
+      value: "N\xE9voa Do Litoral:\nSmoke com aspecto de areia que serve para limitar
+        a vis\xE3o dos jogadores que passarem por dentro dela."
       objectReference: {fileID: 0}
     - target: {fileID: 3724998186272200492, guid: b2e9e6a69a02e544788db18e57aa955d,
         type: 3}
@@ -542,12 +719,27 @@ PrefabInstance:
     - target: {fileID: 3724998186272200492, guid: b2e9e6a69a02e544788db18e57aa955d,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 94.8007
       objectReference: {fileID: 0}
     - target: {fileID: 3724998186272200492, guid: b2e9e6a69a02e544788db18e57aa955d,
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3724998186272200492, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3724998186272200492, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3724998186272200492, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3724998186272200492, guid: b2e9e6a69a02e544788db18e57aa955d,
         type: 3}
@@ -609,6 +801,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3724998186272200492, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4116397549573854625, guid: b2e9e6a69a02e544788db18e57aa955d,
         type: 3}
       propertyPath: <playerPrefab>k__BackingField
@@ -620,9 +817,75 @@ PrefabInstance:
       propertyPath: <CharacterIndex>k__BackingField
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4302629733447819615, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302629733447819615, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302629733447819615, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302629733447819615, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901415889407001602, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901415889407001602, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8c9a05d6b8abff546afc38b9613e1e28,
+        type: 3}
+    - target: {fileID: 4901415889407001602, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5380532820183415893, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5380532820183415893, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c0510201222207e42a7332c0b00b8ee2,
+        type: 3}
+    - target: {fileID: 5787438523055966534, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_text
+      value: "Mar\xE9 Atordoante:\nUma onda que viaja para frente 20 metros que atravessa
+        paredes e \xE9 capaz de stunar os inimigos atingidos."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817259769163104554, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_text
+      value: 'Barreira Tropical:
+
+        Barreira protetora em formato de guarda
+        sol que pode ser colocada em um raio de 5 metros do personagem. Bloqueia
+        a passagem.'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3724998186272200492, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 543073805501245486}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2e9e6a69a02e544788db18e57aa955d, type: 3}
 --- !u!224 &5929980892438641686 stripped
@@ -645,6 +908,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4905277852765528141}
     m_Modifications:
+    - target: {fileID: 101406374806477198, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_fontSizeMin
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 679469092088287279, guid: b2e9e6a69a02e544788db18e57aa955d,
         type: 3}
       propertyPath: m_Name
@@ -653,7 +921,7 @@ PrefabInstance:
     - target: {fileID: 1371862082153400679, guid: b2e9e6a69a02e544788db18e57aa955d,
         type: 3}
       propertyPath: m_text
-      value: Player 1
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1371862082153400679, guid: b2e9e6a69a02e544788db18e57aa955d,
         type: 3}
@@ -664,6 +932,23 @@ PrefabInstance:
         type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2511114270041036031, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2511114270041036031, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 637204987c1fbe44ba33421b05925457,
+        type: 3}
+    - target: {fileID: 3302426363037369277, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_text
+      value: "Trilha Da Cachoeira:\nDash para frente utilizando \xE1gua que deixa
+        um rastro com aspecto de \xE1gua."
       objectReference: {fileID: 0}
     - target: {fileID: 3724998186272200492, guid: b2e9e6a69a02e544788db18e57aa955d,
         type: 3}
@@ -776,9 +1061,64 @@ PrefabInstance:
       propertyPath: <CharacterIndex>k__BackingField
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4302629733447819615, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901415889407001602, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901415889407001602, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4218a86109cf9194fa239d4fa231e82e,
+        type: 3}
+    - target: {fileID: 5380532820183415893, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5380532820183415893, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 35503daa35617c14e872bd554f9ab075,
+        type: 3}
+    - target: {fileID: 5787438523055966534, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_text
+      value: "Queda Oculta:\nParede de \xE1gua reta que percorre uma certa dist\xE2ncia.
+        Restringe a vis\xE3o e causa lentid\xE3o caso o inimigo passar por dentro."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817259769163104554, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_text
+      value: "Inunda\xE7\xE3o Da Cascata:\nCria uma cachoeira circular ao seu redor
+        em uma \xE1rea que se espalha rapidamente, empurrando inimigos para fora
+        da \xE1rea e causando dano cont\xEDnuo enquanto estiverem dentro. Aliados
+        na \xE1rea recebem buff de velocidade de movimento."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817259769163104554, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_fontSizeMin
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817259769163104554, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3724998186272200492, guid: b2e9e6a69a02e544788db18e57aa955d,
+        type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 488150548585023985}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2e9e6a69a02e544788db18e57aa955d, type: 3}
 --- !u!1 &6067114453390829974 stripped
