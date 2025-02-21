@@ -1,9 +1,9 @@
 using UnityEngine;
 using Fusion; // Se estiver usando Photon Fusion
 
-public class TrilhaDaCachoeira : NetworkBehaviour
+public class TrilhaDaCachoeira : Skill
 {
-    public float força_do_dash = 10f;
+    public float forca_do_dash = 10f;
     private Rigidbody rb;
 
     void Start()
@@ -13,14 +13,15 @@ public class TrilhaDaCachoeira : NetworkBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && Object.HasInputAuthority)
+        if (Input.GetKeyDown(KeyCode.E) && Object.HasInputAuthority && HasUsed)
         {
             StartDash();
+            DisableUse();
         }
     }
 
     void StartDash()
     {
-        rb.AddForce(transform.forward * força_do_dash, ForceMode.Impulse);
+        rb.AddForce(transform.forward * forca_do_dash, ForceMode.Impulse);
     }
 }

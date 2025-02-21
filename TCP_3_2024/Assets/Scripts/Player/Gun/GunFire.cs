@@ -143,7 +143,7 @@ public class GunFire : NetworkBehaviour
 
     [Rpc(RpcSources.All, RpcTargets.All)]
     private void RPC_ShootEffect(){
-        //particles.Play();
+        particles.Play();
         StartCoroutine(ApplyRecoil());
             
         if (spreadAmountCurrotin < spreadAmountMax)

@@ -6070,6 +6070,12 @@ PrefabInstance:
       propertyPath: SortKey
       value: 4219233002
       objectReference: {fileID: 0}
+    - target: {fileID: 6855990217359469459, guid: 85b0d8ed534a58c43a07cacaea11a87c,
+        type: 3}
+      propertyPath: shockwavePrefab
+      value: 
+      objectReference: {fileID: 922720494298162197, guid: 9cf244714939a244eb7a7ac6a1e64c3f,
+        type: 3}
     - target: {fileID: 7299474097578385189, guid: 85b0d8ed534a58c43a07cacaea11a87c,
         type: 3}
       propertyPath: m_Name

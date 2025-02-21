@@ -2,18 +2,19 @@ using System.Collections;
 using UnityEngine;
 using Fusion;
 
-public class QuedaOculta_1 : NetworkBehaviour
+public class QuedaOculta_1 : Skill
 {
     public GameObject wallPrefab; // Prefab da parede que sera spawnada
-    public float spawnDistance = 2f; // Distancia à frente do jogador onde a parede será spawnada
+    public float spawnDistance = 2f; // Distancia ï¿½ frente do jogador onde a parede serï¿½ spawnada
     public float wallLifetime = 5f; // Tempo em segundos ate a parede desaparecer
 
     void Update()
     {
         // Verifica se o jogador pressionou a tecla Q e se tem autoridade de entrada
-        if (Input.GetKeyDown(KeyCode.Q) && Object.HasInputAuthority)
+        if (Input.GetKeyDown(KeyCode.Q) && Object.HasInputAuthority && !HasUsed)
         {
             RPC_SpawnWall();
+            DisableUse();
         }
     }
 

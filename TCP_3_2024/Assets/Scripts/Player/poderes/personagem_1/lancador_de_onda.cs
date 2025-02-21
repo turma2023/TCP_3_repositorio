@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-public class LancadorDeOnda : NetworkBehaviour
+public class LancadorDeOnda : Skill
 {
     public GameObject shockwavePrefab; 
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && Object.HasInputAuthority)
+        if (Input.GetKeyDown(KeyCode.E) && Object.HasInputAuthority && !HasUsed)
         {
             RPC_LaunchShockwave();
         }
@@ -22,7 +22,7 @@ public class LancadorDeOnda : NetworkBehaviour
         {
             if (shockwavePrefab != null)
             {
-                Vector3 spawnPosition = transform.position;
+                Vector3 spawnPosition = transform.position + transform.forward * 1.0f;;
                 Quaternion spawnRotation = transform.rotation;
 
            
@@ -30,6 +30,7 @@ public class LancadorDeOnda : NetworkBehaviour
 
                 
                 shockwaveNetworkObject.gameObject.tag = gameObject.tag;
+                DisableUse();
             }
         }
     }

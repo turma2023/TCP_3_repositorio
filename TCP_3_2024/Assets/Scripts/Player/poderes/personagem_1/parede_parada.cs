@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-public class ParedeParada : NetworkBehaviour
+public class ParedeParada : Skill
 {
     public GameObject wallPreviewPrefab; // Prefab do preview da parede
     public GameObject wallRealPrefab; 
@@ -12,11 +12,13 @@ public class ParedeParada : NetworkBehaviour
     public LayerMask groundLayer; // Camada do chao para posicionar a parede
 
     private GameObject currentPreview; // Preview atual
-    private bool isPreviewActive = false; // Indica se o preview está ativo
+    private bool isPreviewActive = false; // Indica se o preview estï¿½ ativo
+
+    private bool activeRotation;
 
     void Update()
     {
-        if (Input.GetKeyDown(placeKey) && Object.HasInputAuthority)
+        if (Input.GetKeyDown(placeKey) && Object.HasInputAuthority && !HasUsed)
         {
             if (!isPreviewActive)
             {
@@ -33,6 +35,7 @@ public class ParedeParada : NetworkBehaviour
 
                 // Chama o RPC para spawnar a parede real
                 RPC_PlaceWall(spawnPosition, spawnRotation);
+                DisableUse();
             }
         }
 
@@ -55,16 +58,25 @@ public class ParedeParada : NetworkBehaviour
 
     void UpdatePreviewPosition()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, groundLayer))
+
+        Vector3 shootDirection = GetComponent<PlayerController>().camera.transform.forward;
+
+        RaycastHit hit;
+        if (Physics.Raycast(GetComponent<PlayerController>().camera.transform.position, shootDirection, out hit, 10, groundLayer))
         {
             currentPreview.transform.position = hit.point;
+            currentPreview.transform.rotation = GetComponent<PlayerController>().transform.rotation;
+            Debug.LogError(hit.point);
+            if (activeRotation)
+            { 
+                currentPreview.transform.Rotate(new Vector3(0, 90, 0), Space.Self);
+            }
         }
     }
 
     void RotatePreview()
     {
-        currentPreview.transform.Rotate(0, 90, 0);
+        activeRotation = !activeRotation;
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
@@ -72,10 +84,7 @@ public class ParedeParada : NetworkBehaviour
     {
         if (wallRealPrefab != null)
         {
-          
             NetworkObject wallNetworkObject = Runner.Spawn(wallRealPrefab, spawnPosition, spawnRotation, Object.InputAuthority);
-
-            
             wallNetworkObject.gameObject.tag = gameObject.tag;
         }
     }
