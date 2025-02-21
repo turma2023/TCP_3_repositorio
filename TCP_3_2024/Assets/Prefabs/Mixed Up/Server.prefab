@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverTimerPrefab: {fileID: 6419087459547311166, guid: ae047d600982df340908c6d42149d111,
     type: 3}
-  matchManagerPrefab: {fileID: 6419087459547311166, guid: ae047d600982df340908c6d42149d111,
+  matchManagerPrefab: {fileID: 5517715050050457715, guid: b545168e3f376be41891ed6502d60571,
     type: 3}
   spawnerPrefab: {fileID: 3444325514898176024, guid: 94c603f29252be480b1bed3646033895,
     type: 3}
