@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b41435b0a75da4c41badd0c2e9019a53
+guid: 509ea472bc151eb41ba223466731d302
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "bot\xE3oJogar_0"
+      name: "bot\xE3oop\xE7\xF5es_0"
       rect:
         serializedVersion: 2
         x: 642
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 206de3310666ab84c827c8b966e91886
-      internalID: 2129598144
+      spriteID: 257737bdf565af74da1a3a2a78a74ade
+      internalID: -512659541
       vertices: []
       indices: 
       edges: []
@@ -141,7 +141,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      "bot\xE3oJogar_0": 2129598144
+      "bot\xE3oop\xE7\xF5es_0": -512659541
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
