@@ -12,7 +12,9 @@ public class ServerTimer : NetworkBehaviour, INetworkRunnerCallbacks
     {
         DontDestroyOnLoad(this);
     }
-    public void StartTimer(float timerDuration)
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_StartTimer(float timerDuration)
     {
         if (Runner.IsServer)
         {

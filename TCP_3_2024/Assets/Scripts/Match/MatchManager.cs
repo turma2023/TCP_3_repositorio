@@ -1,16 +1,16 @@
 using System;
+using System.Xml.Serialization;
 using Fusion;
 using UnityEngine;
 
 public class MatchManager : NetworkBehaviour
 {
-    [field: SerializeField] public float? RoundTime { get; private set; }
-    private float? originalRoundTime;
-    [field: SerializeField] public float? BuyPhaseTime { get; private set; }
-    private float? originalBuyPhaseTime;
+    [field: SerializeField] public float RoundTime { get; private set; }
+    private float originalRoundTime;
+    [field: SerializeField] public float BuyPhaseTime { get; private set; }
+    private float originalBuyPhaseTime;
     [field: SerializeField] public int MaxNumberOfRounds { get; private set; }
-    public MatchPhases CurrentMatchPhase { get; private set; }
-
+    [Networked] public MatchPhases CurrentMatchPhase { get; private set; }
     public bool IsInitialized { get; private set; }
     [Networked] public int TeamARoundsWon { get; private set; }
     [Networked] public int TeamBRoundsWon { get; private set; }
@@ -25,6 +25,9 @@ public class MatchManager : NetworkBehaviour
     public event Action OnMatchStart;
     public event Action OnMatchEnd;
 
+    public event Action OnBombPlant;
+    public event Action OnBombDefuse;
+
     public event Action<MatchPhases> OnPhaseChanged;
 
     private ServerTimer serverTimer;
@@ -36,29 +39,35 @@ public class MatchManager : NetworkBehaviour
         originalBuyPhaseTime = BuyPhaseTime;
         originalRoundTime = RoundTime;
 
-        serverTimer = FindObjectOfType<ServerTimer>();
-        serverTimer.OnTimerExpired += OnServerTimerEnd;
-        OnRoundEnd += OnRoundEnded;
-
-        Initialize();
     }
     void Start()
     {
-        
     }
 
     void Update()
     {
+        Initialize();
         if (!IsInitialized) return;
         TryInvokeBuyPhaseEvents();
         TryInvokeRoundEvents();
+        TryInvokeBombEvents();
         UpdateTimers();
     }
 
     public void Initialize()
     {
         if (IsInitialized) return;
+
         ResetImportantValues();
+
+        serverTimer = FindObjectOfType<ServerTimer>();
+
+        if (serverTimer == null) return;
+
+        RPC_SetCurrentPhase(MatchPhases.BuyPhase);
+        serverTimer.OnTimerExpired += OnServerTimerEnd;
+        OnRoundEnd += OnRoundEnded;
+
         IsInitialized = true;
         OnMatchStart?.Invoke();
     }
@@ -67,23 +76,21 @@ public class MatchManager : NetworkBehaviour
     {
         RoundTime = originalRoundTime;
         BuyPhaseTime = originalBuyPhaseTime;
-        CurrentMatchPhase = MatchPhases.BuyPhase;
     }
 
-    public void UpdateRoundsWon()
+    public void UpdateRoundsWon(TeamSide team)
     {
         if (!Runner.IsServer) return;
 
-        int random = UnityEngine.Random.Range(0, 2);
-        switch (random)
+        switch (team)
         {
-            case 0:
+            case TeamSide.Attacker:
                 {
                     TeamARoundsWon++;
                     break;
                 }
 
-            case 1:
+            case TeamSide.Defender:
                 {
                     TeamBRoundsWon++;
                     break;
@@ -97,22 +104,93 @@ public class MatchManager : NetworkBehaviour
         originalBuyPhaseTime = time;
     }
 
-    public void SetCurrentPhase(MatchPhases phase)
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_SetCurrentPhase(MatchPhases phase)
     {
         CurrentMatchPhase = phase;
-        OnPhaseChanged?.Invoke(phase);
+        RPC_InvokeOnPhaseChanged(phase);
     }
 
-    private void UpdateTimers()
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_InvokeOnPhaseChanged(MatchPhases phase)
     {
+        OnPhaseChanged?.Invoke(phase);
 
-        if (BuyPhaseTime > 0f)
+        if (phase == MatchPhases.RoundPhase)
         {
-            BuyPhaseTime = serverTimer.RemainingTime();
+            BuyPhaseTime = 0f;
+            RoundTime = originalRoundTime;
+            serverTimer.RPC_StartTimer(originalRoundTime);
+            OnBuyPhaseEnd?.Invoke();
+            OnRoundStart?.Invoke();
+        }
+
+        else if (phase == MatchPhases.BuyPhase)
+        {
+            RoundTime = 0f;
+            BuyPhaseTime = originalBuyPhaseTime;
+            serverTimer.RPC_StartTimer(originalBuyPhaseTime);
+            OnBuyPhaseStart?.Invoke();
+        }
+
+        else if (phase == MatchPhases.BombPlanted)
+        {
+            serverTimer.RPC_StartTimer(60f);
+            OnBombPlant?.Invoke();
+        }
+
+        else if (phase == MatchPhases.BombDefused)
+        {
+            OnBombDefuse?.Invoke();
+            RPC_SetCurrentPhase(MatchPhases.EndPhase);
             return;
         }
 
-        if (RoundTime > 0f) RoundTime = serverTimer.RemainingTime();
+        else if (phase == MatchPhases.BombExploded)
+        {
+            RPC_SetCurrentPhase(MatchPhases.EndPhase);
+            return;
+        }
+
+        else if (phase == MatchPhases.EndPhase)
+        {
+            RoundTime = 0f;
+            OnRoundEnd?.Invoke();
+
+            if (Object.HasStateAuthority)
+            {
+                TryEndMatch();
+            }
+
+            if (CurrentMatchPhase == MatchPhases.MatchEnd) return;
+
+            serverTimer.RPC_StartTimer(2f);
+            RoundTime = 2f;
+            Invoke("ResetRound", 2f);
+        }
+
+        else if (phase == MatchPhases.MatchEnd)
+        {
+            OnMatchEnd?.Invoke();
+        }
+    }
+
+    private void ResetRound()
+    {
+        ResetImportantValues();
+        RPC_SetCurrentPhase(MatchPhases.BuyPhase);
+    }
+    private void UpdateTimers()
+    {
+        float remainingTime = serverTimer.RemainingTime() == null ? 0f : (float)serverTimer.RemainingTime();
+
+        if (BuyPhaseTime > 0f)
+        {
+            BuyPhaseTime = remainingTime;
+            return;
+        }
+
+        if (RoundTime > 0f) RoundTime = remainingTime;
 
     }
 
@@ -120,19 +198,10 @@ public class MatchManager : NetworkBehaviour
     {
         if (CurrentMatchPhase != MatchPhases.BuyPhase) return;
 
-        if (BuyPhaseTime <= 0f)
+        if (BuyPhaseTime <= 0f && !serverTimer.IsActive())
         {
-            OnBuyPhaseEnd?.Invoke();
-            CurrentMatchPhase = MatchPhases.RoundPhase;
-            OnPhaseChanged?.Invoke(CurrentMatchPhase);
             BuyPhaseTime -= Time.deltaTime;
-        }
-
-        if (BuyPhaseTime == originalBuyPhaseTime)
-        {
-            CurrentMatchPhase = MatchPhases.BuyPhase;
-            OnBuyPhaseStart?.Invoke();
-            OnPhaseChanged?.Invoke(CurrentMatchPhase);
+            if (Object.HasStateAuthority) RPC_SetCurrentPhase(MatchPhases.RoundPhase);
         }
     }
 
@@ -140,38 +209,62 @@ public class MatchManager : NetworkBehaviour
     {
         if (CurrentMatchPhase != MatchPhases.RoundPhase) return;
 
-        if (RoundTime == originalRoundTime)
+        if (RoundTime <= 0f && !serverTimer.IsActive())
         {
-            CurrentMatchPhase = MatchPhases.RoundPhase;
-            OnRoundStart?.Invoke();
-            OnPhaseChanged?.Invoke(CurrentMatchPhase);
-        }
+            if (Object.HasStateAuthority)
+            {
+                RPC_SetCurrentPhase(MatchPhases.EndPhase);
+                OnRoundEnd?.Invoke();
+            }
 
-        if (RoundTime <= 0f)
-        {
-            CurrentMatchPhase = MatchPhases.EndPhase;
-            OnRoundEnd?.Invoke();
-            OnPhaseChanged?.Invoke(CurrentMatchPhase);
             RoundTime -= Time.deltaTime;
         }
+    }
+
+    private void TryInvokeBombEvents()
+    {
+        if (CurrentMatchPhase != MatchPhases.BombPlanted) return;
+
+        if (RoundTime <= 0f && !serverTimer.IsActive())
+        {
+            if (Object.HasStateAuthority)
+            {
+                UpdateRoundsWon(TeamSide.Attacker);
+                RPC_SetCurrentPhase(MatchPhases.BombExploded);
+            }
+
+            RoundTime -= Time.deltaTime;
+        }
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_InvokeBombPlantEvents()
+    {
+        RPC_SetCurrentPhase(MatchPhases.BombPlanted);
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_InvokeBombDefuseEvents()
+    {
+        if (Object.HasStateAuthority)
+        {
+            OnRoundEnd?.Invoke();
+            UpdateRoundsWon(TeamSide.Defender);
+        }
+        RPC_SetCurrentPhase(MatchPhases.EndPhase);
+ 
     }
 
     private void TryEndMatch()
     {
         if (CurrentMatchPhase == MatchPhases.EndPhase && TotalRoundsCount >= MaxNumberOfRounds)
         {
-            CurrentMatchPhase = MatchPhases.MatchEnd;
-            OnMatchEnd?.Invoke();
-
+            RPC_SetCurrentPhase(MatchPhases.MatchEnd);
         }
     }
     private void OnRoundEnded()
     {
-        UpdateRoundsWon();
-        TryEndMatch();
 
-        if (CurrentMatchPhase == MatchPhases.MatchEnd) return;
-        Invoke("ResetImportantValues", 2f);
     }
 
     private void OnServerTimerEnd()
@@ -190,8 +283,12 @@ public class MatchManager : NetworkBehaviour
 
 public enum MatchPhases
 {
+    None,
     BuyPhase,
     RoundPhase,
     EndPhase,
     MatchEnd,
+    BombPlanted,
+    BombDefused,
+    BombExploded,
 }

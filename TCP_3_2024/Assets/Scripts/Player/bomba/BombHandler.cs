@@ -1,41 +1,42 @@
 using System;
 using UnityEngine;
+using Fusion;
 
-public class BombHandler : MonoBehaviour
+public class BombHandler : NetworkBehaviour
 {
     [SerializeField] private Transform referencePoint;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private GameObject bombPrefab;
     [SerializeField] private float timeToPlant;
     [SerializeField] private float timeToDefuse;
+    [Networked] public TeamSide Team { get; set; }
     public bool CanPlant { get; private set; }
     public bool CanDefuse { get; private set; }
 
     public event Action OnBombPlant;
+    public event Action OnBombExplode;
     public event Action OnBombDefuse;
 
     private bool hasTheBomb;
     private float elapsedTime;
-    private TeamSide team;
+    private Bomb bomb;
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    void Update()
     {
-
+        TryCarryBomb();
     }
 
     public void TryDefuseBomb()
     {
-        if (CanPlant && hasTheBomb)
+        if (CanDefuse && !hasTheBomb)
         {
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= timeToDefuse)
             {
                 DefuseBomb();
+                CanDefuse = false;
             }
 
+            UpdateDefusing(true);
             Debug.Log("Defusing...");
         }
     }
@@ -58,9 +59,23 @@ public class BombHandler : MonoBehaviour
         elapsedTime = 0;
     }
 
-    public void AddBombToInventory()
+    public void UpdateDefusing(bool value)
     {
+        bomb.RPC_UpdateDefusing(value);
+    }
+
+    public void AddBombToInventory(Bomb bomb)
+    {
+        this.bomb = bomb;
         hasTheBomb = true;
+    }
+
+    private void TryCarryBomb()
+    {
+        if (hasTheBomb && bomb != null)
+        {
+            bomb.RPC_SetBombPosition(transform.position);
+        }
     }
 
     public void DefuseBomb()
@@ -76,10 +91,10 @@ public class BombHandler : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, groundLayer))
         {
-
-            Instantiate(bombPrefab, hit.point, Quaternion.identity);
+            bomb.RPC_SetBombPosition(hit.point + (transform.forward * 2) + (Vector3.up * 0.5f));
+            bomb.RPC_DisablePlant();
+            bomb.RPC_EnableRendering();
             Debug.Log("Bomb Planted");
-
             hasTheBomb = false;
             OnBombPlant?.Invoke();
         }
@@ -87,7 +102,7 @@ public class BombHandler : MonoBehaviour
 
     private void TrySetAttacker(Collider other)
     {
-        if (team != TeamSide.Attacker) return;
+        if (Team != TeamSide.Attacker) return;
 
         if (other.CompareTag("area_de_pnatar_bomba") && hasTheBomb)
         {
@@ -95,9 +110,10 @@ public class BombHandler : MonoBehaviour
         }
     }
 
-    private void TrySetDefender(Collider other)
+    public void SetDefender(bool value, Bomb bomb)
     {
-        CanDefuse = true;
+        CanDefuse = value;
+        this.bomb = bomb;
     }
     public void Enable()
     {
@@ -111,17 +127,22 @@ public class BombHandler : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         TrySetAttacker(other);
-        TrySetDefender(other);
     }
+
     public void OnTriggerExit(Collider other)
     {
-        if (team != TeamSide.Attacker) return;
+        if (Team != TeamSide.Attacker) return;
 
         if (other.CompareTag("area_de_pnatar_bomba"))
         {
             CanPlant = false;
             UnityEngine.Debug.Log("saiu  na area de pantar bomba ");
         }
+    }
+
+    public override void Spawned()
+    {
+
     }
 }
 

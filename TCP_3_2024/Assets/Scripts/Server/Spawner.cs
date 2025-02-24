@@ -62,7 +62,7 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
 
     private void RegisterSelectedCharacter(PlayerRef playerRef, NetworkObject selectedCharacter)
     {
-        if (SelectedCharactersDictionary.TryAdd(playerRef.PlayerId, selectedCharacter)) SetTeam(selectedCharacter);
+        SelectedCharactersDictionary.TryAdd(playerRef.PlayerId, selectedCharacter);
     }
 
     private void SpawnAllPlayers()
@@ -73,35 +73,49 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
 
         SpawnPositionProvider positionProvider = SpawnPositionProvider.Instance;
 
+        int randomSideChoice = UnityEngine.Random.Range(1, 3);
+        NetworkObject spawnedPlayer = null;
+
         if (positionProvider != null) positionProvider.ProvidePositions(ref beachSidePositionsList, ref forestSidePositionsList);
+
 
         foreach (PlayerRef player in Runner.ActivePlayers)
         {
             if (positionProvider != null && SelectedCharactersDictionary.TryGetValue(player.PlayerId, out NetworkObject selectedCharacter))
             {
+
                 int randomBeachSpawnPoint = UnityEngine.Random.Range(0, beachSidePositionsList.Count);
                 int randomForestSpawnPoint = UnityEngine.Random.Range(0, forestSidePositionsList.Count);
 
-                if (selectedCharacter.tag == "Atacante")
+                if (randomSideChoice % 2 == 0)
                 {
-                    Runner.Spawn(selectedCharacter, beachSidePositionsList[randomBeachSpawnPoint].position, Quaternion.identity, player);
-                    beachSidePositionsList.Remove(beachSidePositionsList[randomBeachSpawnPoint]);
-                }
+                    spawnedPlayer = Runner.Spawn(selectedCharacter, beachSidePositionsList[randomBeachSpawnPoint].position, Quaternion.identity, player);
 
-                else if (selectedCharacter.tag == "Defensor")
-                {
-                    Runner.Spawn(selectedCharacter, forestSidePositionsList[randomForestSpawnPoint].position, Quaternion.identity, player);
-                    forestSidePositionsList.Remove(forestSidePositionsList[randomForestSpawnPoint]);
+                    if (spawnedPlayer.TryGetComponent(out BombHandler bombHandler))
+                    {
+                        bombHandler.Team = TeamSide.Attacker;
+                        Debug.LogError($"Team Side Set To : {bombHandler.Team}");
+                    }
+
+                    else Debug.LogError($"No Bomb Handler Found On Spawn of player {player.PlayerId}");
+                    beachSidePositionsList.Remove(beachSidePositionsList[randomBeachSpawnPoint]);
                 }
 
                 else
                 {
-                    Runner.Spawn(selectedCharacter, forestSidePositionsList[randomForestSpawnPoint].position, Quaternion.identity, player);
+                    spawnedPlayer = Runner.Spawn(selectedCharacter, forestSidePositionsList[randomForestSpawnPoint].position, Quaternion.identity, player);
+                    if (spawnedPlayer.TryGetComponent(out BombHandler bombHandler))
+                    {
+                        bombHandler.Team = TeamSide.Defender;
+                        Debug.LogError($"Team Side Set To : {bombHandler.Team}");
+                    }
+
+                    else Debug.LogError($"No Bomb Handler Found On Spawn of player {player.PlayerId}");
                     forestSidePositionsList.Remove(forestSidePositionsList[randomForestSpawnPoint]);
-                    Debug.Log("Different tag associated to player spawned");
                 }
 
-                //Runner.Spawn(selectedCharacter, new Vector3(UnityEngine.Random.Range(140, 150), 5f, UnityEngine.Random.Range(120, 115)), Quaternion.identity, player);
+                randomSideChoice++;
+
                 SelectedCharactersDictionary.Remove(player.PlayerId);
             }
 

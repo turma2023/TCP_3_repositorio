@@ -16,8 +16,8 @@ public class StateFactory
         Idle = new IdleState(stateMachine);
         Walk = new WalkState(stateMachine);
         Jump = new JumpState(stateMachine);
-        Plant = new JumpState(stateMachine);
-        Defuse = new JumpState(stateMachine);
+        Plant = new PlantState(stateMachine);
+        Defuse = new DefuseState(stateMachine);
     }
 
 }

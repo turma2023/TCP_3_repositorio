@@ -6,22 +6,13 @@ using UnityEngine.InputSystem;
 public class PlayerController : NetworkBehaviour
 {
 
-    // !cor de cada lado 
     public Material blueMaterial;
     public Material redMaterial;
     private Renderer playerRenderer;
     public GameObject PlayerModel;
     [Networked] public string Team { get; set; }
-
-    //[SerializeField] private GameObject TeamUI;
-
-    //! fim cor de cada lado      
-
-    // ! vida
     public int CurrentHealth { get; set; }
     public int MaxHealth = 100;
-    // ! fim vida
-
 
     [SerializeField] public Transform pivotGun;
     public new Camera camera;
@@ -37,9 +28,6 @@ public class PlayerController : NetworkBehaviour
 
     private int numTeam;
 
-    // Skills
-    [SerializeField] private SmokeBombSkill smokeBombSkill;
-
     private void Awake()
     {
 
@@ -53,7 +41,6 @@ public class PlayerController : NetworkBehaviour
 
     void Start()
     {
-        //transform.position = networkPosition;
     }
 
     private void SetStartPosition()
@@ -153,7 +140,6 @@ public class PlayerController : NetworkBehaviour
 
     public override void Spawned()
     {
-        //base.Spawned();
         transform.rotation = Quaternion.identity;
         if (Object.HasStateAuthority) SetStartPosition();
 
@@ -168,10 +154,6 @@ public class PlayerController : NetworkBehaviour
             // pivotGun.gameObject.SetActive(false);
             //networkPosition = transform.position;
             //TeamUI.GetComponent<TeamSelection>().Show(gameObject);
-
-        }
-        else
-        {
 
         }
 

@@ -25,7 +25,7 @@ public class UIPlayerSelectionCountdown : MonoBehaviour
     {
         if (initialized) return;
         if (serverTimer == null) return;
-        serverTimer.StartTimer(selectionDuration);
+        serverTimer.RPC_StartTimer(selectionDuration);
         serverTimer.OnTimerExpired += OnTimerEnd;
         initialized = true;
     }

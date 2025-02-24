@@ -1,4 +1,3 @@
-using Fusion;
 using UnityEngine;
 
 public class StateMachine : MonoBehaviour
@@ -12,10 +11,10 @@ public class StateMachine : MonoBehaviour
     {
         PlayerController player = GetComponent<PlayerController>();
         PlayerMovement = player.PlayerMovement;
+        BombHandler = player.BombHandler;
+        InputController = player.PlayerInputController;
         StateFactory = new StateFactory(this);
         ChangeState(StateFactory.Idle);
-        InputController = player.PlayerInputController;
-        BombHandler = player.BombHandler;
     }
 
     public void ChangeState(IState newState)

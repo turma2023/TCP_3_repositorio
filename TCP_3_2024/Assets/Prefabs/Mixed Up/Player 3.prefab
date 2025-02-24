@@ -545,7 +545,7 @@ GameObject:
   - component: {fileID: -8872861445603640807}
   m_Layer: 8
   m_Name: Player 3
-  m_TagString: Atacante
+  m_TagString: Defensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -670,7 +670,7 @@ MonoBehaviour:
   pivotGun: {fileID: 623484362520666290}
   camera: {fileID: 2476467844249181572}
   playerCameraPosition: {fileID: 7827312646664663125}
-  smokeBombSkill: {fileID: 11400000, guid: 2c63ffe2b2e2cc746b50e6af3f940952, type: 2}
+  _networkPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1699423917238937469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -724,6 +724,7 @@ MonoBehaviour:
   - {fileID: 6735262216554282787}
   - {fileID: 7176670275111712288}
   - {fileID: 7920579999146743829}
+  - {fileID: 8855907806312619251}
   - {fileID: -8727577050456376349}
   - {fileID: 1994425352162682332}
   - {fileID: -8872861445603640807}
@@ -773,13 +774,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2cff7d33b18ca4fad6024206bbdff6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  referencePoint: {fileID: 0}
+  referencePoint: {fileID: 1493396260173428706}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
-  bombPrefab: {fileID: 0}
-  timeToPlant: 0
-  timeToDefuse: 0
+    m_Bits: 128
+  timeToPlant: 3
+  timeToDefuse: 3
 --- !u!114 &-8727577050456376349
 MonoBehaviour:
   m_ObjectHideFlags: 0

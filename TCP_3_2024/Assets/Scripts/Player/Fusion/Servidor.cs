@@ -16,33 +16,38 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] NetworkObject matchManagerPrefab;
     [SerializeField] NetworkObject spawnerPrefab;
     [SerializeField] NetworkObject playerSelectionManagerPrefab;
+    [SerializeField] NetworkObject winConditionsManagerPrefab;
+    [SerializeField] NetworkObject bombPrefab;
 
     [Header("Server Settings")]
     [SerializeField] private int maxNumberOfPlayers;
 
+    private int roomCount = 1;
+
     public void StartServer()
     {
+        DontDestroyOnLoad(gameObject);
         StartGame();
     }
 
     async void StartGame(GameMode gameMode = GameMode.AutoHostOrClient)
     {
-        DontDestroyOnLoad(gameObject);
         if (Runner != null) Destroy(Runner.gameObject);
 
         var connectionResult = await InitializeNetworkRunner(gameMode, NetAddress.Any(), SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex), null);
-        
+
 
         if (!CheckConnectionResult(connectionResult))
         {
             if (connectionResult.ShutdownReason == ShutdownReason.GameIsFull)
             {
+                roomCount++;
                 Runner.RemoveCallbacks(this);
                 StartGame(GameMode.Host);
                 return;
             }
         }
-
+        Runner.AddCallbacks(this);
         InitializeServerTimer();
         InitializeSpawner();
 
@@ -63,7 +68,7 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (!Runner.IsServer) return;
 
-        NetworkObject spawner = Runner.Spawn(spawnerPrefab, new Vector3(10,10,10), Quaternion.identity, PlayerRef.None);
+        NetworkObject spawner = Runner.Spawn(spawnerPrefab, new Vector3(10, 10, 10), Quaternion.identity, PlayerRef.None);
         if (spawner.GetComponent<Spawner>() is Spawner s)
         {
             Runner.AddCallbacks(s);
@@ -95,7 +100,6 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
     {
         Runner = new GameObject("Network Runner").AddComponent<NetworkRunner>();
 
-        Runner.AddCallbacks(this);
         //Runner.AddCallbacks(FindObjectOfType<HostManager>());
 
 
@@ -115,7 +119,7 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
             GameMode = gameMode,
             Address = address,
             Scene = scene,
-            SessionName = "Test Room5",
+            SessionName = "Test Room " + roomCount,
             OnGameStarted = onGameStarted,
             SceneManager = sceneManager,
             PlayerCount = maxNumberOfPlayers
@@ -186,6 +190,8 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
         if (SceneManager.GetActiveScene().name == "TerrainTest")
         {
             Runner.Spawn(matchManagerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
+            Runner.Spawn(winConditionsManagerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
+            Runner.Spawn(bombPrefab, new Vector3(3, 1.5f, 3), Quaternion.identity, PlayerRef.None);
         }
 
         if (SceneManager.GetActiveScene().name == "ChangeCharacter")

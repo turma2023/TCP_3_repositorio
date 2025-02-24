@@ -3,7 +3,22 @@ guid: ea8e06fd90aaeef46a849c4e11df8007
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: "Al\xE7a"
+    second: {fileID: 2800000, guid: b4c63bebfdbaf364a81eeb35ccfc6bd1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Concha
+    second: {fileID: 2800000, guid: a57a0897e570c6245a5a59fe78722c1d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Vidro
+    second: {fileID: 2800000, guid: 533356f89bf2d614aba6678640211481, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

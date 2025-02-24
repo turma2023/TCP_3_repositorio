@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class IdleState : IState
 {
     private StateMachine stateMachine;
@@ -15,12 +11,12 @@ public class IdleState : IState
 
     }
 
-
-
     public void Update()
     {
         stateMachine.TryWalk();
         stateMachine.TryJump();
+        stateMachine.TryPlant();
+        stateMachine.TryDefuse();
     }
 
     public void FixedUpdate()

@@ -48,6 +48,7 @@ public class DefuseState : IState
         {
             stateMachine.ChangeState(stateMachine.StateFactory.Idle);
             bombHandler.ResetTimer();
+            bombHandler.UpdateDefusing(false);
         }
     }
 
