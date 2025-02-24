@@ -1,21 +1,23 @@
 using Fusion;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour
+public class StateMachine : NetworkBehaviour
 {
     private IState currentState;
     public StateFactory StateFactory { get; private set; }
     public PlayerInputController InputController { get; private set; }
     public PlayerMovement PlayerMovement { get; private set; }
     public BombHandler BombHandler { get; private set; }
+    public AnimationController animationController {get; private set;}
     private void Start()
     {
         PlayerController player = GetComponent<PlayerController>();
         PlayerMovement = player.PlayerMovement;
         StateFactory = new StateFactory(this);
-        ChangeState(StateFactory.Idle);
         InputController = player.PlayerInputController;
         BombHandler = player.BombHandler;
+        animationController = GetComponent<AnimationController>();
+        ChangeState(StateFactory.Idle);
     }
 
     public void ChangeState(IState newState)
@@ -32,6 +34,7 @@ public class StateMachine : MonoBehaviour
     public void Update()
     {
         // currentState?.Execute();
+        if (!Object.HasInputAuthority) return;
         if (currentState != null)
         {
             currentState.Update();
@@ -39,7 +42,8 @@ public class StateMachine : MonoBehaviour
     }
 
     public void FixedUpdate()
-    {
+    {   
+        if (!Object.HasInputAuthority) return;
         if (currentState != null)
         {
             currentState.FixedUpdate();
@@ -51,6 +55,8 @@ public class StateMachine : MonoBehaviour
 
         if (InputController.MoveAction.IsPressed())
         {
+            // animationController.PlayWalk(true);
+
             ChangeState(StateFactory.Walk);
         }
 
@@ -66,7 +72,7 @@ public class StateMachine : MonoBehaviour
 
     public void TryJump()
     {
-        if (InputController.JumpAction.WasPressedThisFrame())
+        if (InputController.JumpAction.WasPressedThisFrame() && PlayerMovement.IsGrounded())
         {
             ChangeState(StateFactory.Jump);
         }

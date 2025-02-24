@@ -13,7 +13,7 @@ public class TrilhaDaCachoeira : Skill
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && Object.HasInputAuthority && HasUsed)
+        if (Input.GetKeyDown(KeyCode.E) && Object.HasInputAuthority && !HasUsed)
         {
             StartDash();
             DisableUse();

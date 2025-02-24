@@ -10,9 +10,15 @@ public class WalkState : NetworkBehaviour, IState
     {
         this.stateMachine = stateMachine;
     }
+
     public void Enter()
     {
+<<<<<<< Updated upstream
         Debug.Log("Entrou no estado Andando");
+=======
+        Debug.Log("entrou no walkstate");
+        stateMachine.animationController.PlayWalk(true);
+>>>>>>> Stashed changes
     }
 
     public void Update()

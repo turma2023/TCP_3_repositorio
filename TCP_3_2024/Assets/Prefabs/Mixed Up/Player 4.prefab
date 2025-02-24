@@ -702,6 +702,7 @@ MonoBehaviour:
   pivotGun: {fileID: 623484362520666290}
   camera: {fileID: 2476467844249181572}
   playerCameraPosition: {fileID: 7827312646664663125}
+  _networkPosition: {x: 0, y: 0, z: 0}
   smokeBombSkill: {fileID: 11400000, guid: 2c63ffe2b2e2cc746b50e6af3f940952, type: 2}
 --- !u!114 &1699423917238937469
 MonoBehaviour:
@@ -754,6 +755,7 @@ MonoBehaviour:
   - {fileID: 256821556799443951}
   NetworkedBehaviours:
   - {fileID: 6735262216554282787}
+  - {fileID: 1699423917238937469}
   - {fileID: 7176670275111712288}
   - {fileID: 7920579999146743829}
   - {fileID: 6703706627031623877}
