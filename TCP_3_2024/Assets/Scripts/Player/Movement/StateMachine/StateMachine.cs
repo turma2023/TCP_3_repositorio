@@ -7,6 +7,7 @@ public class StateMachine : MonoBehaviour
     public PlayerInputController InputController { get; private set; }
     public PlayerMovement PlayerMovement { get; private set; }
     public BombHandler BombHandler { get; private set; }
+    public AnimationController animationController { get; private set; }
     private void Start()
     {
         PlayerController player = GetComponent<PlayerController>();
@@ -14,6 +15,7 @@ public class StateMachine : MonoBehaviour
         BombHandler = player.BombHandler;
         InputController = player.PlayerInputController;
         StateFactory = new StateFactory(this);
+        animationController = GetComponent<AnimationController>();
         ChangeState(StateFactory.Idle);
     }
 
@@ -65,7 +67,7 @@ public class StateMachine : MonoBehaviour
 
     public void TryJump()
     {
-        if (InputController.JumpAction.WasPressedThisFrame())
+        if (InputController.JumpAction.WasPressedThisFrame() && PlayerMovement.IsGrounded())
         {
             ChangeState(StateFactory.Jump);
         }
@@ -83,7 +85,7 @@ public class StateMachine : MonoBehaviour
     {
         if (InputController.Interact.IsPressed() && BombHandler.CanDefuse)
         {
-            ChangeState(StateFactory.Defuse); 
+            ChangeState(StateFactory.Defuse);
         }
     }
 

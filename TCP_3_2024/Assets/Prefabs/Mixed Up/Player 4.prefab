@@ -575,9 +575,10 @@ GameObject:
   - component: {fileID: 6703706627031623877}
   - component: {fileID: 178067192129267275}
   - component: {fileID: 7125566935784902873}
+  - component: {fileID: 5789703624613246059}
   m_Layer: 8
   m_Name: Player 4
-  m_TagString: Defensor
+  m_TagString: Atacante
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -760,6 +761,7 @@ MonoBehaviour:
   - {fileID: 6703706627031623877}
   - {fileID: 178067192129267275}
   - {fileID: 7125566935784902873}
+  - {fileID: 5789703624613246059}
   - {fileID: 4253264080048976645}
 --- !u!114 &7664993528420787197
 MonoBehaviour:
@@ -810,8 +812,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
-  timeToPlant: 3
-  timeToDefuse: 3
+  timeToPlant: 5
+  timeToDefuse: 5
+  _Team: 0
 --- !u!114 &6703706627031623877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -855,6 +858,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imundacao: {fileID: 5864732803690760206, guid: 1ba605128c56e4541a3684f9f77305a3,
     type: 3}
+--- !u!114 &5789703624613246059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7299474097578385189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82b9fad49da6cca9cbe19ace0f24474b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8858427907013089677
 GameObject:
   m_ObjectHideFlags: 0

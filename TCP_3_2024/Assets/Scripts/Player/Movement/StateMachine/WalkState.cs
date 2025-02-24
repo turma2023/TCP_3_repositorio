@@ -7,21 +7,21 @@ public class WalkState : IState
     {
         this.stateMachine = stateMachine;
     }
+
     public void Enter()
     {
+        stateMachine.animationController.PlayWalk(true);
     }
 
     public void Update()
     {
         stateMachine.TryIdle();
         stateMachine.TryJump();
-
     }
 
     public void FixedUpdate()
     {
         Vector2 inputs = stateMachine.InputController.MoveAction.ReadValue<Vector2>();
-
         stateMachine.PlayerMovement.Movement(inputs);
     }
 

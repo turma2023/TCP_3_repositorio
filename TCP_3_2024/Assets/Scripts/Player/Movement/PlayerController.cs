@@ -58,7 +58,7 @@ public class PlayerController : NetworkBehaviour
     }
     private void Die()
     {
-
+        // GetComponent<StateMachine>().NetworkAnimator.SetTrigger("Armature_Morrendo");
         // Transferir a autoridade para outro jogador antes de despawnar 
         if (Object.HasStateAuthority)
         {
@@ -150,7 +150,7 @@ public class PlayerController : NetworkBehaviour
 
             // camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
             camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
-            GetComponent<StateMachine>().enabled = true;
+            // GetComponent<StateMachine>().enabled = true;
             // pivotGun.gameObject.SetActive(false);
             //networkPosition = transform.position;
             //TeamUI.GetComponent<TeamSelection>().Show(gameObject);
