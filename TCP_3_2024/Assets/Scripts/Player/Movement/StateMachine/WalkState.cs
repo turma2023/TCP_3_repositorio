@@ -13,12 +13,8 @@ public class WalkState : NetworkBehaviour, IState
 
     public void Enter()
     {
-<<<<<<< Updated upstream
-        Debug.Log("Entrou no estado Andando");
-=======
-        Debug.Log("entrou no walkstate");
         stateMachine.animationController.PlayWalk(true);
->>>>>>> Stashed changes
+
     }
 
     public void Update()
@@ -32,12 +28,7 @@ public class WalkState : NetworkBehaviour, IState
     public void FixedUpdate()
     {
         Vector2 inputs = stateMachine.InputController.MoveAction.ReadValue<Vector2>();
-        stateMachine.PlayerMovement.Movement(inputs);
-        // var data = new NetworkInputData();
-        // data.direction = inputs;
-        // stateMachine.PlayerMovement.Movement(data.direction);
-        
-        
+        stateMachine.PlayerMovement.Movement(inputs); 
     }
 
     public void Exit()

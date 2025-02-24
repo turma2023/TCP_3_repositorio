@@ -1305,8 +1305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb2dc66a714dd0e478b1be034f6c9c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cancelButton: {fileID: 1441509854}
-  timerText: {fileID: 1413702556}
+  searchMatchPanel: {fileID: 0}
 --- !u!1 &273196677
 GameObject:
   m_ObjectHideFlags: 0
