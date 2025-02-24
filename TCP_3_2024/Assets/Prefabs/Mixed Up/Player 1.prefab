@@ -1140,7 +1140,6 @@ MonoBehaviour:
   - {fileID: 2960004759273062425}
   NetworkedBehaviours:
   - {fileID: 6735262216554282787}
-  - {fileID: 1699423917238937469}
   - {fileID: 7176670275111712288}
   - {fileID: 7920579999146743829}
   - {fileID: 8855907806312619251}
@@ -1199,6 +1198,7 @@ MonoBehaviour:
     m_Bits: 0
   timeToPlant: 0
   timeToDefuse: 0
+  _Team: 0
 --- !u!114 &7850298890970736505
 MonoBehaviour:
   m_ObjectHideFlags: 0
