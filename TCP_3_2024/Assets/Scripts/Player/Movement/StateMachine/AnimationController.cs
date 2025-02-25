@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using Fusion;
+using UnityEngine;
 
 public class AnimationController : NetworkBehaviour
 {
@@ -14,19 +17,20 @@ public class AnimationController : NetworkBehaviour
         NetworkAnimator.SetTrigger(triggerName, value);
     }
 
-    public void PlayIdle(bool value)
-    {
+    public void PlayIdle(bool value){
         RpcSetAnimationTrigger("Armature_Idle", value);
     }
 
-    public void PlayWalk(bool value)
-    {
+    public void PlayWalk(bool value){
         RpcSetAnimationTrigger("Armature_Correndo", value);
     }
 
-    public void PlayJump(bool value)
-    {
+    public void PlayJump(bool value){
         RpcSetAnimationTrigger("Armature_Pulando", value);
+    }
+
+    public void PlayDead(bool value){
+        RpcSetAnimationTrigger("Armature_Dead", value);
     }
 
 
