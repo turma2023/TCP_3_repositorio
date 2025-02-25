@@ -60,6 +60,9 @@ MonoBehaviour:
   imageRectTransform: {fileID: 393733310524241961}
   resizeDuration: 0.5
   bulletPool: {fileID: 0}
+  numCartridge: 2
+  shotsPerCartridge: 30
+  rechargeTime: 2
 --- !u!114 &8802235737655371394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1773,6 +1776,16 @@ PrefabInstance:
       propertyPath: SortKey
       value: 2575164059
       objectReference: {fileID: 0}
+    - target: {fileID: 8029132363341852414, guid: 8e3ff93acf7bef688b2f74f7da840104,
+        type: 3}
+      propertyPath: NetworkedBehaviours.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8029132363341852414, guid: 8e3ff93acf7bef688b2f74f7da840104,
+        type: 3}
+      propertyPath: NetworkedBehaviours.Array.data[0]
+      value: 
+      objectReference: {fileID: 8563329724445992529}
     - target: {fileID: 8506854389060973843, guid: 8e3ff93acf7bef688b2f74f7da840104,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1836,7 +1849,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9026825890646192041, guid: 8e3ff93acf7bef688b2f74f7da840104,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8563329724445992529}
   m_SourcePrefab: {fileID: 100100000, guid: 8e3ff93acf7bef688b2f74f7da840104, type: 3}
 --- !u!114 &256821556799443951 stripped
 MonoBehaviour:
@@ -1844,12 +1861,33 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 7853535032112381201}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1277024284940112568}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1277024284940112568 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9026825890646192041, guid: 8e3ff93acf7bef688b2f74f7da840104,
+    type: 3}
+  m_PrefabInstance: {fileID: 7853535032112381201}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8563329724445992529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277024284940112568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bdc5839173af877281cd4ac0cd55f77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numCartridge: 2
+  shotsPerCartridge: 30
+  rechargeTime: 2
 --- !u!4 &1941955781869389826 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8506854389060973843, guid: 8e3ff93acf7bef688b2f74f7da840104,

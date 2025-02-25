@@ -119,7 +119,7 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
             GameMode = gameMode,
             Address = address,
             Scene = scene,
-            SessionName = "Test Room2" + roomCount,
+            SessionName = "Test Room " + roomCount,
             OnGameStarted = onGameStarted,
             SceneManager = sceneManager,
             PlayerCount = maxNumberOfPlayers
