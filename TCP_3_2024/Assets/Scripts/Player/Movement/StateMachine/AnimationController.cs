@@ -19,17 +19,18 @@ public class AnimationController : NetworkBehaviour
 
     public void PlayIdle(bool value){
         RpcSetAnimationTrigger("Armature_Idle", value);
-
     }
 
     public void PlayWalk(bool value){
-
         RpcSetAnimationTrigger("Armature_Correndo", value);
-
     }
 
     public void PlayJump(bool value){
         RpcSetAnimationTrigger("Armature_Pulando", value);
+    }
+
+    public void PlayDead(bool value){
+        RpcSetAnimationTrigger("Armature_Dead", value);
     }
 
 

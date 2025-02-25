@@ -238,6 +238,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: chibi1
       objectReference: {fileID: 0}
+    - target: {fileID: 7036213049465896255, guid: eefbc368e3df34d81996fddee1ef6568,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -302,7 +307,7 @@ MonoBehaviour:
   TotalWords: 1
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 000000007b726e3638dc5d35944879f4e944463f810fdd93f9b1d5f2b31d5786cba35fe71bc4f5d3c56fb4b06caf3d3ac32f1aa92b1a167c79406955
+  StateHashes: 000000007b726e3638dc5d35944879f4e944463f810fdd93f9b1d5f2b31d5786cba35fe71bc4f5d3c56fb4b06caf3d3ac32f1aa92b1a167c79406955508ad9a4bee811d1081d1f1c8a52539928a981077af3fe2e6bd5a32d398fdc04
   TriggerHashes: 00000000944879f4810fdd93b31d57866caf3d3a1bc4f5d35d6a5b8f
 --- !u!114 &-8637780486843980878
 MonoBehaviour:

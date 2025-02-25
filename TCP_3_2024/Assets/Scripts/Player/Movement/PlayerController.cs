@@ -1,6 +1,7 @@
 using Fusion;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.InputSystem;
 
 public class PlayerController : NetworkBehaviour
@@ -58,7 +59,6 @@ public class PlayerController : NetworkBehaviour
     }
     private void Die()
     {
-        // GetComponent<StateMachine>().NetworkAnimator.SetTrigger("Armature_Morrendo");
         // Transferir a autoridade para outro jogador antes de despawnar 
         if (Object.HasStateAuthority)
         {
@@ -73,7 +73,14 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
+        GetComponent<StateMachine>().animationController.PlayDead(true);
         Debug.Log("Player died");
+        StartCoroutine(CorrotineDead());
+    }
+
+    IEnumerator CorrotineDead()
+    {
+        yield return new WaitForSeconds(20f);
         Runner.Despawn(Object);
     }
 

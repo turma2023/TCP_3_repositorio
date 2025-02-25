@@ -1,6 +1,7 @@
+using Fusion;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour
+public class StateMachine : NetworkBehaviour
 {
     private IState currentState;
     public StateFactory StateFactory { get; private set; }
@@ -22,6 +23,7 @@ public class StateMachine : MonoBehaviour
     public void ChangeState(IState newState)
     {
         //currentState?.Exit();
+        if (!Object.HasInputAuthority) return;
         if (currentState != null)
         {
             currentState.Exit();
