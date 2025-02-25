@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Fusion;
 using Fusion.Sockets;
 
@@ -7,6 +8,7 @@ public class ServerTimer : NetworkBehaviour, INetworkRunnerCallbacks
 {
     [Networked] public TickTimer Timer { get; private set; }
     public event Action OnTimerExpired;
+    public event Action Shutdown;
 
     private void Awake()
     {
@@ -70,6 +72,8 @@ public class ServerTimer : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
+        UnityEngine.Debug.LogWarning("Server Timer Shutdown");
+        Shutdown?.Invoke();
     }
 
     public void OnConnectedToServer(NetworkRunner runner)

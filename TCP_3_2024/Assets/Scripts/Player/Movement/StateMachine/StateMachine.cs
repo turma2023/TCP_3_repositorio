@@ -1,6 +1,5 @@
-using UnityEngine;
-
-public class StateMachine : MonoBehaviour
+using Fusion;
+public class StateMachine : NetworkBehaviour
 {
     private IState currentState;
     public StateFactory StateFactory { get; private set; }
@@ -32,6 +31,7 @@ public class StateMachine : MonoBehaviour
 
     public void Update()
     {
+        if (!Object.HasInputAuthority) return;
         // currentState?.Execute();
         if (currentState != null)
         {
@@ -41,6 +41,7 @@ public class StateMachine : MonoBehaviour
 
     public void FixedUpdate()
     {
+        if (!Object.HasInputAuthority) return;
         if (currentState != null)
         {
             currentState.FixedUpdate();

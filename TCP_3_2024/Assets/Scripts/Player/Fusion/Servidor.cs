@@ -79,6 +79,7 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
 
     public void LoadNextScene(NetworkRunner runner, string sceneName)
     {
+        Debug.LogWarning($"Scene Authority on try load scene {sceneName }= " + runner.IsSceneAuthority);
         if (!runner.IsSceneAuthority) return;
 
         SceneRef sceneRef = runner.GetSceneRef(sceneName);
@@ -171,10 +172,21 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
+        if (SceneManager.GetActiveScene().name == "InitialMenu" && shutdownReason == ShutdownReason.DisconnectedByPluginLogic)
+        {
+            StartGame(GameMode.AutoHostOrClient);
+        }
 
+        if (SceneManager.GetActiveScene().name == "ChangeCharacter" && shutdownReason == ShutdownReason.DisconnectedByPluginLogic)
+        {
+            StartGame(GameMode.AutoHostOrClient);
+        }
     }
+
     public void OnConnectedToServer(NetworkRunner runner) { }
-    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
+    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
+    {
+    }
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }

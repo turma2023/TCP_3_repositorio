@@ -14,7 +14,7 @@ public class ButtonDescriptionViewer : UIHover
     public override void OnPointerEnter(PointerEventData eventData)
     {
         highlight.gameObject.SetActive(true);
-        highlight.color = Color.cyan;
+        highlight.color = Color.blue;
         descriptionPanelText.transform.parent.gameObject.SetActive(true);
         descriptionPanelText.text = descriptionText.text;
     }

@@ -1,46 +1,39 @@
+using System;
 using Fusion;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : NetworkBehaviour
 {
-
-    public Material blueMaterial;
-    public Material redMaterial;
-    private Renderer playerRenderer;
-    public GameObject PlayerModel;
-    [Networked] public string Team { get; set; }
-    public int CurrentHealth { get; set; }
-    public int MaxHealth = 100;
-
     [SerializeField] public Transform pivotGun;
-    public new Camera camera;
     [SerializeField] private Transform playerCameraPosition;
-
-    public PlayerMovement PlayerMovement { get; private set; }
-    public PlayerInputController PlayerInputController { get; private set; }
-
+    public int MaxHealth = 100;
+    public new Camera camera;
     [Networked] private Quaternion networkRotation { get; set; }
     [Networked] private Quaternion networkPivotGun { get; set; }
     [Networked] public Vector3 networkPosition { get; set; }
+    [Networked] public string Team { get; set; }
+    [Networked] public bool IsDead { get; set; }
+    public int CurrentHealth { get; set; }
+    public PlayerMovement PlayerMovement { get; private set; }
+    public PlayerInputController PlayerInputController { get; private set; }
     public BombHandler BombHandler { get; private set; }
+    public TeamSide TeamSide { get; private set; }
 
-    private int numTeam;
+    public event Action<TeamSide> OnDeath;
 
     private void Awake()
     {
-
         PlayerInputController = new PlayerInputController(GetComponent<PlayerInput>());
         PlayerMovement = GetComponent<PlayerMovement>();
         CurrentHealth = MaxHealth;
 
-        playerRenderer = PlayerModel.GetComponent<Renderer>();
         BombHandler = GetComponent<BombHandler>();
     }
 
     void Start()
     {
+        TeamSide = BombHandler.Team;
     }
 
     private void SetStartPosition()
@@ -51,44 +44,29 @@ public class PlayerController : NetworkBehaviour
     public void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
-        if (CurrentHealth <= 0)
+
+        if (CurrentHealth <= 0 && !IsDead)
         {
-            Die();
+            CurrentHealth = 0;
+
+            if(Object.HasStateAuthority) IsDead = true;
+
+            else RPC_SetDeath();
+
+            OnDeath?.Invoke(TeamSide);
         }
     }
-    private void Die()
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    private void RPC_SetDeath()
     {
         // GetComponent<StateMachine>().NetworkAnimator.SetTrigger("Armature_Morrendo");
-        // Transferir a autoridade para outro jogador antes de despawnar 
-        if (Object.HasStateAuthority)
-        {
-            PlayerRef newHost = FindNewHost();
-            if (newHost != null)
-            {
-                NetworkObject newHostObject = Runner.GetPlayerObject(newHost);
-                if (newHostObject != null)
-                {
-                    Runner.SetPlayerObject(newHost, newHostObject);
-                }
-            }
-        }
-
-        Debug.Log("Player died");
-        Runner.Despawn(Object);
+        IsDead = true;
     }
 
-    private PlayerRef FindNewHost()
+    private void Die()
     {
-        foreach (var player in Runner.ActivePlayers)
-        {
-            if (player != Object.InputAuthority)
-            {
-                return player;
-            }
-        }
-        return default;
-    }
 
+    }
 
     public void SetTeam(string team)
     {
@@ -103,27 +81,21 @@ public class PlayerController : NetworkBehaviour
     private void Update()
     {
 
-
         if (Object.HasInputAuthority)
         {
             PlayerMovement.TurnToCameraDirection();
             PlayerMovement.RotateGun(ref pivotGun);
-            networkRotation = transform.rotation;
-            networkPivotGun = pivotGun.rotation;
-            networkPosition = transform.position;
-            Team = this.Team;
             RPC_SendRotationToHost(transform.rotation, pivotGun.rotation, transform.position, Team);
         }
         else
         {
-            transform.rotation = networkRotation;
-            pivotGun.rotation = networkPivotGun;
-            transform.position = networkPosition;
-
-            // this.Team = Team;
-            // this.ApplyTeamColor();
+            if(!IsDead)
+            {
+                transform.rotation = networkRotation;
+                pivotGun.rotation = networkPivotGun;
+                transform.position = networkPosition;
+            }
         }
-
     }
 
 
@@ -134,8 +106,6 @@ public class PlayerController : NetworkBehaviour
         networkRotation = playerRotation;
         networkPivotGun = gunRotation;
         networkPosition = playerPosition;
-        // this.Team = Team;
-        // ApplyTeamColor();
     }
 
     public override void Spawned()
@@ -148,17 +118,10 @@ public class PlayerController : NetworkBehaviour
             camera.gameObject.GetComponent<Camera>().enabled = !camera.gameObject.GetComponent<Camera>().enabled;
             camera.GetComponent<FirstPersonCamera>().enabled = !camera.GetComponent<FirstPersonCamera>().enabled;
 
-            // camera.GetComponent<CinemachineVirtualCamera>().Follow = playerCameraPosition.transform; 
             camera.GetComponent<FirstPersonCamera>().Target = playerCameraPosition.transform;
-            // GetComponent<StateMachine>().enabled = true;
-            // pivotGun.gameObject.SetActive(false);
-            //networkPosition = transform.position;
-            //TeamUI.GetComponent<TeamSelection>().Show(gameObject);
-
         }
 
         transform.position = networkPosition;
-
     }
 
 }

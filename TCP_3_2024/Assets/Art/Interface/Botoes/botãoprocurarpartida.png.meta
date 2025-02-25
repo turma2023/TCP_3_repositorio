@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 431da62d3c5cda742b18f596696dd78c
+guid: d047f087b0625e5499ec5063a81522f6
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,28 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: "bot\xE3oprocurarpartida_0"
+      rect:
+        serializedVersion: 2
+        x: 642
+        y: 447
+        width: 1243
+        height: 342
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf8395060bd0d0c4c8090d500a2c466c
+      internalID: 1330685536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      "bot\xE3oprocurarpartida_0": 1330685536
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

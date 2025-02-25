@@ -10,7 +10,7 @@ public class UIHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (hasClicked) return;
         highlight.gameObject.SetActive(true);
-        highlight.color = Color.cyan;
+        highlight.color = Color.blue;
     }
 
     public virtual void OnPointerExit(PointerEventData eventData)

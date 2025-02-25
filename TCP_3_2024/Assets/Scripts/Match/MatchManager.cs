@@ -1,5 +1,4 @@
 using System;
-using System.Xml.Serialization;
 using Fusion;
 using UnityEngine;
 
@@ -213,6 +212,7 @@ public class MatchManager : NetworkBehaviour
         {
             if (Object.HasStateAuthority)
             {
+                UpdateRoundsWon(TeamSide.Defender);
                 RPC_SetCurrentPhase(MatchPhases.EndPhase);
                 OnRoundEnd?.Invoke();
             }
@@ -251,8 +251,20 @@ public class MatchManager : NetworkBehaviour
             OnRoundEnd?.Invoke();
             UpdateRoundsWon(TeamSide.Defender);
         }
+
         RPC_SetCurrentPhase(MatchPhases.EndPhase);
- 
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_InvokeTeamDeathEvents(TeamSide winingTeam)
+    {
+        if (Object.HasStateAuthority)
+        {
+            OnRoundEnd?.Invoke();
+            UpdateRoundsWon(winingTeam);
+        }
+
+        RPC_SetCurrentPhase(MatchPhases.EndPhase);
     }
 
     private void TryEndMatch()

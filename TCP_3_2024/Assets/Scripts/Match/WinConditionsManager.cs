@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
 
@@ -5,16 +6,35 @@ public class WinConditionsManager : NetworkBehaviour
 {
     private MatchManager matchManager;
     private BombHandler bombHandler;
+    private PlayerController[] players;
+    private List<PlayerController> attackers;
+    private List<PlayerController> defenders;
     private void Start()
     {
-        var players = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        attackers = new();
+        defenders = new();
+
+        players = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+
         foreach (var player in players)
         {
+            if (player.BombHandler.Team == TeamSide.Attacker)
+            {
+                attackers.Add(player);
+            }
+
+            else if (player.BombHandler.Team == TeamSide.Defender)
+            {
+                defenders.Add(player);
+            }
+
             if (player.HasInputAuthority)
             {
                 bombHandler = player.GetComponent<BombHandler>();
                 Debug.LogError("Bomb Handler found Sucessfuly");
             }
+
+            player.OnDeath += VerifyTeamDeath;
         }
 
         if (bombHandler == null)
@@ -23,6 +43,8 @@ public class WinConditionsManager : NetworkBehaviour
             return;
         }
 
+        Debug.Log("Attackers Size = " + attackers.Count);
+        Debug.Log("Defenders Size = " + defenders.Count);
         matchManager = FindAnyObjectByType<MatchManager>();
         //if (matchManager != null) matchManager.RPC_TestComunication();
 
@@ -52,11 +74,48 @@ public class WinConditionsManager : NetworkBehaviour
         else Debug.LogError("Match Manager Null On Bomb Defused");
     }
 
+    private void VerifyTeamDeath(TeamSide team)
+    {
+        if (team == TeamSide.Attacker)
+        {
+            foreach (var player in attackers)
+            {
+                if (!player.IsDead) return;
+            }
+
+            Debug.LogWarning("Attackers Dead!!!");
+            NotifyTeamDeath(TeamSide.Attacker);
+        }
+
+        else if(team == TeamSide.Defender)
+        {
+            foreach (var player in defenders)
+            {
+                if (!player.IsDead) return;
+            }
+            Debug.LogWarning("Defenders Dead!!!");
+
+            NotifyTeamDeath(TeamSide.Defender);
+        }
+        
+
+    }
+    private void NotifyTeamDeath(TeamSide team)
+    {
+        if (team == TeamSide.Attacker && matchManager!= null) matchManager.RPC_InvokeTeamDeathEvents(TeamSide.Defender);
+
+        if (team == TeamSide.Defender && matchManager!= null) matchManager.RPC_InvokeTeamDeathEvents(TeamSide.Attacker);
+    }
 
     private void OnDisable()
     {
         bombHandler.OnBombPlant -= NotifyBombPlanted;
         bombHandler.OnBombDefuse -= NotifyBombDefused;
+
+        foreach (var player in players)
+        {
+            player.OnDeath -= VerifyTeamDeath;
+        }
     }
 
 

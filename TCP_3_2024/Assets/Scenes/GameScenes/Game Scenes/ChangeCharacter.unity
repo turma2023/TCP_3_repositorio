@@ -123,6 +123,81 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &139564539
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 139564540}
+  - component: {fileID: 139564542}
+  - component: {fileID: 139564541}
+  m_Layer: 5
+  m_Name: Background
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &139564540
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139564539}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 990619043}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &139564541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139564539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 710ca0d7376cb2c4b9aaddf87962b997, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &139564542
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139564539}
+  m_CullTransparentMesh: 1
 --- !u!1 &990619039
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +292,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1596308755}
+  - {fileID: 139564540}
   - {fileID: 1890386324}
   - {fileID: 1628369806}
   m_Father: {fileID: 0}
@@ -387,41 +462,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1596308754
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1596308755}
-  m_Layer: 5
-  m_Name: ManagerBTNs
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1596308755
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1596308754}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 990619043}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1599549477
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,10 +723,324 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 990619043}
     m_Modifications:
+    - target: {fileID: 82399962408494695, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 183.1582
+      objectReference: {fileID: 0}
+    - target: {fileID: 82399962408494695, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 232.1534
+      objectReference: {fileID: 0}
+    - target: {fileID: 82399962408494695, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -232.78549
+      objectReference: {fileID: 0}
+    - target: {fileID: 82399962408494695, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 121708987243217919, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_text
+      value: "<color=#D36000>Inunda\xE7\xE3o Da Cascata:\n<color=#20F660>Cria uma
+        cachoeira ao seu redor em uma \xE1rea que se espalha rapidamente, empurrando
+        inimigos para fora da \xE1rea e causando dano cont\xEDnuo. Aliados na \xE1rea
+        recebem buff de velocidade de movimento."
+      objectReference: {fileID: 0}
+    - target: {fileID: 213536904974238598, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 213536904974238598, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 213536904974238598, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 213536904974238598, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -62.90913
+      objectReference: {fileID: 0}
+    - target: {fileID: 213536904974238598, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 63.99047
+      objectReference: {fileID: 0}
+    - target: {fileID: 213536904974238598, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 587660324604629311, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_text
+      value: Cancelar
+      objectReference: {fileID: 0}
+    - target: {fileID: 587660324604629311, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 29.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 942091831137439624, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 183.1582
+      objectReference: {fileID: 0}
+    - target: {fileID: 942091831137439624, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 232.1534
+      objectReference: {fileID: 0}
+    - target: {fileID: 942091831137439624, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -216.2064
+      objectReference: {fileID: 0}
+    - target: {fileID: 974502098986691088, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_text
+      value: '<color=#D36000>Barreira Tropical:
+
+        <color=#20F660>Barreira
+        protetora em formato de guarda sol que pode ser colocada em um raio de 5
+        metros do personagem. Bloqueia a passagem.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063104032409561705, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063104032409561705, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063104032409561705, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063104032409561705, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -62.909126
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063104032409561705, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 63.990475
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063104032409561705, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2929492679291669904, guid: 98298b3b2ae2bc741821fa310058b34e,
         type: 3}
       propertyPath: m_Name
       value: PlayerSelectionCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077218777889956469, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_Colors.m_ColorMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579025269743919740, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_text
+      value: "<color=#D36000>Mar\xE9 Atordoante:\n<color=#20F660>Uma onda que viaja
+        para frente 20 metros que atravessa paredes e \xE9 capaz de stunar os inimigos
+        atingidos."
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579025269743919740, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 3644300398019216703, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997033877071318349, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997033877071318349, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997033877071318349, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997033877071318349, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -61.00087
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997033877071318349, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4273376123526210722, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4273376123526210722, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4273376123526210722, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4273376123526210722, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -61.000866
+      objectReference: {fileID: 0}
+    - target: {fileID: 4273376123526210722, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4439710674873486227, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_text
+      value: "<color=#D36000>Queda Oculta:\n<color=#20F660>Parede de \xE1gua reta
+        que percorre uma certa dist\xE2ncia. Restringe a vis\xE3o e causa lentid\xE3o
+        caso o inimigo passar por dentro."
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514122178909940944, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4618593965557137768, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_text
+      value: "<color=#D36000>Trilha Da Cachoeira:\n<color=#20F660>Dash para frente
+        utilizando \xE1gua que deixa um rastro com aspecto de \xE1gua."
+      objectReference: {fileID: 0}
+    - target: {fileID: 4837738146913845189, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_UseSpriteMesh
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4964212910942778767, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_Name
+      value: Highlight
+      objectReference: {fileID: 0}
+    - target: {fileID: 5489553070967253127, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_text
+      value: "<color=#D36000>N\xE9voa Do Litoral:\n<color=#20F660>Smoke com aspecto
+        de areia que serve para limitar a vis\xE3o dos jogadores que passarem por
+        dentro dela."
+      objectReference: {fileID: 0}
+    - target: {fileID: 5929980892438641686, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5929980892438641686, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5929980892438641686, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5929980892438641686, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942265270053767086, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6104150532842089875, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6104150532842089875, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6104150532842089875, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279235200174913554, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279235200174913554, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279235200174913554, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279235200174913554, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 14.375603
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279235200174913554, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342473040652927097, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6377107254146221180, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6377107254146221180, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6377107254146221180, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6434770234130819655, guid: 98298b3b2ae2bc741821fa310058b34e,
         type: 3}
@@ -787,6 +1141,106 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6562332854660780541, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6562332854660780541, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6562332854660780541, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6562332854660780541, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 14.3756
+      objectReference: {fileID: 0}
+    - target: {fileID: 6562332854660780541, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6595912707648364077, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6791831847741533761, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808813609343981049, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808813609343981049, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808813609343981049, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808813609343981049, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958651479232017076, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958651479232017076, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.37630484
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958651479232017076, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.82641506
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958651479232017076, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_isRightToLeft
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958651479232017076, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958651479232017076, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_overrideHtmlColors
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7251336842748236538, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7376243262882093796, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7668482247365178123, guid: 98298b3b2ae2bc741821fa310058b34e,
+        type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

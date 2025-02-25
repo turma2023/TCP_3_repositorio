@@ -36,8 +36,7 @@ public class UISelectionManager : MonoBehaviour
 
     public void SetDefaultCharacter()
     {
-        //spawner.SetDefaultCharacter(runner);
-        buttonList[1].OnClick();
+        buttonList[UnityEngine.Random.Range(0, 2)].OnClick();
         Debug.Log("Auto Select Character");
     }
 
