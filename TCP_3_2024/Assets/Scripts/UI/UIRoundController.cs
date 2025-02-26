@@ -17,9 +17,7 @@ public class UIRoundController : MonoBehaviour
 
     void Start()
     {
-        //AssignMatchManager();
         DisableUI();
-        //Initialize();
     }
 
     private void AssignMatchManager()
@@ -36,7 +34,6 @@ public class UIRoundController : MonoBehaviour
 
         if (matchManager == null)
         {
-            Debug.LogError("Match Manager is null on UI Round Controller initialization!!!");
             return;
         }
 
@@ -111,31 +108,31 @@ public class UIRoundController : MonoBehaviour
         {
             case MatchPhases.BuyPhase:
                 {
-                    phaseText.text = "Buy Phase";
+                    phaseText.text = "Fase De Compra";
                     break;
                 }
 
             case MatchPhases.RoundPhase:
                 {
-                    phaseText.text = "Round Phase";
+                    phaseText.text = "Confronto";
                     break;
                 }
 
             case MatchPhases.EndPhase:
                 {
-                    phaseText.text = "End Phase";
+                    phaseText.text = "Fase De Término";
                     break;
                 }
 
             case MatchPhases.MatchEnd:
                 {
-                    phaseText.text = "Match Ended";
+                    phaseText.text = "Fim Da Partida";
                     break;
                 }
 
             case MatchPhases.BombPlanted:
                 {
-                    phaseText.text = "Bomb Planted";
+                    phaseText.text = "Bomba Plantada";
                     break;
                 }
         }

@@ -12,7 +12,6 @@ public class PlayerController : NetworkBehaviour
     [Networked] private Quaternion networkRotation { get; set; }
     [Networked] private Quaternion networkPivotGun { get; set; }
     [Networked] public Vector3 networkPosition { get; set; }
-    [Networked] public string Team { get; set; }
     [Networked] public bool IsDead { get; set; }
     public int CurrentHealth { get; set; }
     public PlayerMovement PlayerMovement { get; private set; }
@@ -21,6 +20,9 @@ public class PlayerController : NetworkBehaviour
     public TeamSide TeamSide { get; private set; }
 
     public event Action<TeamSide> OnDeath;
+
+    private Vector3 respawnPosition;
+    private MatchManager matchManager;
 
     private void Awake()
     {
@@ -34,6 +36,8 @@ public class PlayerController : NetworkBehaviour
     void Start()
     {
         TeamSide = BombHandler.Team;
+        matchManager = FindObjectOfType<MatchManager>();
+        if (matchManager != null) matchManager.OnBuyPhaseStart += Respawn;
     }
 
     private void SetStartPosition()
@@ -59,24 +63,9 @@ public class PlayerController : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     private void RPC_SetDeath()
     {
-        // GetComponent<StateMachine>().NetworkAnimator.SetTrigger("Armature_Morrendo");
+        GetComponent<StateMachine>().AnimationController.PlayDead(true);
         IsDead = true;
     }
-
-    private void Die()
-    {
-
-    }
-
-    public void SetTeam(string team)
-    {
-        Team = team;
-    }
-    public string GetTeam()
-    {
-        return Team;
-    }
-
 
     private void Update()
     {
@@ -85,7 +74,7 @@ public class PlayerController : NetworkBehaviour
         {
             PlayerMovement.TurnToCameraDirection();
             PlayerMovement.RotateGun(ref pivotGun);
-            RPC_SendRotationToHost(transform.rotation, pivotGun.rotation, transform.position, Team);
+            RPC_SendRotationToHost(transform.rotation, pivotGun.rotation, transform.position);
         }
         else
         {
@@ -98,14 +87,33 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-
-
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_SendRotationToHost(Quaternion playerRotation, Quaternion gunRotation, Vector3 playerPosition, string Team)
+    private void RPC_SendRotationToHost(Quaternion playerRotation, Quaternion gunRotation, Vector3 playerPosition)
     {
         networkRotation = playerRotation;
         networkPivotGun = gunRotation;
         networkPosition = playerPosition;
+    }
+
+    public void Respawn()
+    {
+        if (matchManager == null)
+        {
+            Debug.LogWarning("Match Manager is null on player respawn");
+            return;
+        }
+
+        if (Object.HasStateAuthority)
+        {
+            IsDead = false;
+            transform.position = respawnPosition;
+            networkPosition = transform.position;
+        }
+
+        else
+        {
+            transform.position = networkPosition;
+        }
     }
 
     public override void Spawned()
@@ -122,6 +130,12 @@ public class PlayerController : NetworkBehaviour
         }
 
         transform.position = networkPosition;
+        respawnPosition = transform.position;
+    }
+
+    private void OnDisable()
+    {
+        matchManager.OnBuyPhaseStart -= Respawn;
     }
 
 }

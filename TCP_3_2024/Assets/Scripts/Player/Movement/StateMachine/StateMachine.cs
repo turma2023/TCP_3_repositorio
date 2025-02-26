@@ -6,7 +6,7 @@ public class StateMachine : NetworkBehaviour
     public PlayerInputController InputController { get; private set; }
     public PlayerMovement PlayerMovement { get; private set; }
     public BombHandler BombHandler { get; private set; }
-    public AnimationController animationController { get; private set; }
+    public AnimationController AnimationController { get; private set; }
     private void Start()
     {
         PlayerController player = GetComponent<PlayerController>();
@@ -14,7 +14,7 @@ public class StateMachine : NetworkBehaviour
         BombHandler = player.BombHandler;
         InputController = player.PlayerInputController;
         StateFactory = new StateFactory(this);
-        animationController = GetComponent<AnimationController>();
+        AnimationController = GetComponent<AnimationController>();
         ChangeState(StateFactory.Idle);
     }
 

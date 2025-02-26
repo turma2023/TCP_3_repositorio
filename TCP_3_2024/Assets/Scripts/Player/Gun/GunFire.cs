@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Fusion;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GunFire : NetworkBehaviour
@@ -18,7 +15,7 @@ public class GunFire : NetworkBehaviour
 
     [Networked] private TickTimer delay { get; set; }
     private ParticleSystem particles;
-    
+
     [SerializeField] private float spreadAmountMax = 5f;
     [SerializeField] private float spreadAmountMin = 0f;
 
@@ -43,15 +40,13 @@ public class GunFire : NetworkBehaviour
     {
         playerInputController = playerController.PlayerInputController;
 
-        if (_prefabBall == null) { 
-            Debug.LogError("Prefab da bolinha não está atribuído.");
-        }
         particles = GetComponentInChildren<ParticleSystem>();
         originalPosition = transform.localPosition;
 
         spreadAmountMax = spreadAmountMax / 100;
         spreadAmountCurrotin = spreadAmountMin;
-        if (Object.HasInputAuthority){
+        if (Object.HasInputAuthority)
+        {
             imageRectTransform.gameObject.SetActive(true);
         }
 
@@ -62,62 +57,68 @@ public class GunFire : NetworkBehaviour
     {
         imageRectTransform.sizeDelta = new Vector2(width, height);
     }
-    
+
 
     private void FixedUpdate()
     {
-        if (Object.HasInputAuthority){
+        if (playerController.IsDead) return;
 
+        if (Object.HasInputAuthority)
+        {
             float scale = Mathf.Lerp(minSize, maxSize, spreadAmountCurrotin / spreadAmountMax);
             ResizeImage(scale, scale);
 
             recarga.Reloading();
 
-            if(delay.ExpiredOrNotRunning(Runner) && recarga.PodeAtirar()){
-                delay = TickTimer.CreateFromSeconds(Runner, 0.1f); 
+            if (delay.ExpiredOrNotRunning(Runner) && recarga.PodeAtirar())
+            {
+                delay = TickTimer.CreateFromSeconds(Runner, 0.1f);
 
-                if (playerInputController.FireAction.IsPressed()){
+                if (playerInputController.FireAction.IsPressed())
+                {
 
-                        RaycastHit hit;
-                        Vector3 shootDirection = GetSpreadDirection(playerController.camera.transform.forward);
+                    RaycastHit hit;
+                    Vector3 shootDirection = GetSpreadDirection(playerController.camera.transform.forward);
 
 
-                        if (Physics.Raycast(playerController.camera.transform.position, shootDirection, out hit, 100, layerMask))
+                    if (Physics.Raycast(playerController.camera.transform.position, shootDirection, out hit, 100, layerMask))
+                    {
+                        Debug.DrawRay(playerController.camera.transform.position, shootDirection * hit.distance, Color.red);
+
+                        PlayerController hitPayerControllerLife = hit.transform.GetComponent<PlayerController>();
+                        RPC_ShootEffect();
+                        RPC_SpawnBall(hit.point);
+                        if (hitPayerControllerLife != null)
                         {
-                            Debug.DrawRay(playerController.camera.transform.position, shootDirection * hit.distance, Color.red);
+                            RPC_TakeDamage(hitPayerControllerLife, damage);
+                        }
+                    }
+                    else
+                    {
+                        RPC_ShootEffect();
+                    }
 
-                            PlayerController hitPayerControllerLife = hit.transform.GetComponent<PlayerController>(); 
-                            RPC_ShootEffect();
-                            RPC_SpawnBall(hit.point);
-                            if (hitPayerControllerLife != null)
-                            { 
-                                RPC_TakeDamage(hitPayerControllerLife, damage); 
-                            } 
-                        }
-                        else{
-                            RPC_ShootEffect();
-                        }
-                   
                 }
-                else{
+                else
+                {
                     if (spreadAmountCurrotin > spreadAmountMin)
                     {
                         spreadAmountCurrotin = spreadAmountCurrotin - 0.01f;
-                        
+
                     }
                 }
             }
-            
-        
+
+
         }
-        
+
     }
 
     private Vector3 GetSpreadDirection(Vector3 originalDirection)
     {
-        float spreadX = UnityEngine.Random.Range(-spreadAmountCurrotin, spreadAmountCurrotin);
-        float spreadY = UnityEngine.Random.Range(-spreadAmountCurrotin, spreadAmountCurrotin);
-        float spreadZ = UnityEngine.Random.Range(-spreadAmountCurrotin, spreadAmountCurrotin);
+        float spreadX = Random.Range(-spreadAmountCurrotin, spreadAmountCurrotin);
+        float spreadY = Random.Range(-spreadAmountCurrotin, spreadAmountCurrotin);
+        float spreadZ = Random.Range(-spreadAmountCurrotin, spreadAmountCurrotin);
         Vector3 spreadDirection = originalDirection + new Vector3(spreadX, spreadY, spreadZ);
         return spreadDirection.normalized;
     }
@@ -147,7 +148,8 @@ public class GunFire : NetworkBehaviour
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
-    private void RPC_ShootEffect(){
+    private void RPC_ShootEffect()
+    {
         particles.Play();
         StartCoroutine(ApplyRecoil());
         recarga.Atirou();
@@ -157,39 +159,31 @@ public class GunFire : NetworkBehaviour
 
         }
     }
-    
+
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_TakeDamage(PlayerController playerController, int damage) 
-    { 
-        // ! preciso verificar qual o Time do player que foi atingido pelo tiro, codigo abaixo não funciona
+    private void RPC_TakeDamage(PlayerController playerController, int damage)
+    {
 
-        Debug.Log(playerController.GetTeam());
-
-        if (this.playerController.tag != playerController.tag)
+        if (this.playerController.TeamSide != playerController.TeamSide)
         {
-            Debug.Log("Dano no time: " + playerController.tag);
-            playerController.TakeDamage(damage); 
-        }else{
-            Debug.Log("sem dano no time: " + playerController.tag);
+            playerController.TakeDamage(damage);
         }
-        
-            
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_SpawnBall(Vector3 transform) 
-    { 
+    private void RPC_SpawnBall(Vector3 transform)
+    {
         Runner.Spawn(
             _prefabBall,
-            transform, 
+            transform,
             Quaternion.LookRotation(this.transform.forward * -1),
-            Object.InputAuthority, 
+            Object.InputAuthority,
             (runner, o) =>
             {
                 o.GetComponent<Ball>().Init();
             }
-        );  
+        );
     }
 
 

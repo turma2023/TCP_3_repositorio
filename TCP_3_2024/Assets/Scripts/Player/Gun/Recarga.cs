@@ -20,8 +20,6 @@ public class Recarga : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.LogWarning("municao: "+currentShots);
-        Debug.LogWarning("Cartuchos: "+currentCartridge);
 
         if (Input.GetKeyDown(KeyCode.T))
         {

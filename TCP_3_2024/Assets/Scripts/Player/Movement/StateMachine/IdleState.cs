@@ -9,7 +9,7 @@ public class IdleState : IState
     public void Enter()
     {
         // stateMachine.animationController.PlayWalk(false);
-        stateMachine.animationController.PlayIdle(true);
+        stateMachine.AnimationController.PlayIdle(true);
     }
 
     public void Update()

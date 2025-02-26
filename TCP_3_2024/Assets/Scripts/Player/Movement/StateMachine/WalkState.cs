@@ -10,7 +10,7 @@ public class WalkState : IState
 
     public void Enter()
     {
-        stateMachine.animationController.PlayWalk(true);
+        stateMachine.AnimationController.PlayWalk(true);
     }
 
     public void Update()

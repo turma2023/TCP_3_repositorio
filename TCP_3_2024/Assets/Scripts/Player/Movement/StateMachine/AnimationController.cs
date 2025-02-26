@@ -11,7 +11,7 @@ public class AnimationController : NetworkBehaviour
         NetworkAnimator = GetComponentInChildren<NetworkMecanimAnimator>();
     }
 
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     private void RpcSetAnimationTrigger(string triggerName, bool value)
     {
         NetworkAnimator.SetTrigger(triggerName, value);

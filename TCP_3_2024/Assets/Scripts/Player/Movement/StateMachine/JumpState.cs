@@ -13,7 +13,7 @@ public class JumpState : IState
     }
     public void Enter()
     {
-        stateMachine.animationController.PlayJump(true);
+        stateMachine.AnimationController.PlayJump(true);
         stateMachine.StartCoroutine(TriggerJumpAnimation());
     }
 

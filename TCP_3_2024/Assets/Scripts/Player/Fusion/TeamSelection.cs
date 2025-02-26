@@ -1,4 +1,3 @@
-using Fusion;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +29,7 @@ public class TeamSelection : MonoBehaviour
         Debug.Log("Selected Team: " + team);
         gameObject.SetActive(false);
 
-        this.runner.GetComponent<PlayerController>().SetTeam(team);
+        //this.runner.GetComponent<PlayerController>().SetTeam(team);
 
     }
 

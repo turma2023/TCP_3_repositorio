@@ -76,7 +76,6 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
         }
 
     }
-
     public void LoadNextScene(NetworkRunner runner, string sceneName)
     {
         Debug.LogWarning($"Scene Authority on try load scene {sceneName }= " + runner.IsSceneAuthority);
