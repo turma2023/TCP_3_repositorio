@@ -150,6 +150,7 @@ public class GunFire : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     private void RPC_ShootEffect()
     {
+        particles = GetComponentInChildren<ParticleSystem>();
         particles.Play();
         StartCoroutine(ApplyRecoil());
         recarga.Atirou();

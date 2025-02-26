@@ -201,7 +201,7 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
         {
             Runner.Spawn(matchManagerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
             Runner.Spawn(winConditionsManagerPrefab, Vector3.zero, Quaternion.identity, PlayerRef.None);
-            Runner.Spawn(bombPrefab, new Vector3(3, 1.5f, 3), Quaternion.identity, PlayerRef.None);
+            Runner.Spawn(bombPrefab, new Vector3(139.75f, 2.5f, 24.5f), Quaternion.identity, PlayerRef.None);
         }
 
         if (SceneManager.GetActiveScene().name == "ChangeCharacter")
