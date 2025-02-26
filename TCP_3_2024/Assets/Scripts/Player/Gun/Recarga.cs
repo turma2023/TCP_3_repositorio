@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using UnityEngine.UI;
 public class Recarga : NetworkBehaviour
 {
     [SerializeField] private int numCartridge = 2;
@@ -10,6 +11,13 @@ public class Recarga : NetworkBehaviour
     private int currentCartridge;
     [SerializeField] private int rechargeTime;
     [Networked] private TickTimer reloading {get; set;}
+
+
+    // [SerializeField] private Slider recarregarSlider;
+    private bool podeRecarregar = false;
+    private float tempoPressionado = 0f;
+    private bool carregando = false;
+    private int recarregarValor = 0;
 
     void Start()
     {
@@ -23,9 +31,24 @@ public class Recarga : NetworkBehaviour
         Debug.LogWarning("municao: "+currentShots);
         Debug.LogWarning("Cartuchos: "+currentCartridge);
 
-        if (Input.GetKeyDown(KeyCode.T))
+        // if (Input.GetKeyDown(KeyCode.T))
+        // {
+        //     FillCartridge();
+        // }
+        if (podeRecarregar)
         {
-            FillCartridge();
+            if (Input.GetMouseButton(1))
+            {
+                tempoPressionado += Time.deltaTime;
+                if (tempoPressionado >= 2f && !carregando)
+                {
+                    StartCoroutine(Recarregar());
+                }
+            }
+            else if (Input.GetMouseButtonUp(1))
+            {
+                ResetarRecarregamento();
+            }
         }
 
     }
@@ -56,6 +79,46 @@ public class Recarga : NetworkBehaviour
         currentCartridge = numCartridge;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("AreaRecarga"))
+        {
+            podeRecarregar = true;
+            Debug.Log("Entrou na área de recarregamento.");
+        }
+    }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("AreaRecarga"))
+        {
+            podeRecarregar = false;
+            Debug.Log("Saiu da área de recarregamento.");
+            ResetarRecarregamento();
+        }
+    }
+
+    private IEnumerator Recarregar()
+    {
+        carregando = true;
+        recarregarValor = 0;
+        while (recarregarValor <= 100)
+        {
+            recarregarValor++;
+            // recarregarSlider.value = recarregarValor; // Atualiza o slider
+            Debug.Log("Número: " + recarregarValor);
+            yield return null;
+        }
+        carregando = false;
+        FillCartridge();
+    }
+
+    private void ResetarRecarregamento()
+    {
+        StopAllCoroutines();
+        tempoPressionado = 0f;
+        carregando = false;
+        // recarregarSlider.value = 0; // Reseta o slider
+    }
 
 }
