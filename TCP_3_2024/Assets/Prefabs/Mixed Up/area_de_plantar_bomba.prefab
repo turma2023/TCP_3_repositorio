@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 573655649019845715}
   - component: {fileID: 9155312269482596323}
   - component: {fileID: 4129403724359569009}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: area_de_plantar_bomba
   m_TagString: area_de_pnatar_bomba
   m_Icon: {fileID: 0}

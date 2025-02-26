@@ -91,7 +91,7 @@ public class BombHandler : NetworkBehaviour
 
         if (Physics.Raycast(ray, out hit, groundLayer))
         {
-            bomb.RPC_SetBombPosition(hit.point + (transform.forward * 2) + (Vector3.up * 0.5f));
+            bomb.RPC_SetBombPosition(hit.point + (transform.forward * 2));
             bomb.RPC_DisablePlant();
             bomb.RPC_EnableRendering();
             Debug.Log("Bomb Planted");

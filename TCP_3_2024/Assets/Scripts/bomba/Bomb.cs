@@ -84,13 +84,16 @@ public class Bomb : NetworkBehaviour
                 meshRenderer.enabled = IsActive;
                 contactAreaCollider.enabled = IsActive;
                 NetworkedPosition = transform.position;
-
                 return;
             }
+
             NetworkedPosition = transform.position;
         }
 
-        else transform.position = NetworkedPosition;
+        else
+        {
+            transform.position = NetworkedPosition;
+        }
 
         normalCollider.enabled = IsActive;
         meshRenderer.enabled = IsActive;
