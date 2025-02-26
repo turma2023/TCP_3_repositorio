@@ -269,9 +269,9 @@ public class MatchManager : NetworkBehaviour
 
     private void TryEndMatch()
     {
-        if (CurrentMatchPhase == MatchPhases.EndPhase && TotalRoundsCount >= MaxNumberOfRounds)
+        if (CurrentMatchPhase == MatchPhases.EndPhase)
         {
-            RPC_SetCurrentPhase(MatchPhases.MatchEnd);
+            if(TeamARoundsWon >= 5 ||  TeamARoundsWon >= 5) RPC_SetCurrentPhase(MatchPhases.MatchEnd);
         }
     }
     private void OnRoundEnded()

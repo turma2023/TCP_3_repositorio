@@ -614,11 +614,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pivotGun: {fileID: 623484362520666290}
   playerCameraPosition: {fileID: 7827312646664663125}
+  <UISkillData>k__BackingField: {fileID: 11400000, guid: 3710ca2932180bb4badd6acaf493e51c,
+    type: 2}
+  _networkPosition: {x: 0, y: 0, z: 0}
+  _IsDead: 0
   MaxHealth: 100
   camera: {fileID: 2476467844249181572}
-  _networkPosition: {x: 0, y: 0, z: 0}
-  _Team: 
-  _IsDead: 0
 --- !u!114 &1699423917238937469
 MonoBehaviour:
   m_ObjectHideFlags: 0

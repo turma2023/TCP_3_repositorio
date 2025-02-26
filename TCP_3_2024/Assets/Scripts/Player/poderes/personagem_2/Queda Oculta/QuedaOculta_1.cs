@@ -11,7 +11,7 @@ public class QuedaOculta_1 : Skill
     void Update()
     {
         // Verifica se o jogador pressionou a tecla Q e se tem autoridade de entrada
-        if (Input.GetKeyDown(KeyCode.Q) && Object.HasInputAuthority && !HasUsed)
+        if (Input.GetKeyDown(KeyCode.E) && Object.HasInputAuthority && !HasUsed)
         {
             RPC_SpawnWall();
             DisableUse();

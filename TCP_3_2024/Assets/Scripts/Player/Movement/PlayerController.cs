@@ -7,8 +7,8 @@ public class PlayerController : NetworkBehaviour
 {
     [SerializeField] public Transform pivotGun;
     [SerializeField] private Transform playerCameraPosition;
-    public int MaxHealth = 100;
-    public new Camera camera;
+ 
+    [field: SerializeField] public UISkillData UISkillData {  get; private set; }
     [Networked] private Quaternion networkRotation { get; set; }
     [Networked] private Quaternion networkPivotGun { get; set; }
     [Networked] public Vector3 networkPosition { get; set; }
@@ -21,8 +21,12 @@ public class PlayerController : NetworkBehaviour
 
     public event Action<TeamSide> OnDeath;
 
+    public int MaxHealth = 100;
+    public new Camera camera;
     private Vector3 respawnPosition;
     private MatchManager matchManager;
+    private UIPlayerController UIPlayerController;
+    private Skill[] skills;
 
     private void Awake()
     {
@@ -36,8 +40,26 @@ public class PlayerController : NetworkBehaviour
     void Start()
     {
         TeamSide = BombHandler.Team;
+        if (!Object.HasInputAuthority) return;
+
+        UIPlayerController = FindObjectOfType<UIPlayerController>();
+        UIPlayerController.Initialize(UISkillData);
+
+        skills = GetComponents<Skill>();
+        foreach (var skill in skills)
+        {
+            if (skill is SpawnSmoke || skill is TrilhaDaCachoeira) skill.SetImage(UIPlayerController.GetSkill1Icon());
+            else if (skill is ParedeParada || skill is QuedaOculta_1) skill.SetImage(UIPlayerController.GetSkill2Icon());
+            else if (skill is LancadorDeOnda || skill is lancador_de_imundacao) skill.SetImage(UIPlayerController.GetUltimateIcon());
+        }
+
+
         matchManager = FindObjectOfType<MatchManager>();
-        if (matchManager != null) matchManager.OnBuyPhaseStart += Respawn;
+        if (matchManager != null)
+        {
+            Debug.LogWarning("Respawn Assigned");
+            matchManager.OnBuyPhaseStart += Respawn;
+        }
     }
 
     private void SetStartPosition()
@@ -97,6 +119,12 @@ public class PlayerController : NetworkBehaviour
 
     public void Respawn()
     {
+        CurrentHealth = MaxHealth;
+        foreach (Skill skill in skills)
+        {
+            skill.EnableUse();
+        }
+
         if (matchManager == null)
         {
             Debug.LogWarning("Match Manager is null on player respawn");
@@ -112,7 +140,7 @@ public class PlayerController : NetworkBehaviour
 
         else
         {
-            transform.position = networkPosition;
+            transform.position = respawnPosition;
         }
     }
 

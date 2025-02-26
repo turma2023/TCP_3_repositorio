@@ -94,10 +94,8 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
                     if (spawnedPlayer.TryGetComponent(out BombHandler bombHandler))
                     {
                         bombHandler.Team = TeamSide.Attacker;
-                        Debug.LogError($"Team Side Set To : {bombHandler.Team}");
                     }
 
-                    else Debug.LogError($"No Bomb Handler Found On Spawn of player {player.PlayerId}");
                     beachSidePositionsList.Remove(beachSidePositionsList[randomBeachSpawnPoint]);
                 }
 
@@ -107,10 +105,8 @@ public class Spawner : NetworkBehaviour, INetworkRunnerCallbacks
                     if (spawnedPlayer.TryGetComponent(out BombHandler bombHandler))
                     {
                         bombHandler.Team = TeamSide.Defender;
-                        Debug.LogError($"Team Side Set To : {bombHandler.Team}");
                     }
 
-                    else Debug.LogError($"No Bomb Handler Found On Spawn of player {player.PlayerId}");
                     forestSidePositionsList.Remove(forestSidePositionsList[randomForestSpawnPoint]);
                 }
 

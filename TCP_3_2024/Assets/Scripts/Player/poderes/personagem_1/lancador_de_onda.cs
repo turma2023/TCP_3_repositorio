@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
@@ -9,7 +7,7 @@ public class LancadorDeOnda : Skill
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && Object.HasInputAuthority && !HasUsed)
+        if (Input.GetKeyDown(KeyCode.X) && Object.HasInputAuthority && !HasUsed)
         {
             RPC_LaunchShockwave();
         }

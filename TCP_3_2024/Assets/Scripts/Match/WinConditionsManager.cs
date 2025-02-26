@@ -31,7 +31,6 @@ public class WinConditionsManager : NetworkBehaviour
             if (player.HasInputAuthority)
             {
                 bombHandler = player.GetComponent<BombHandler>();
-                Debug.LogError("Bomb Handler found Sucessfuly");
             }
 
             player.OnDeath += VerifyTeamDeath;
@@ -39,7 +38,6 @@ public class WinConditionsManager : NetworkBehaviour
 
         if (bombHandler == null)
         {
-            Debug.LogError("Bomb Handler not found");
             return;
         }
 

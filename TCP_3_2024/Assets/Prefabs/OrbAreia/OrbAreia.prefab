@@ -162,7 +162,7 @@ MonoBehaviour:
   scaleDuration: 1
   TimeDuration: 8
   initialScale: {x: 0, y: 0, z: 0}
-  targetScale: {x: 5, y: 5, z: 5}
+  targetScale: {x: 8, y: 8, z: 8}
   runner: {fileID: 0}
 --- !u!114 &1467164039088610516
 MonoBehaviour:

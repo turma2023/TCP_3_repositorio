@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-public class lancador_de_imundacao : NetworkBehaviour
+public class lancador_de_imundacao : Skill
 {
     public GameObject imundacao;
 
@@ -13,9 +11,10 @@ public class lancador_de_imundacao : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X) && Object.HasInputAuthority)
+        if (!HasUsed && Input.GetKeyDown(KeyCode.X) && Object.HasInputAuthority)
         {
             RPC_imundacao();
+            DisableUse();
         }
     }
 

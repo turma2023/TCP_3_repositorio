@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
@@ -7,8 +5,8 @@ public class ParedeParada : Skill
 {
     public GameObject wallPreviewPrefab; // Prefab do preview da parede
     public GameObject wallRealPrefab; 
-    public KeyCode placeKey = KeyCode.Q; // Tecla para instanciar a parede
-    public KeyCode rotateKey = KeyCode.R; // Tecla para rotacionar o preview
+    private KeyCode placeKey = KeyCode.E; // Tecla para instanciar a parede
+    private KeyCode rotateKey = KeyCode.Mouse1; // Tecla para rotacionar o preview
     public LayerMask groundLayer; // Camada do chao para posicionar a parede
 
     private GameObject currentPreview; // Preview atual
@@ -66,7 +64,6 @@ public class ParedeParada : Skill
         {
             currentPreview.transform.position = hit.point;
             currentPreview.transform.rotation = GetComponent<PlayerController>().transform.rotation;
-            Debug.LogError(hit.point);
             if (activeRotation)
             { 
                 currentPreview.transform.Rotate(new Vector3(0, 90, 0), Space.Self);

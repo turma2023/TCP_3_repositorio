@@ -78,7 +78,6 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
     }
     public void LoadNextScene(NetworkRunner runner, string sceneName)
     {
-        Debug.LogWarning($"Scene Authority on try load scene {sceneName }= " + runner.IsSceneAuthority);
         if (!runner.IsSceneAuthority) return;
 
         SceneRef sceneRef = runner.GetSceneRef(sceneName);
@@ -119,7 +118,7 @@ public class Servidor : MonoBehaviour, INetworkRunnerCallbacks
             GameMode = gameMode,
             Address = address,
             Scene = scene,
-            SessionName = "Test Room " + roomCount,
+            SessionName = "AAAAA" + roomCount,
             OnGameStarted = onGameStarted,
             SceneManager = sceneManager,
             PlayerCount = maxNumberOfPlayers

@@ -1,5 +1,4 @@
 using UnityEngine;
-using Fusion; // Se estiver usando Photon Fusion
 
 public class TrilhaDaCachoeira : Skill
 {
@@ -13,7 +12,7 @@ public class TrilhaDaCachoeira : Skill
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && Object.HasInputAuthority && !HasUsed)
+        if (Input.GetKeyDown(KeyCode.Q) && Object.HasInputAuthority && !HasUsed)
         {
             StartDash();
             DisableUse();

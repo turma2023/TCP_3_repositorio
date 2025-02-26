@@ -1,71 +1,71 @@
 using UnityEngine;
 using Fusion;
-using UnityEngine.UI;
-public class SpawnSmoke : NetworkBehaviour 
+public class SpawnSmoke : Skill
 {
     private NetworkRunner runner;
     public NetworkObject smoke;
     public NetworkObject previewPrefab;
     public float range = 10f;
-    public Image IconSmoke;
-    private Color IconSmokePadrao;
     private NetworkObject previewInstance;
-    private bool used = false;
-
+    private bool onPreview;
 
     private void Start()
     {
         if (Object.HasInputAuthority)
-            IconSmoke.gameObject.SetActive(true);
-        
+            //IconSmoke.gameObject.SetActive(true);
+
         runner = FindObjectOfType<Spawner>().Runner;
         smoke.GetComponent<ScaleSmoke>().runner = runner;
-        IconSmokePadrao = IconSmoke.color;
+        //IconSmokePadrao = IconSmoke.color;
 
     }
 
     private void Update()
-    {   
-        if (!used)
+    {
+        if (!HasUsed)
         {
             if (Object.HasInputAuthority)
             {
-                if (Input.GetKey(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.Q) && !onPreview)
+                {
+                    onPreview = true;
+                    return;
+                }
+
+                if (onPreview)
                 {
                     Vector3 targetPosition = GetTargetPosition();
-
                     if (previewInstance == null)
                     {
                         previewInstance = Instantiate(previewPrefab, targetPosition, Quaternion.identity);
                     }
-                    else{
+                    else
+                    {
                         previewInstance.transform.position = targetPosition;
                     }
                 }
 
-                if (Input.GetKeyUp(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.Q) && onPreview)
                 {
                     if (previewInstance != null)
                     {
                         RPC_SpawnSmoke(previewInstance.transform.position);
                         Destroy(previewInstance.gameObject);
-                        used = true;
-                        IconSmoke.color = Color.gray;
+                        DisableUse();
                     }
+                    onPreview = false;
                 }
             }
         }
-        else{
-            Debug.LogError("não pode usar novamente");
+        else
+        {
         }
     }
 
-    public void ActivateAgain(){
-        used = false;
-        IconSmoke.color = IconSmokePadrao;
+    public void ActivateAgain()
+    {
+        EnableUse();
     }
-
-
 
     private Vector3 GetTargetPosition()
     {
@@ -76,13 +76,13 @@ public class SpawnSmoke : NetworkBehaviour
         {
             return hit.point;
         }
-        
+
         return transform.position + transform.forward * range;
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void RPC_SpawnSmoke(Vector3 transform) 
-    { 
+    private void RPC_SpawnSmoke(Vector3 transform)
+    {
         runner.Spawn(smoke, transform);
     }
 }
